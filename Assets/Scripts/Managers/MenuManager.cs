@@ -7,6 +7,8 @@ public class MenuManager : MonoBehaviour
     public GameObject mainMenuPanel;
     public GameObject settingsPanel;
     public GameObject creditsPanel;
+    public string nextLevelSceneName = "Level_02"; // leave empty when there is no next level
+    public string mainMenuSceneName = "MainMenu";
 
     public void PlayGame()
     {
@@ -44,6 +46,21 @@ public class MenuManager : MonoBehaviour
 
     public void RestartGame()
     {
-        SceneManager.LoadScene("MainMap");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name); // reload the current level
+    }
+
+    public void NextLevel()
+    {
+        if (string.IsNullOrEmpty(nextLevelSceneName))
+        {
+            return;
+        }
+
+        SceneManager.LoadScene(nextLevelSceneName);
+    }
+
+    public void BackToMenu()
+    {
+        SceneManager.LoadScene(mainMenuSceneName);
     }
 }

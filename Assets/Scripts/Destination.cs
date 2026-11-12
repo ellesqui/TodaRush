@@ -5,7 +5,6 @@ using TMPro;
 public class Destination : Interactable
 {
     public UnityEvent onDestinationReached;
-
     public GameObject markerRoot;
     public TMP_Text markerText;
     public Transform player;

@@ -3,6 +3,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public int health = 100;
+    public int maxHealth = 100;
     [HideInInspector] public int destinationCount = 0;
     public int requiredLaps = 3;
     [HideInInspector] public int completedLaps = 0;
@@ -17,9 +18,23 @@ public class GameManager : MonoBehaviour
     public PassengerPickup[] passengers = new PassengerPickup[5];
     [HideInInspector] public int passengersOnboard = 0;
     public ScoreManager scoreManager;
+    public int levelNumber = 1; // 1 = MainMap, 2 = Level_02, 3 = Level_03
+
+    // Passenger formula: Level 1 = 3, Level 2 = 4, Level 3 = 5
+    public int CalculateRequiredPassengers()
+    {
+        return 3 + (levelNumber - 1) * 1;
+    }
 
     void Awake()
     {
+        // Set the victory count BEFORE any victory check runs.
+        requiredLaps = CalculateRequiredPassengers();
+        if (passengers.Length < requiredLaps)
+        {
+            System.Array.Resize(ref passengers, requiredLaps);
+        }
+
         if (scoreManager == null)
         {
         scoreManager = GetComponent<ScoreManager>();
@@ -30,6 +45,8 @@ public class GameManager : MonoBehaviour
     {
         if (health <= 0)
         {
+            // GameOverText is a child of GameOverPanel, so show the whole panel first
+            gameOverText.transform.parent.gameObject.SetActive(true);
             gameOverText.SetActive(true);
             restartButton.SetActive(true);
             enabled = false;
@@ -55,6 +72,8 @@ public class GameManager : MonoBehaviour
     if (completedLaps >= requiredLaps)
         {
         gameWon = true;
+        // WinText is a child of VictorySummaryPanel, so show the whole panel first
+        winText.transform.parent.gameObject.SetActive(true);
         winText.SetActive(true);
         restartButton.SetActive(true);
         }

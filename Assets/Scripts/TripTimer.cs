@@ -41,6 +41,8 @@ public class TripTimer : MonoBehaviour
 
                 if (gameManager.gameOverText != null)
                 {
+                    // GameOverText is a child of GameOverPanel, so show the whole panel first
+                    gameManager.gameOverText.transform.parent.gameObject.SetActive(true);
                     gameManager.gameOverText.SetActive(true);
                 }
 

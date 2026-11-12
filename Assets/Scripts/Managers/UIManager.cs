@@ -2,10 +2,17 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
     public TextMeshProUGUI healthText;
+    public Image healthBarFill;
+    public Color healthNormalColor = new Color32(62, 155, 108, 255);
+    public Color healthCriticalColor = new Color32(214, 40, 40, 255);
+    [Range(0f, 1f)] public float criticalHealthThreshold = 0.3f;
+
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI highScoreText;
     public TextMeshProUGUI timerText;
@@ -17,6 +24,8 @@ public class UIManager : MonoBehaviour
     public GameObject gameplayHUD;
     public GameObject victoryDimOverlay;
     public GameObject victorySummaryPanel;
+
+    public GameObject pauseOverlay;
 
     public GameManager gameManager;
     public TripTimer tripTimer;
@@ -40,8 +49,18 @@ public class UIManager : MonoBehaviour
     private int previousCompletedLaps = 0;
     private bool summaryShown = false;
 
+    private bool isPaused = false;
+
     void Start()
     {
+        Time.timeScale = 1f;
+        isPaused = false;
+
+        if (pauseOverlay != null)
+        {
+            pauseOverlay.SetActive(false);
+        }
+
         CachePopup();
 
         if (damagePopupText != null)
@@ -57,6 +76,11 @@ public class UIManager : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            TogglePause();
+        }
+
         if (gameManager == null)
         {
             return;
@@ -68,7 +92,8 @@ public class UIManager : MonoBehaviour
             return;
         }
 
-        healthText.text = "Health: " + gameManager.health.ToString();
+        UpdateHealthDisplay();
+
         scoreText.text = "Score: " + gameManager.scoreManager.score.ToString();
         highScoreText.text = "High Score: " + gameManager.scoreManager.highScore.ToString();
 
@@ -78,6 +103,89 @@ public class UIManager : MonoBehaviour
 
         speedText.text = playerController.currentSpeed.ToString("0");
     }
+
+    // HEALTH BAR
+
+    private void UpdateHealthDisplay()
+    {
+        int maxHealth = Mathf.Max(1, gameManager.maxHealth);
+        int currentHealth = Mathf.Clamp(gameManager.health, 0, maxHealth);
+
+        float healthPercent = (float)currentHealth / maxHealth;
+
+        if (healthText != null)
+        {
+            healthText.text = currentHealth.ToString() + " / " + maxHealth.ToString();
+        }
+
+        if (healthBarFill != null)
+        {
+            healthBarFill.fillAmount = healthPercent;
+
+            if (healthPercent <= criticalHealthThreshold)
+            {
+                healthBarFill.color = healthCriticalColor;
+            }
+            else
+            {
+                healthBarFill.color = healthNormalColor;
+            }
+        }
+    }
+
+    // PAUSE SYSTEM
+
+    private bool CanPause()
+    {
+        return gameManager != null && !gameManager.gameWon && !gameManager.timeExpired && gameManager.health > 0;
+    }
+
+    public void TogglePause()
+    {
+        if (isPaused)
+        {
+            ResumePause();
+            return;
+        }
+
+        if (!CanPause() || pauseOverlay == null)
+        {
+            return;
+        }
+
+        isPaused = true;
+        pauseOverlay.SetActive(true);
+        Time.timeScale = 0f;
+    }
+
+    public void ResumePause()
+    {
+        isPaused = false;
+        Time.timeScale = 1f;
+
+        if (pauseOverlay != null)
+        {
+            pauseOverlay.SetActive(false);
+        }
+    }
+
+    public void RestartLevel()
+    {
+        Time.timeScale = 1f;
+        isPaused = false;
+
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void GoToMainMenu()
+    {
+        Time.timeScale = 1f;
+        isPaused = false;
+
+        SceneManager.LoadScene("MainMenu");
+    }
+
+    // LAP DISPLAY
 
     private void UpdateLapText()
     {
@@ -97,6 +205,8 @@ public class UIManager : MonoBehaviour
 
         lapText.text = "LAP " + currentLap.ToString() + " / " + gameManager.requiredLaps.ToString();
     }
+
+    // DAMAGE POPUP
 
     public void ShowDamagePopup(int damageAmount)
     {
@@ -158,6 +268,8 @@ public class UIManager : MonoBehaviour
         popupColor = damagePopupText.color;
     }
 
+    // TIMER DISPLAY
+
     private void UpdateTimerText()
     {
         if (tripTimer == null || timerText == null)
@@ -183,6 +295,8 @@ public class UIManager : MonoBehaviour
             timerText.text = minutes.ToString("00") + ":" + seconds.ToString("00");
         }
     }
+
+    // LAP NOTIFICATION
 
     private void UpdateLapNotification()
     {
@@ -221,6 +335,8 @@ public class UIManager : MonoBehaviour
         lapNotificationText.gameObject.SetActive(false);
         notificationCoroutine = null;
     }
+
+    // VICTORY SUMMARY
 
     private void UpdateMissionSummary()
     {
