@@ -1,13 +1,18 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-// Draws one orange route on the minimap from the player to the active passenger's destination.
+// Draws one route at a time on the minimap:
+// - ORANGE: player -> active passenger's destination (during deliveries).
+// - BLUE: player -> TODA Terminal (after all passengers are delivered).
 // Attach to the Player object. Route uses the baked minimap NavMesh (NavMesh-Roads).
 public class MinimapNavigationController : MonoBehaviour
 {
     [Header("Route Display")]
     [Tooltip("The orange LineRenderer used for the dynamic route (on PlayerArrow).")]
     public LineRenderer routeLine;
+
+    [Tooltip("The blue LineRenderer used for the terminal return route (TerminalRouteLine).")]
+    public LineRenderer terminalRouteLine;
 
     [Tooltip("The three existing static route lines. They are turned off during Play Mode.")]
     public LineRenderer[] staticRouteLines;
@@ -21,6 +26,10 @@ public class MinimapNavigationController : MonoBehaviour
     [Header("Passenger Source")]
     [Tooltip("The GameManager that holds the passengers array. Found automatically if left empty.")]
     public GameManager gameManager;
+
+    [Header("Terminal Return Target")]
+    [Tooltip("The existing /Terminal object. Used as the return target after all passengers are delivered.")]
+    public Transform terminalTarget;
 
     [Header("NavMesh Sampling")]
     [Tooltip("How often the route is recalculated, in seconds.")]
@@ -69,6 +78,7 @@ public class MinimapNavigationController : MonoBehaviour
         }
 
         HideRoute();
+        HideTerminalRoute();
     }
 
     void OnDisable()
@@ -102,6 +112,25 @@ public class MinimapNavigationController : MonoBehaviour
 
     void RefreshRoute()
     {
+        // Mission finished: hide both routes.
+        if (gameManager != null && gameManager.gameWon)
+        {
+            HideRoute();
+            HideTerminalRoute();
+            return;
+        }
+
+        // A delivered passenger still needs the return trip to the Terminal.
+        if (gameManager != null && gameManager.destinationCount > gameManager.completedLaps)
+        {
+            HideRoute();
+            RefreshTerminalRoute();
+            return;
+        }
+
+        // Delivery phase: orange route to the active passenger's destination.
+        HideTerminalRoute();
+
         PassengerPickup activePassenger = FindActivePassenger();
         if (activePassenger == null || routeLine == null)
         {
@@ -132,7 +161,40 @@ public class MinimapNavigationController : MonoBehaviour
             return;
         }
 
-        DrawRoute(path.corners);
+        DrawRoute(routeLine, path.corners);
+    }
+
+    // Blue route: same NavMesh sampling and path calculation, but the target is the Terminal.
+    void RefreshTerminalRoute()
+    {
+        if (terminalRouteLine == null || terminalTarget == null)
+        {
+            HideTerminalRoute();
+            return;
+        }
+
+        Vector3 playerRoadPoint;
+        if (!TrySampleNavMesh(transform.position, playerSampleDistance, out playerRoadPoint))
+        {
+            HideTerminalRoute();
+            return;
+        }
+
+        Vector3 terminalRoadPoint;
+        if (!TrySampleNavMesh(terminalTarget.position, destinationSampleDistance, out terminalRoadPoint))
+        {
+            HideTerminalRoute();
+            return;
+        }
+
+        bool calculated = NavMesh.CalculatePath(playerRoadPoint, terminalRoadPoint, NavMesh.AllAreas, path);
+        if (!calculated || path.status != NavMeshPathStatus.PathComplete || path.corners.Length < 2)
+        {
+            HideTerminalRoute();
+            return;
+        }
+
+        DrawRoute(terminalRouteLine, path.corners);
     }
 
     // Returns the first boarded passenger that still has a destination.
@@ -170,17 +232,17 @@ public class MinimapNavigationController : MonoBehaviour
         return false;
     }
 
-    void DrawRoute(Vector3[] corners)
+    void DrawRoute(LineRenderer line, Vector3[] corners)
     {
-        routeLine.enabled = true;
-        routeLine.useWorldSpace = true;
-        routeLine.startWidth = routeWidth;
-        routeLine.endWidth = routeWidth;
-        routeLine.positionCount = corners.Length;
+        line.enabled = true;
+        line.useWorldSpace = true;
+        line.startWidth = routeWidth;
+        line.endWidth = routeWidth;
+        line.positionCount = corners.Length;
 
         for (int i = 0; i < corners.Length; i++)
         {
-            routeLine.SetPosition(i, new Vector3(corners[i].x, routeHeight, corners[i].z));
+            line.SetPosition(i, new Vector3(corners[i].x, routeHeight, corners[i].z));
         }
     }
 
@@ -189,6 +251,14 @@ public class MinimapNavigationController : MonoBehaviour
         if (routeLine != null)
         {
             routeLine.enabled = false;
+        }
+    }
+
+    void HideTerminalRoute()
+    {
+        if (terminalRouteLine != null)
+        {
+            terminalRouteLine.enabled = false;
         }
     }
 }
