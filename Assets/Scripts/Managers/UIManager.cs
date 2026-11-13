@@ -21,6 +21,17 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI lapNotificationText;
     public TextMeshProUGUI missionSummaryText;
 
+    // Victory statistics (WinPanel/ResultCard/StatsBox)
+    public TextMeshProUGUI scoreValueText;
+    public TextMeshProUGUI passengersValueText;
+    public TextMeshProUGUI timeValueText;
+
+    // Game Over statistics (GameOverPanel/ResultCard/StatsBox)
+    public TextMeshProUGUI gameOverScoreValueText;
+    public TextMeshProUGUI gameOverPassengersValueText;
+    public TextMeshProUGUI gameOverHealthValueText;
+    public TextMeshProUGUI failureReasonText;
+
     public GameObject gameplayHUD;
     public GameObject victoryDimOverlay;
     public GameObject victorySummaryPanel;
@@ -48,8 +59,11 @@ public class UIManager : MonoBehaviour
     private int previousDisplayedLap = -1;
     private int previousCompletedLaps = 0;
     private bool summaryShown = false;
+    private bool gameOverShown = false;
 
     private bool isPaused = false;
+
+    private const string TimerExpiredReason = "The timer ran out before all passengers were delivered.";
 
     void Start()
     {
@@ -90,6 +104,11 @@ public class UIManager : MonoBehaviour
         {
             UpdateMissionSummary();
             return;
+        }
+
+        if (!gameOverShown && (gameManager.timeExpired || gameManager.health <= 0))
+        {
+            UpdateGameOverStats();
         }
 
         UpdateHealthDisplay();
@@ -361,6 +380,46 @@ public class UIManager : MonoBehaviour
         int minutes = Mathf.FloorToInt(remainingTime / 60f);
         int seconds = Mathf.FloorToInt(remainingTime % 60f);
 
+        // Original multiline summary, kept for compatibility during testing.
         missionSummaryText.text = "LAPS COMPLETED: " + gameManager.completedLaps.ToString() + " / " + gameManager.requiredLaps.ToString() + "\n" + "PASSENGERS DELIVERED: " + gameManager.destinationCount.ToString() + " / " + gameManager.requiredLaps.ToString() + "\n" + "FINAL SCORE: " + gameManager.scoreManager.score.ToString() + "\n" + "TIME REMAINING: " + minutes.ToString("00") + ":" + seconds.ToString("00");
+
+        // Three-column statistics.
+        SetText(scoreValueText, gameManager.scoreManager.score.ToString());
+        SetText(passengersValueText, gameManager.destinationCount.ToString() + " / " + gameManager.requiredLaps.ToString());
+        SetText(timeValueText, minutes.ToString("00") + ":" + seconds.ToString("00"));
+    }
+
+    // GAME OVER STATISTICS
+
+    private void UpdateGameOverStats()
+    {
+        if (gameManager.scoreManager == null)
+        {
+            return;
+        }
+
+        gameOverShown = true;
+
+        int maxHealth = Mathf.Max(1, gameManager.maxHealth);
+        int currentHealth = Mathf.Clamp(gameManager.health, 0, maxHealth);
+
+        SetText(gameOverScoreValueText, gameManager.scoreManager.score.ToString());
+        SetText(gameOverPassengersValueText, gameManager.destinationCount.ToString() + " / " + gameManager.requiredLaps.ToString());
+        SetText(gameOverHealthValueText, currentHealth.ToString());
+
+        // Only the timer can produce this reason. Health depletion keeps it hidden.
+        if (failureReasonText != null)
+        {
+            failureReasonText.text = TimerExpiredReason;
+            failureReasonText.gameObject.SetActive(gameManager.timeExpired);
+        }
+    }
+
+    private void SetText(TextMeshProUGUI target, string value)
+    {
+        if (target != null)
+        {
+            target.text = value;
+        }
     }
 }

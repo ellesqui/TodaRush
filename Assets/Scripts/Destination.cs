@@ -10,6 +10,7 @@ public class Destination : Interactable
     public Transform player;
     public Camera mainCamera;
     public string destinationName;
+    [SerializeField] private GameObject destinationVisual;
     private Vector3 markerBaseScale;
 
     void Start()
@@ -54,6 +55,10 @@ public class Destination : Interactable
         {
             gameManager.scoreManager.AddScore(100);
             gameManager.destinationCount++;
+            if (destinationVisual != null)
+            {
+                destinationVisual.SetActive(false);
+            }
         }
     }
 
