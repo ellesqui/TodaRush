@@ -17,6 +17,7 @@ public sealed class LevelSelectionController:MonoBehaviour
  [SerializeField] string mainMenuScene="Assets/Scenes/MainMenu.unity";
  [SerializeField] TodaRushLevelDefinition[] levels;
  [SerializeField] TMP_Text notification;
+
  public TodaRushLevelDefinition[] Levels=>levels;
  void Start(){foreach(var level in levels)level.Refresh();if(notification)notification.text="";}
  public void SelectLevel1(){Select(0);}
@@ -28,6 +29,7 @@ public sealed class LevelSelectionController:MonoBehaviour
  if(string.IsNullOrWhiteSpace(level.gameplayScene)){Notify(level.displayName+" — LEVEL NOT YET AVAILABLE");return;}
  if(!Application.CanStreamedLevelBeLoaded(level.gameplayScene)){Notify("Configured level scene is unavailable. Add it to Build Profiles.");return;}
  if(GameSettingsManager.Instance)GameSettingsManager.Instance.Save();
+
  SceneManager.LoadScene(level.gameplayScene);
  }
  void Notify(string message){if(notification)notification.text=message;}
@@ -37,3 +39,5 @@ public sealed class LevelSelectionController:MonoBehaviour
  SceneManager.LoadScene(mainMenuScene);
  }
 }
+
+
