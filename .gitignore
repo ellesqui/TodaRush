@@ -82,3 +82,20 @@ crashlytics-build.properties
 /UI-Project/[Bb]uilds/
 /UI-Project/[Ll]ogs/
 /UI-Project/[Uu]ser[Ss]ettings/
+
+# TODARUSH_UI - Ignore Unity generated files
+/TODARUSH_UI/Library/
+/TODARUSH_UI/Temp/
+/TODARUSH_UI/Logs/
+/TODARUSH_UI/Obj/
+/TODARUSH_UI/UserSettings/
+/TODARUSH_UI/.vs/
+
+# TODARUSH UI - Unity generated files
+/TODARUSH__UI/[Ll]ibrary/
+/TODARUSH__UI/[Tt]emp/
+/TODARUSH__UI/[Ll]ogs/
+/TODARUSH__UI/[Oo]bj/
+/TODARUSH__UI/[Uu]ser[Ss]ettings/
+/TODARUSH__UI/.vs/
+/TODARUSH__UI/.vscode/
