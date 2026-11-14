@@ -73,3 +73,12 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+
+# Standalone TODA RUSH UI Project
+/UI-Project/[Ll]ibrary/
+/UI-Project/[Tt]emp/
+/UI-Project/[Oo]bj/
+/UI-Project/[Bb]uild/
+/UI-Project/[Bb]uilds/
+/UI-Project/[Ll]ogs/
+/UI-Project/[Uu]ser[Ss]ettings/
