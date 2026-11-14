@@ -1,0 +1,5 @@
+How To Play updated in Assets/TodaRushMainMenu/TODA-RUSH Main Menu.unity.
+Reused existing HowToPlayPanel, MainPanel and Back button; retained existing main menu HOW TO PLAY event. MainMenuController.HowToPlay now hides logo. Back restores logo and menu without scene reload. Settings hierarchy unchanged.
+Exactly 2 columns x 5 editable uGUI cards, separate A/D keycaps, yellow F/1/2 keys, Level 3 Handbrake and Level 2 Horn badges. Instructions match supplied brief; gameplay input and items were not implemented or modified.
+Barlow Condensed Bold and Inter are absent: documented Liberation Sans SDF placeholders remain.
+Play mode verified at 1920x1080: ten-card contents, text fit, tutorial open/Back, Settings category/Back, Credits open/Back, Play missing-scene feedback, unchanged saved audio values, one Canvas/EventSystem, and Quit exiting Play mode.

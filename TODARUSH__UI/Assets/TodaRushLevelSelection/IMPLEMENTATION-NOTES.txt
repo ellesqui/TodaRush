@@ -1,0 +1,8 @@
+Implemented inside existing Assets/Scenes/LevelSelection.unity and LevelSelectionCanvas.
+Actual working menu is Assets/Scenes/MainMenu.unity, not the missing TODA-RUSH Main Menu.unity path named in the brief. MainMenu_BACKUP.unity was not modified.
+Created cream frame/header, subtitle, three complete parent Buttons, editable scenery Images/shapes, level labels/descriptions, dashed dividers, passenger/timer/difficulty badges, availability notification and Back. No child Buttons or child raycast targets; every card is one Button.
+Created LevelSelectionController.cs with configurable gameplay destination, passenger counts and seconds per level. Existing MainMenuController.Play uses configured levelSelectionSceneName; only the working scene's reference was set. No existing panel or main menu visual design was changed.
+Build Scene List: working MainMenu enabled first; LevelSelection enabled second; existing SampleScene retained. No backup or duplicate menu added.
+No confirmed gameplay scenes exist; every card shows LEVEL NOT YET AVAILABLE. Assign real gameplay scene paths and enable them in Build Profiles when ready. No empty gameplay scene was created; SampleScene was not assumed to be a level.
+Barlow Condensed Bold and Inter are missing; documented Liberation Sans SDF placeholders remain. Bomb Sound was not used outside the logo.
+Verified at 1920x1080 and 1600x900: real PLAY/Back scene loading, all three card regions route clicks to each parent, correct unavailable responses, hover/pressed outline states, text fit, Settings/HowToPlay/Credits/Quit navigation, preserved settings and one Canvas/EventSystem/settings manager after round-trip. Temporary test runner removed.

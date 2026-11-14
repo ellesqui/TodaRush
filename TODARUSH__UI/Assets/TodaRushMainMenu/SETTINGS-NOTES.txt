@@ -1,0 +1,8 @@
+Settings implemented with editable uGUI and TMP. Main menu design preserved.
+No AudioMixer, music clips or SFX sources were present. Add SettingsAudioChannel to each future AudioSource and choose Music or SFX. Source volume is used as its baseline. Global mute covers all listener audio.
+GameSettingsManager bootstraps once before the first scene, persists across scene loads and saves PlayerPrefs. Graphics uses actual Screen.resolutions and QualitySettings.names.
+Controls asset contains Unity template actions; no driving implementation exists. UI labels this clearly.
+Liberation Sans remains the documented temporary Barlow/Inter font placeholder.
+
+Verified in Play mode: category pointer clicks, Back, independent source gains, percentage labels, mute/unmute, preferences reload and fresh-session music load, actual quality changes, dropdown opening, and singleton manager.
+Resolution/fullscreen display behavior requires a built PC player; no audible project clips exist yet.
