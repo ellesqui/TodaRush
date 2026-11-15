@@ -1,0 +1,8 @@
+Quit confirmation added to Assets/TodaRushMainMenu/TODA-RUSH Main Menu.unity.
+Existing QuitButton -> MainMenuController.OpenQuitConfirmation. YesQuitButton -> ConfirmQuit. CancelButton -> CancelQuit. Legacy Quit() delegates to confirmation.
+Created QuitConfirmationPanel with full-screen raycast-blocking dim overlay, centered 1080x520 PopupContainer, cream/charcoal frame, orange heading, editable exit icon, racing accent, message, barangay silhouettes and two editable UI Buttons.
+Menu logo/buttons stay visible. A CanvasGroup prevents menu pointer/keyboard interaction. Cancel restores previous interactability, raycast and selection state. Escape cancels. MainMenuController reused; no duplicate controller, Canvas, EventSystem or scene. Other panels unchanged.
+ConfirmQuit saves preferences, logs in the Editor and calls Application.Quit in a player build. It is guarded while popup is closed.
+Verified at 1920x1080: popup startup/open, menu visible and input blocked (including raycast interception), Cancel exact restoration, existing panels, PLAY feedback, Yes Quit Editor logging, unchanged saved settings, no scene reload and one modal/Canvas/EventSystem.
+Built-game process exit remains untested in the Editor.
+Barlow Condensed Bold and Inter Medium remain missing; documented Liberation Sans SDF placeholders used.

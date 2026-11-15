@@ -1,0 +1,8 @@
+Scene: Assets/TodaRushMainMenu/TODA-RUSH Main Menu.unity
+Original Assets/MainMenu.unity is preserved. Original UI is archived inactive in this scene.
+Logo: existing The Bomb Sound SDF font. Barlow Condensed Bold and Inter missing: Liberation Sans SDF is a TEMPORARY PLACEHOLDER for menu/secondary text.
+Background: AI-edited scenery derived from user reference; replaceable background Image, not a 3D environment.
+No confirmed gameplay/selection scene: assign MainMenuController destination and add destination to Build Settings. SampleScene was not assumed to be gameplay.
+How To Play and Credits require confirmed copy/names. Audio settings control AudioListener globally and persist via PlayerPrefs.
+
+Verified at 1920x1080 and 2560x1440: pointer-click navigation, Back, missing-destination feedback, master volume, mute, assigned references, advancing frames and Editor Quit. Existing Build Settings preserved.

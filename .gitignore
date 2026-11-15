@@ -74,7 +74,32 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 
+
 # Ignore generated files from nested Unity projects
+
+# TODARUSH_UI project
+/TODARUSH_UI/[Ll]ibrary/
+/TODARUSH_UI/[Tt]emp/
+/TODARUSH_UI/[Oo]bj/
+/TODARUSH_UI/[Bb]uild/
+/TODARUSH_UI/[Bb]uilds/
+/TODARUSH_UI/[Ll]ogs/
+/TODARUSH_UI/[Uu]ser[Ss]ettings/
+/TODARUSH_UI/[Mm]emoryCaptures/
+/TODARUSH_UI/[Rr]ecordings/
+/TODARUSH_UI/.vs/
+/TODARUSH_UI/.vscode/
+
+# Standalone UI-Project
+/UI-Project/[Ll]ibrary/
+/UI-Project/[Tt]emp/
+/UI-Project/[Oo]bj/
+/UI-Project/[Bb]uild/
+/UI-Project/[Bb]uilds/
+/UI-Project/[Ll]ogs/
+/UI-Project/[Uu]ser[Ss]ettings/
+
+# Additional nested Unity-generated files
 [Ll]ibrary/
 [Tt]emp/
 [Oo]bj/
@@ -82,4 +107,3 @@ crashlytics-build.properties
 [Uu]serSettings/
 [Mm]emoryCaptures/
 [Rr]ecordings/
-/TODARUSH_UI/.vscode/
