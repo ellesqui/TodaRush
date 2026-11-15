@@ -1,0 +1,603 @@
+{
+  "status": "PASS",
+  "asset_count": 73,
+  "total_triangles": 26752,
+  "checks": [
+    "GLB 2 header and length",
+    "embedded buffer bounds",
+    "triangle indices and counts",
+    "finite vertex positions",
+    "materials assigned",
+    "full Blender reimport",
+    "dimensions match manifest within 2 mm",
+    "ground centered origin",
+    "positive signed mesh volume"
+  ],
+  "limitations": "Not tested in Unity Editor; not a Khronos validator certification. Visual inspection performed separately on representative models.",
+  "assets": [
+    {
+      "name": "TR3_Farmhouse_RedRoof",
+      "status": "PASS",
+      "triangles": 668,
+      "material_primitives": 8,
+      "size_bytes": 42964,
+      "sha256": "87de1d58973bd405009ed9860d23bc420a73dc0350b33ecaa2bb2441283ea596"
+    },
+    {
+      "name": "TR3_Farmhouse_BlueRoof",
+      "status": "PASS",
+      "triangles": 668,
+      "material_primitives": 8,
+      "size_bytes": 42964,
+      "sha256": "28887a73f4582de5ef4bae7acf7c8151e4825289c5c4b5ce0619e50ccec88783"
+    },
+    {
+      "name": "TR3_Farm_Storage_Shed",
+      "status": "PASS",
+      "triangles": 348,
+      "material_primitives": 6,
+      "size_bytes": 23908,
+      "sha256": "a86937a50cabafe8b0a1886f4f54ef08da6b4d411fdb72c4d1ec8917380363dc"
+    },
+    {
+      "name": "TR3_Barn_Animal_Shelter",
+      "status": "PASS",
+      "triangles": 456,
+      "material_primitives": 5,
+      "size_bytes": 28708,
+      "sha256": "349c76816cf23c1950c18e80733922ed2fd0caf3e6543e4d3b7279530ad4ef9d"
+    },
+    {
+      "name": "TR3_Farm_Windmill",
+      "status": "PASS",
+      "triangles": 452,
+      "material_primitives": 3,
+      "size_bytes": 26816,
+      "sha256": "7b8f701fc1c62ee3a2159dc40f5fdc8e7d4aeaeeb10da1e532cae332a975238c"
+    },
+    {
+      "name": "TR3_Fence_Wood_2m",
+      "status": "PASS",
+      "triangles": 72,
+      "material_primitives": 2,
+      "size_bytes": 5848,
+      "sha256": "18dc07160a9623f13b83791c0fb02fd2d498dfeb03805f2ee2eb485a670739a4"
+    },
+    {
+      "name": "TR3_Fence_Wood_4m",
+      "status": "PASS",
+      "triangles": 72,
+      "material_primitives": 2,
+      "size_bytes": 5844,
+      "sha256": "c7673cc9c1252c9090fc9bb2b34edb40abfd0dce3e2e98058b64dabb16b7bd6e"
+    },
+    {
+      "name": "TR3_Fence_Gate_Closed",
+      "status": "PASS",
+      "triangles": 84,
+      "material_primitives": 2,
+      "size_bytes": 6548,
+      "sha256": "b9bfc1cf6c1927fe63a434d1c4d8b300b5779134bf1d51c78161c9b18d341886"
+    },
+    {
+      "name": "TR3_Fence_Gate_Open",
+      "status": "PASS",
+      "triangles": 84,
+      "material_primitives": 2,
+      "size_bytes": 6564,
+      "sha256": "6621ca44333aa179cd8b36c8091da40ef11100e7967c1928fa9bc70410629f40"
+    },
+    {
+      "name": "TR3_CropRow_Pechay",
+      "status": "PASS",
+      "triangles": 512,
+      "material_primitives": 2,
+      "size_bytes": 41568,
+      "sha256": "b3fb417117cb0cd849167c49a435648cee3ba78f490008d1bc81630ce434381f"
+    },
+    {
+      "name": "TR3_CropRow_Tomato",
+      "status": "PASS",
+      "triangles": 472,
+      "material_primitives": 4,
+      "size_bytes": 37240,
+      "sha256": "1256f1016900466263c9d8d759aaca40ad65d65c0c8881ee70fb94eafd3092f8"
+    },
+    {
+      "name": "TR3_CropRow_Eggplant",
+      "status": "PASS",
+      "triangles": 472,
+      "material_primitives": 4,
+      "size_bytes": 38580,
+      "sha256": "abc6b0a75c7da64788a5f20d9117964c1e442d67aeb137634717fefc1fe6378f"
+    },
+    {
+      "name": "TR3_Plowed_Farmland_4x4",
+      "status": "PASS",
+      "triangles": 108,
+      "material_primitives": 2,
+      "size_bytes": 7656,
+      "sha256": "a8382cb43fb1a08ad948a13fb87aa46557877bc83f0b0b1eacb213699f2813c6"
+    },
+    {
+      "name": "TR3_HayBale_Rectangular",
+      "status": "PASS",
+      "triangles": 84,
+      "material_primitives": 2,
+      "size_bytes": 6396,
+      "sha256": "7208b58321ca8629fefc98c63bdccbdfff9c5d99a7cc5d1b92b09579487c2eee"
+    },
+    {
+      "name": "TR3_HayBale_Round",
+      "status": "PASS",
+      "triangles": 132,
+      "material_primitives": 2,
+      "size_bytes": 7924,
+      "sha256": "68ea058d200c2b1abcc2ddcb456fdb6d79a0a35e517e79ff585f83785bce4211"
+    },
+    {
+      "name": "TR3_Tool_Shovel",
+      "status": "PASS",
+      "triangles": 84,
+      "material_primitives": 3,
+      "size_bytes": 7556,
+      "sha256": "f9b59f774bec79c939a6ff02cc58174881c69e09a84f7110c58f9910de7dd713"
+    },
+    {
+      "name": "TR3_Tool_Rake",
+      "status": "PASS",
+      "triangles": 124,
+      "material_primitives": 2,
+      "size_bytes": 8464,
+      "sha256": "c471c80ce7152c134fe79cbe94d9e8ea5e081eb2daae54116ba5f3e9cd3fe1f6"
+    },
+    {
+      "name": "TR3_Tool_Hoe",
+      "status": "PASS",
+      "triangles": 40,
+      "material_primitives": 2,
+      "size_bytes": 3908,
+      "sha256": "ed0e352048849f5af009f601ad2110303566777234e590bd94c50dbe687dee06"
+    },
+    {
+      "name": "TR3_WaterBarrel_blue",
+      "status": "PASS",
+      "triangles": 248,
+      "material_primitives": 3,
+      "size_bytes": 14040,
+      "sha256": "1eb761f162de8511a1d4baaa81bafbe9ed9169fcb97dececa0695c9f8a08ccd0"
+    },
+    {
+      "name": "TR3_WaterBarrel_green",
+      "status": "PASS",
+      "triangles": 248,
+      "material_primitives": 3,
+      "size_bytes": 14040,
+      "sha256": "6267cebe1670fbd13241a962f51f2b3caa75e99fac7bc08865c1bda13356ef3b"
+    },
+    {
+      "name": "TR3_RiceCluster_Young",
+      "status": "PASS",
+      "triangles": 140,
+      "material_primitives": 1,
+      "size_bytes": 9220,
+      "sha256": "fd98fe31df53d741e7a75b5aeb6bbbad16f08af59bec40ca541af2b7aa01e6be"
+    },
+    {
+      "name": "TR3_RiceCluster_Mature",
+      "status": "PASS",
+      "triangles": 200,
+      "material_primitives": 2,
+      "size_bytes": 13352,
+      "sha256": "6eb144a6f2874b13bc4120f16d367da35530dc82ebf5ec36060cba4c8c408dd2"
+    },
+    {
+      "name": "TR3_RicePlot_Square_4x4",
+      "status": "PASS",
+      "triangles": 1320,
+      "material_primitives": 3,
+      "size_bytes": 79344,
+      "sha256": "ef3602ee8ba7d805a37d935284848c435d837dfdc0ccb623b00dc16c9d46032a"
+    },
+    {
+      "name": "TR3_RicePlot_Rectangular_8x4",
+      "status": "PASS",
+      "triangles": 2580,
+      "material_primitives": 3,
+      "size_bytes": 153440,
+      "sha256": "70cf128e3f4f1814d1b308741d403c36ec61a0f029ce70b8ddecf2b1ec5382d8"
+    },
+    {
+      "name": "TR3_FloodedPaddy_Planted_4x4",
+      "status": "PASS",
+      "triangles": 1332,
+      "material_primitives": 4,
+      "size_bytes": 80580,
+      "sha256": "e9a5d89d3d852960f8ba5e4080c4fa9251c2f7a4f2c5c02362937dbd23491909"
+    },
+    {
+      "name": "TR3_FloodedPaddy_Empty_4x4",
+      "status": "PASS",
+      "triangles": 72,
+      "material_primitives": 3,
+      "size_bytes": 6268,
+      "sha256": "c5bcfc557c68ddfa8d7dde03067fb9e06ff5d66087b27d6ddf761707be722e97"
+    },
+    {
+      "name": "TR3_FieldBorder_Straight_4m",
+      "status": "PASS",
+      "triangles": 12,
+      "material_primitives": 1,
+      "size_bytes": 1776,
+      "sha256": "e6cce9deeb4cf3d4bedef7f2267bb2b904a79a02b785f72b07e1f5911c976fe6"
+    },
+    {
+      "name": "TR3_FieldBorder_Corner",
+      "status": "PASS",
+      "triangles": 24,
+      "material_primitives": 1,
+      "size_bytes": 2436,
+      "sha256": "e51e71062bb6a6da693e09929021528a34800402d650f703a06679465bf6de56"
+    },
+    {
+      "name": "TR3_IrrigationDitch_Dry_4m",
+      "status": "PASS",
+      "triangles": 36,
+      "material_primitives": 2,
+      "size_bytes": 3748,
+      "sha256": "c7097dcf138e872ee50e2423cf2f3ae5aff780be57bc1f39b5775dcc8ea4763b"
+    },
+    {
+      "name": "TR3_IrrigationDitch_Wet_4m",
+      "status": "PASS",
+      "triangles": 48,
+      "material_primitives": 3,
+      "size_bytes": 4948,
+      "sha256": "7e33ccf6570ee3800d69508a76e11b7e53f392b21c9f264e59c86390325912ca"
+    },
+    {
+      "name": "TR3_FarmPath_Narrow_4m",
+      "status": "PASS",
+      "triangles": 12,
+      "material_primitives": 1,
+      "size_bytes": 1736,
+      "sha256": "85ede518f2f28ebb997e6bf1a3d3be6191109f9690bfd79a39227e31dad71f6f"
+    },
+    {
+      "name": "TR3_RiceField_Hut",
+      "status": "PASS",
+      "triangles": 288,
+      "material_primitives": 4,
+      "size_bytes": 19092,
+      "sha256": "7f6a80a0ed85fdbcd455a99249b97a9c259cd225a1dd91e8e57fe04d892df5cc"
+    },
+    {
+      "name": "TR3_SoilPatch_Square",
+      "status": "PASS",
+      "triangles": 12,
+      "material_primitives": 1,
+      "size_bytes": 1740,
+      "sha256": "ec9330c6ed83edc85e815fc714df2266263438125ccae6a3ef9f544a9a5a8079"
+    },
+    {
+      "name": "TR3_SoilPatch_Irregular",
+      "status": "PASS",
+      "triangles": 20,
+      "material_primitives": 1,
+      "size_bytes": 2720,
+      "sha256": "ff99acad69939453539b3e7656ce9453a467fa11b0fd33cbc959581512238b11"
+    },
+    {
+      "name": "TR3_Excavator_Tracked",
+      "status": "PASS",
+      "triangles": 2108,
+      "material_primitives": 5,
+      "size_bytes": 131664,
+      "sha256": "9a9456cc186ad1848c9bc793b0016f17bec721034d5730bc32e2fb4ccfab642c"
+    },
+    {
+      "name": "TR3_Barricade_Striped",
+      "status": "PASS",
+      "triangles": 108,
+      "material_primitives": 3,
+      "size_bytes": 8588,
+      "sha256": "e9b4f6ea2aeceac43667f66a46c6d267c0acc0bc93a0fe466c97cb9617329e0c"
+    },
+    {
+      "name": "TR3_TrafficCone_Small",
+      "status": "PASS",
+      "triangles": 192,
+      "material_primitives": 3,
+      "size_bytes": 11672,
+      "sha256": "a5cdcdb2f17fe63a2fd8c398db7e85c446444fc5763945a24c35ba4c3fb3d090"
+    },
+    {
+      "name": "TR3_TrafficCone_Standard",
+      "status": "PASS",
+      "triangles": 192,
+      "material_primitives": 3,
+      "size_bytes": 11668,
+      "sha256": "1c91f61c8941309ba04278c68b8a0d490d3c3e6b2f564155e7c284feac0e1b96"
+    },
+    {
+      "name": "TR3_Sign_RoadClosed",
+      "status": "PASS",
+      "triangles": 648,
+      "material_primitives": 4,
+      "size_bytes": 31480,
+      "sha256": "77edd87f7388a98818f9cd385478c865bec599b7ef4448301a7466ee5d425c01"
+    },
+    {
+      "name": "TR3_Sign_NoEntry",
+      "status": "PASS",
+      "triangles": 96,
+      "material_primitives": 4,
+      "size_bytes": 7924,
+      "sha256": "e4bff37980a62b46e8b886001c2afbb3c65eee8976f1ea44c97653d9f7130e70"
+    },
+    {
+      "name": "TR3_Sign_Detour",
+      "status": "PASS",
+      "triangles": 432,
+      "material_primitives": 4,
+      "size_bytes": 23208,
+      "sha256": "e01e0d0111fc951f07616d8ec4dd61a33cc8202eba32a89545317871de00bf02"
+    },
+    {
+      "name": "TR3_Sign_ArrowLeft",
+      "status": "PASS",
+      "triangles": 76,
+      "material_primitives": 4,
+      "size_bytes": 8392,
+      "sha256": "60b8c7881534f702e7ee0dc3188b262b9c2c228a63947dd30228b3379f79bf8e"
+    },
+    {
+      "name": "TR3_Sign_ArrowRight",
+      "status": "PASS",
+      "triangles": 76,
+      "material_primitives": 4,
+      "size_bytes": 8396,
+      "sha256": "703faa4abc719f394f3ece99d47f66fed2ef9e111d874fb87be20fa95d46cfc1"
+    },
+    {
+      "name": "TR3_Sign_Warning",
+      "status": "PASS",
+      "triangles": 844,
+      "material_primitives": 4,
+      "size_bytes": 40136,
+      "sha256": "21e67d1b4b5963e0a4c21c5f199c4097ede5408d589006652c65606e40c5f6b2"
+    },
+    {
+      "name": "TR3_Construction_WarningBoard",
+      "status": "PASS",
+      "triangles": 1424,
+      "material_primitives": 3,
+      "size_bytes": 64308,
+      "sha256": "b4455d89970dc9cbfe3e0a136192753cc02fb9cf01419a16707a42dd95c94fa4"
+    },
+    {
+      "name": "TR3_Roadwork_Fencing_2m",
+      "status": "PASS",
+      "triangles": 204,
+      "material_primitives": 3,
+      "size_bytes": 13468,
+      "sha256": "557adb64156aaa3798ee371cd4646bf81476165eb6ef1401ed353e069105b38c"
+    },
+    {
+      "name": "TR3_DirtPile_Small",
+      "status": "PASS",
+      "triangles": 80,
+      "material_primitives": 2,
+      "size_bytes": 8192,
+      "sha256": "940d73f40c9e0f432f501d658a56f2b3e3cfb94fc2189e6b4c38b8a05c96b1f1"
+    },
+    {
+      "name": "TR3_DirtPile_Large",
+      "status": "PASS",
+      "triangles": 80,
+      "material_primitives": 2,
+      "size_bytes": 8184,
+      "sha256": "e89113d55e62b74c0dcdc1470d7bc959cba82a1d4b07f18af243aa2d11c6e604"
+    },
+    {
+      "name": "TR3_Rock_1",
+      "status": "PASS",
+      "triangles": 20,
+      "material_primitives": 1,
+      "size_bytes": 2700,
+      "sha256": "362a9b8401bee0f2316db48e35d275ad72ef9776cfb5cbed316d52afcd161953"
+    },
+    {
+      "name": "TR3_Rock_2",
+      "status": "PASS",
+      "triangles": 20,
+      "material_primitives": 1,
+      "size_bytes": 2704,
+      "sha256": "4cd470df4b0f4f4fea8628779e8bd52f3343adfe696b10c1c21022a08cdc58ae"
+    },
+    {
+      "name": "TR3_Rock_3",
+      "status": "PASS",
+      "triangles": 20,
+      "material_primitives": 1,
+      "size_bytes": 2656,
+      "sha256": "05c477741ea14d59735be3c69bd12c97a2463480d65b809e8d59a48042bb50c8"
+    },
+    {
+      "name": "TR3_Debris_Cluster",
+      "status": "PASS",
+      "triangles": 164,
+      "material_primitives": 2,
+      "size_bytes": 14212,
+      "sha256": "8ab25aad04eced0d19bdfc20a6f8ec99c4e4fe261dd3d8bc99e8b44877c6bf01"
+    },
+    {
+      "name": "TR3_TemporaryBarrier_orange",
+      "status": "PASS",
+      "triangles": 56,
+      "material_primitives": 2,
+      "size_bytes": 4788,
+      "sha256": "dbc6243f9b8b051d28a9b5ccf61f516cc92fd75d3630b8661eabda2eb659457b"
+    },
+    {
+      "name": "TR3_TemporaryBarrier_stone",
+      "status": "PASS",
+      "triangles": 56,
+      "material_primitives": 2,
+      "size_bytes": 4784,
+      "sha256": "a4ab0b11273c6009f2938557393914b153dfa4c0a307032e33128c7d60c8d687"
+    },
+    {
+      "name": "TR3_WarningLight_Portable",
+      "status": "PASS",
+      "triangles": 120,
+      "material_primitives": 3,
+      "size_bytes": 8516,
+      "sha256": "dfc33dd94b4b303010d89ec3057b3ddd5145089e82963f3dfb5cdfdfff9d7425"
+    },
+    {
+      "name": "TR3_WarningLight_Tripod",
+      "status": "PASS",
+      "triangles": 144,
+      "material_primitives": 4,
+      "size_bytes": 10696,
+      "sha256": "f47bc2b0f7390c7b4e08451d5476df377746934e2bc1f77afb1a3ccdd979037c"
+    },
+    {
+      "name": "TR3_Cow_BlackWhite",
+      "status": "PASS",
+      "triangles": 440,
+      "material_primitives": 5,
+      "size_bytes": 34648,
+      "sha256": "f2bff8f20bcf0f81139042fef648b25bc02f90a0dbde45b467fc7c12f8afe044"
+    },
+    {
+      "name": "TR3_Cow_Brown_Grazing",
+      "status": "PASS",
+      "triangles": 440,
+      "material_primitives": 4,
+      "size_bytes": 33860,
+      "sha256": "fcffd8bada1f32ebd9767bb9db0141cd2498e7652170b1e88bc9d922ecdb77ad"
+    },
+    {
+      "name": "TR3_Goat_cream",
+      "status": "PASS",
+      "triangles": 304,
+      "material_primitives": 4,
+      "size_bytes": 23416,
+      "sha256": "a64e96745d0344ec2e560a91bc4995cb6664b5d07a230d3dfef441f55a9a498c"
+    },
+    {
+      "name": "TR3_Goat_brown",
+      "status": "PASS",
+      "triangles": 304,
+      "material_primitives": 5,
+      "size_bytes": 24216,
+      "sha256": "870c14839aca1ea33e5fb657289702f69f886513c9b6cfb2c249763cd3fd4aad"
+    },
+    {
+      "name": "TR3_Chicken_white",
+      "status": "PASS",
+      "triangles": 372,
+      "material_primitives": 5,
+      "size_bytes": 31756,
+      "sha256": "3753d8b8259fc93f3fdd8750f8f845d80dedc4b5237480d58a4cca9442aaa14d"
+    },
+    {
+      "name": "TR3_Chicken_brown",
+      "status": "PASS",
+      "triangles": 372,
+      "material_primitives": 5,
+      "size_bytes": 31764,
+      "sha256": "7a210984a0e5cf578e036a92fbb94ab51fe432db52b3100d15b608b7662477a2"
+    },
+    {
+      "name": "TR3_Animal_FeedingTrough",
+      "status": "PASS",
+      "triangles": 96,
+      "material_primitives": 3,
+      "size_bytes": 7896,
+      "sha256": "453dcf204fad415b50e447eeb7470d9725eebe3b15cac7c956a47d3eb932ada2"
+    },
+    {
+      "name": "TR3_Crate_Wooden",
+      "status": "PASS",
+      "triangles": 204,
+      "material_primitives": 2,
+      "size_bytes": 12972,
+      "sha256": "abd9511b79598a5cb892d0858b86eb43e35a2edfb8598b24082752553bbd8f85"
+    },
+    {
+      "name": "TR3_Basket_Woven",
+      "status": "PASS",
+      "triangles": 764,
+      "material_primitives": 2,
+      "size_bytes": 42832,
+      "sha256": "2b5c860157913b8fc5e71807ce3cdf3db9005f5314f16e65d9c1e401bb39f50a"
+    },
+    {
+      "name": "TR3_RiceSack_Upright",
+      "status": "PASS",
+      "triangles": 392,
+      "material_primitives": 4,
+      "size_bytes": 22088,
+      "sha256": "74b5c937e2ae2edaba1cc8640c12889a9f2fff120ea34776a60767e2a43044b1"
+    },
+    {
+      "name": "TR3_RiceSacks_Stack",
+      "status": "PASS",
+      "triangles": 1176,
+      "material_primitives": 4,
+      "size_bytes": 58160,
+      "sha256": "ab58295d82412a2aa10f2ad3a7ba0fc06bf5736bea9b303828aff273fc681892"
+    },
+    {
+      "name": "TR3_ProduceBasket_Tomato",
+      "status": "PASS",
+      "triangles": 864,
+      "material_primitives": 3,
+      "size_bytes": 51436,
+      "sha256": "aa7dea0e526316513f8a2e3704ee82a957452ef63368616589b1b31fa7d42bba"
+    },
+    {
+      "name": "TR3_ProduceBasket_Eggplant",
+      "status": "PASS",
+      "triangles": 864,
+      "material_primitives": 3,
+      "size_bytes": 51440,
+      "sha256": "aec17a6a606fe16af080e6b16a8fc9a716a02fb7ee092722d8d9af46a4c8200d"
+    },
+    {
+      "name": "TR3_ProduceBasket_Pechay",
+      "status": "PASS",
+      "triangles": 864,
+      "material_primitives": 3,
+      "size_bytes": 51440,
+      "sha256": "80e6fed2f8d725d747d0bf029386333f6a410c6fe4753703f252059e2cbde9a4"
+    },
+    {
+      "name": "TR3_Cart_Wooden_Handcart",
+      "status": "PASS",
+      "triangles": 364,
+      "material_primitives": 3,
+      "size_bytes": 21072,
+      "sha256": "5935b309037ab6a81a7f7de9e94143d139bebf2b985214f72c1b5575d758de67"
+    },
+    {
+      "name": "TR3_WaterContainer_JerryCan",
+      "status": "PASS",
+      "triangles": 88,
+      "material_primitives": 2,
+      "size_bytes": 6524,
+      "sha256": "093032cc4e236af10d02b2d20e471632740abf05d91bcd72668a97d2bab55ccc"
+    },
+    {
+      "name": "TR3_WaterContainer_WaterJug",
+      "status": "PASS",
+      "triangles": 160,
+      "material_primitives": 2,
+      "size_bytes": 9256,
+      "sha256": "825151a48580dcc80980dd766829482a9ce4dcc62b4e2ca42f7a72f5de281f3d"
+    }
+  ]
+}

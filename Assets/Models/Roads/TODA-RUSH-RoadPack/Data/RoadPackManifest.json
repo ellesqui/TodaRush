@@ -1,0 +1,580 @@
+{
+  "version": "1.0.0",
+  "coordinate_space": "Unity Y-up, meters; X=east, Y=world elevation, Z=north",
+  "materials": [
+    {
+      "name": "MAT_Road_Residential_Concrete",
+      "baseColor": "Unity_Assets/TODA-RUSH-RoadPack/Textures/MAT_Road_Residential_Concrete_BaseColor.png",
+      "normal": "Unity_Assets/TODA-RUSH-RoadPack/Textures/MAT_Road_Residential_Concrete_Normal.png",
+      "roughness": "Unity_Assets/TODA-RUSH-RoadPack/Textures/MAT_Road_Residential_Concrete_Roughness.png",
+      "ao": "Unity_Assets/TODA-RUSH-RoadPack/Textures/MAT_Road_Residential_Concrete_AO.png",
+      "metallicSmoothness": "Unity_Assets/TODA-RUSH-RoadPack/Textures/MAT_Road_Residential_Concrete_MetallicSmoothness.png",
+      "tileSizeMeters": 4.0
+    },
+    {
+      "name": "MAT_Road_Market_Asphalt",
+      "baseColor": "Unity_Assets/TODA-RUSH-RoadPack/Textures/MAT_Road_Market_Asphalt_BaseColor.png",
+      "normal": "Unity_Assets/TODA-RUSH-RoadPack/Textures/MAT_Road_Market_Asphalt_Normal.png",
+      "roughness": "Unity_Assets/TODA-RUSH-RoadPack/Textures/MAT_Road_Market_Asphalt_Roughness.png",
+      "ao": "Unity_Assets/TODA-RUSH-RoadPack/Textures/MAT_Road_Market_Asphalt_AO.png",
+      "metallicSmoothness": "Unity_Assets/TODA-RUSH-RoadPack/Textures/MAT_Road_Market_Asphalt_MetallicSmoothness.png",
+      "tileSizeMeters": 3.0
+    },
+    {
+      "name": "MAT_Road_Hillside_Gravel",
+      "baseColor": "Unity_Assets/TODA-RUSH-RoadPack/Textures/MAT_Road_Hillside_Gravel_BaseColor.png",
+      "normal": "Unity_Assets/TODA-RUSH-RoadPack/Textures/MAT_Road_Hillside_Gravel_Normal.png",
+      "roughness": "Unity_Assets/TODA-RUSH-RoadPack/Textures/MAT_Road_Hillside_Gravel_Roughness.png",
+      "ao": "Unity_Assets/TODA-RUSH-RoadPack/Textures/MAT_Road_Hillside_Gravel_AO.png",
+      "metallicSmoothness": "Unity_Assets/TODA-RUSH-RoadPack/Textures/MAT_Road_Hillside_Gravel_MetallicSmoothness.png",
+      "tileSizeMeters": 2.5
+    },
+    {
+      "name": "MAT_Road_Hillside_Laterite",
+      "baseColor": "Unity_Assets/TODA-RUSH-RoadPack/Textures/MAT_Road_Hillside_Laterite_BaseColor.png",
+      "normal": "Unity_Assets/TODA-RUSH-RoadPack/Textures/MAT_Road_Hillside_Laterite_Normal.png",
+      "roughness": "Unity_Assets/TODA-RUSH-RoadPack/Textures/MAT_Road_Hillside_Laterite_Roughness.png",
+      "ao": "Unity_Assets/TODA-RUSH-RoadPack/Textures/MAT_Road_Hillside_Laterite_AO.png",
+      "metallicSmoothness": "Unity_Assets/TODA-RUSH-RoadPack/Textures/MAT_Road_Hillside_Laterite_MetallicSmoothness.png",
+      "tileSizeMeters": 2.5
+    },
+    {
+      "name": "MAT_Road_Hillside_Mud",
+      "baseColor": "Unity_Assets/TODA-RUSH-RoadPack/Textures/MAT_Road_Hillside_Mud_BaseColor.png",
+      "normal": "Unity_Assets/TODA-RUSH-RoadPack/Textures/MAT_Road_Hillside_Mud_Normal.png",
+      "roughness": "Unity_Assets/TODA-RUSH-RoadPack/Textures/MAT_Road_Hillside_Mud_Roughness.png",
+      "ao": "Unity_Assets/TODA-RUSH-RoadPack/Textures/MAT_Road_Hillside_Mud_AO.png",
+      "metallicSmoothness": "Unity_Assets/TODA-RUSH-RoadPack/Textures/MAT_Road_Hillside_Mud_MetallicSmoothness.png",
+      "tileSizeMeters": 2.0
+    },
+    {
+      "name": "MAT_Road_Hillside_Rocky",
+      "baseColor": "Unity_Assets/TODA-RUSH-RoadPack/Textures/MAT_Road_Hillside_Rocky_BaseColor.png",
+      "normal": "Unity_Assets/TODA-RUSH-RoadPack/Textures/MAT_Road_Hillside_Rocky_Normal.png",
+      "roughness": "Unity_Assets/TODA-RUSH-RoadPack/Textures/MAT_Road_Hillside_Rocky_Roughness.png",
+      "ao": "Unity_Assets/TODA-RUSH-RoadPack/Textures/MAT_Road_Hillside_Rocky_AO.png",
+      "metallicSmoothness": "Unity_Assets/TODA-RUSH-RoadPack/Textures/MAT_Road_Hillside_Rocky_MetallicSmoothness.png",
+      "tileSizeMeters": 2.0
+    },
+    {
+      "name": "MAT_Sidewalk_Concrete",
+      "baseColor": "Unity_Assets/TODA-RUSH-RoadPack/Textures/MAT_Sidewalk_Concrete_BaseColor.png",
+      "normal": "Unity_Assets/TODA-RUSH-RoadPack/Textures/MAT_Sidewalk_Concrete_Normal.png",
+      "roughness": "Unity_Assets/TODA-RUSH-RoadPack/Textures/MAT_Sidewalk_Concrete_Roughness.png",
+      "ao": "Unity_Assets/TODA-RUSH-RoadPack/Textures/MAT_Sidewalk_Concrete_AO.png",
+      "metallicSmoothness": "Unity_Assets/TODA-RUSH-RoadPack/Textures/MAT_Sidewalk_Concrete_MetallicSmoothness.png",
+      "tileSizeMeters": 2.0
+    },
+    {
+      "name": "MAT_Drain_Concrete",
+      "baseColor": "Unity_Assets/TODA-RUSH-RoadPack/Textures/MAT_Drain_Concrete_BaseColor.png",
+      "normal": "Unity_Assets/TODA-RUSH-RoadPack/Textures/MAT_Drain_Concrete_Normal.png",
+      "roughness": "Unity_Assets/TODA-RUSH-RoadPack/Textures/MAT_Drain_Concrete_Roughness.png",
+      "ao": "Unity_Assets/TODA-RUSH-RoadPack/Textures/MAT_Drain_Concrete_AO.png",
+      "metallicSmoothness": "Unity_Assets/TODA-RUSH-RoadPack/Textures/MAT_Drain_Concrete_MetallicSmoothness.png",
+      "tileSizeMeters": 2.0
+    },
+    {
+      "name": "MAT_RoadMarking_White",
+      "baseColor": "Unity_Assets/TODA-RUSH-RoadPack/Textures/MAT_RoadMarking_White_BaseColor.png",
+      "normal": "Unity_Assets/TODA-RUSH-RoadPack/Textures/MAT_RoadMarking_White_Normal.png",
+      "roughness": "Unity_Assets/TODA-RUSH-RoadPack/Textures/MAT_RoadMarking_White_Roughness.png",
+      "ao": "Unity_Assets/TODA-RUSH-RoadPack/Textures/MAT_RoadMarking_White_AO.png",
+      "metallicSmoothness": "Unity_Assets/TODA-RUSH-RoadPack/Textures/MAT_RoadMarking_White_MetallicSmoothness.png",
+      "tileSizeMeters": 1.0
+    },
+    {
+      "name": "MAT_RoadMarking_Yellow",
+      "baseColor": "Unity_Assets/TODA-RUSH-RoadPack/Textures/MAT_RoadMarking_Yellow_BaseColor.png",
+      "normal": "Unity_Assets/TODA-RUSH-RoadPack/Textures/MAT_RoadMarking_Yellow_Normal.png",
+      "roughness": "Unity_Assets/TODA-RUSH-RoadPack/Textures/MAT_RoadMarking_Yellow_Roughness.png",
+      "ao": "Unity_Assets/TODA-RUSH-RoadPack/Textures/MAT_RoadMarking_Yellow_AO.png",
+      "metallicSmoothness": "Unity_Assets/TODA-RUSH-RoadPack/Textures/MAT_RoadMarking_Yellow_MetallicSmoothness.png",
+      "tileSizeMeters": 1.0
+    },
+    {
+      "name": "MAT_Pothole_Interior",
+      "baseColor": "Unity_Assets/TODA-RUSH-RoadPack/Textures/MAT_Pothole_Interior_BaseColor.png",
+      "normal": "Unity_Assets/TODA-RUSH-RoadPack/Textures/MAT_Pothole_Interior_Normal.png",
+      "roughness": "Unity_Assets/TODA-RUSH-RoadPack/Textures/MAT_Pothole_Interior_Roughness.png",
+      "ao": "Unity_Assets/TODA-RUSH-RoadPack/Textures/MAT_Pothole_Interior_AO.png",
+      "metallicSmoothness": "Unity_Assets/TODA-RUSH-RoadPack/Textures/MAT_Pothole_Interior_MetallicSmoothness.png",
+      "tileSizeMeters": 1.0
+    },
+    {
+      "name": "MAT_Wet_Puddle",
+      "baseColor": "Unity_Assets/TODA-RUSH-RoadPack/Textures/MAT_Wet_Puddle_BaseColor.png",
+      "normal": "Unity_Assets/TODA-RUSH-RoadPack/Textures/MAT_Wet_Puddle_Normal.png",
+      "roughness": "Unity_Assets/TODA-RUSH-RoadPack/Textures/MAT_Wet_Puddle_Roughness.png",
+      "ao": "Unity_Assets/TODA-RUSH-RoadPack/Textures/MAT_Wet_Puddle_AO.png",
+      "metallicSmoothness": "Unity_Assets/TODA-RUSH-RoadPack/Textures/MAT_Wet_Puddle_MetallicSmoothness.png",
+      "tileSizeMeters": 1.0
+    }
+  ],
+  "road_objects": [
+    {
+      "name": "RD-ROAD-006",
+      "kind": "road",
+      "material": "MAT_Road_Residential_Concrete",
+      "modelPath": "Unity_Assets/TODA-RUSH-RoadPack/Models/RoadNetwork/Segments/RD-ROAD-006.obj"
+    },
+    {
+      "name": "RD-ROAD-007",
+      "kind": "road",
+      "material": "MAT_Road_Residential_Concrete",
+      "modelPath": "Unity_Assets/TODA-RUSH-RoadPack/Models/RoadNetwork/Segments/RD-ROAD-007.obj"
+    },
+    {
+      "name": "RD-ROAD-009",
+      "kind": "road",
+      "material": "MAT_Road_Residential_Concrete",
+      "modelPath": "Unity_Assets/TODA-RUSH-RoadPack/Models/RoadNetwork/Segments/RD-ROAD-009.obj"
+    },
+    {
+      "name": "RD-ROAD-010",
+      "kind": "road",
+      "material": "MAT_Road_Residential_Concrete",
+      "modelPath": "Unity_Assets/TODA-RUSH-RoadPack/Models/RoadNetwork/Segments/RD-ROAD-010.obj"
+    },
+    {
+      "name": "RD-ROAD-011",
+      "kind": "road",
+      "material": "MAT_Road_Residential_Concrete",
+      "modelPath": "Unity_Assets/TODA-RUSH-RoadPack/Models/RoadNetwork/Segments/RD-ROAD-011.obj"
+    },
+    {
+      "name": "RD-ROAD-012",
+      "kind": "road",
+      "material": "MAT_Road_Residential_Concrete",
+      "modelPath": "Unity_Assets/TODA-RUSH-RoadPack/Models/RoadNetwork/Segments/RD-ROAD-012.obj"
+    },
+    {
+      "name": "RD-ROAD-013",
+      "kind": "road",
+      "material": "MAT_Road_Residential_Concrete",
+      "modelPath": "Unity_Assets/TODA-RUSH-RoadPack/Models/RoadNetwork/Segments/RD-ROAD-013.obj"
+    },
+    {
+      "name": "RD-ROAD-016",
+      "kind": "road",
+      "material": "MAT_Road_Residential_Concrete",
+      "modelPath": "Unity_Assets/TODA-RUSH-RoadPack/Models/RoadNetwork/Segments/RD-ROAD-016.obj"
+    },
+    {
+      "name": "RD-ROAD-017",
+      "kind": "road",
+      "material": "MAT_Road_Residential_Concrete",
+      "modelPath": "Unity_Assets/TODA-RUSH-RoadPack/Models/RoadNetwork/Segments/RD-ROAD-017.obj"
+    },
+    {
+      "name": "RD-ROAD-019",
+      "kind": "road",
+      "material": "MAT_Road_Residential_Concrete",
+      "modelPath": "Unity_Assets/TODA-RUSH-RoadPack/Models/RoadNetwork/Segments/RD-ROAD-019.obj"
+    },
+    {
+      "name": "RD-ROAD-020",
+      "kind": "road",
+      "material": "MAT_Road_Residential_Concrete",
+      "modelPath": "Unity_Assets/TODA-RUSH-RoadPack/Models/RoadNetwork/Segments/RD-ROAD-020.obj"
+    },
+    {
+      "name": "RD-ROAD-021",
+      "kind": "road",
+      "material": "MAT_Road_Residential_Concrete",
+      "modelPath": "Unity_Assets/TODA-RUSH-RoadPack/Models/RoadNetwork/Segments/RD-ROAD-021.obj"
+    },
+    {
+      "name": "RD-ROAD-023",
+      "kind": "road",
+      "material": "MAT_Road_Residential_Concrete",
+      "modelPath": "Unity_Assets/TODA-RUSH-RoadPack/Models/RoadNetwork/Segments/RD-ROAD-023.obj"
+    },
+    {
+      "name": "RD-ROAD-024",
+      "kind": "road",
+      "material": "MAT_Road_Residential_Concrete",
+      "modelPath": "Unity_Assets/TODA-RUSH-RoadPack/Models/RoadNetwork/Segments/RD-ROAD-024.obj"
+    },
+    {
+      "name": "RD-ROAD-025",
+      "kind": "road",
+      "material": "MAT_Road_Residential_Concrete",
+      "modelPath": "Unity_Assets/TODA-RUSH-RoadPack/Models/RoadNetwork/Segments/RD-ROAD-025.obj"
+    },
+    {
+      "name": "RD-ROAD-026",
+      "kind": "road",
+      "material": "MAT_Road_Residential_Concrete",
+      "modelPath": "Unity_Assets/TODA-RUSH-RoadPack/Models/RoadNetwork/Segments/RD-ROAD-026.obj"
+    },
+    {
+      "name": "RD-ROAD-004",
+      "kind": "road",
+      "material": "MAT_Road_Market_Asphalt",
+      "modelPath": "Unity_Assets/TODA-RUSH-RoadPack/Models/RoadNetwork/Segments/RD-ROAD-004.obj"
+    },
+    {
+      "name": "RD-ROAD-005",
+      "kind": "road",
+      "material": "MAT_Road_Market_Asphalt",
+      "modelPath": "Unity_Assets/TODA-RUSH-RoadPack/Models/RoadNetwork/Segments/RD-ROAD-005.obj"
+    },
+    {
+      "name": "RD-ROAD-008",
+      "kind": "road",
+      "material": "MAT_Road_Market_Asphalt",
+      "modelPath": "Unity_Assets/TODA-RUSH-RoadPack/Models/RoadNetwork/Segments/RD-ROAD-008.obj"
+    },
+    {
+      "name": "RD-ROAD-015",
+      "kind": "road",
+      "material": "MAT_Road_Market_Asphalt",
+      "modelPath": "Unity_Assets/TODA-RUSH-RoadPack/Models/RoadNetwork/Segments/RD-ROAD-015.obj"
+    },
+    {
+      "name": "RD-ROAD-018",
+      "kind": "road",
+      "material": "MAT_Road_Market_Asphalt",
+      "modelPath": "Unity_Assets/TODA-RUSH-RoadPack/Models/RoadNetwork/Segments/RD-ROAD-018.obj"
+    },
+    {
+      "name": "RD-ROAD-022",
+      "kind": "road",
+      "material": "MAT_Road_Market_Asphalt",
+      "modelPath": "Unity_Assets/TODA-RUSH-RoadPack/Models/RoadNetwork/Segments/RD-ROAD-022.obj"
+    },
+    {
+      "name": "RD-ROAD-027",
+      "kind": "road",
+      "material": "MAT_Road_Market_Asphalt",
+      "modelPath": "Unity_Assets/TODA-RUSH-RoadPack/Models/RoadNetwork/Segments/RD-ROAD-027.obj"
+    },
+    {
+      "name": "RD-ROAD-001",
+      "kind": "road",
+      "material": "MAT_Road_Hillside_Gravel",
+      "modelPath": "Unity_Assets/TODA-RUSH-RoadPack/Models/RoadNetwork/Segments/RD-ROAD-001.obj"
+    },
+    {
+      "name": "RD-ROAD-002",
+      "kind": "road",
+      "material": "MAT_Road_Hillside_Gravel",
+      "modelPath": "Unity_Assets/TODA-RUSH-RoadPack/Models/RoadNetwork/Segments/RD-ROAD-002.obj"
+    },
+    {
+      "name": "RD-ROAD-003",
+      "kind": "road",
+      "material": "MAT_Road_Hillside_Gravel",
+      "modelPath": "Unity_Assets/TODA-RUSH-RoadPack/Models/RoadNetwork/Segments/RD-ROAD-003.obj"
+    },
+    {
+      "name": "RD-ROAD-014",
+      "kind": "road",
+      "material": "MAT_Road_Hillside_Gravel",
+      "modelPath": "Unity_Assets/TODA-RUSH-RoadPack/Models/RoadNetwork/Segments/RD-ROAD-014.obj"
+    },
+    {
+      "name": "RD-ROAD-028",
+      "kind": "road",
+      "material": "MAT_Road_Hillside_Gravel",
+      "modelPath": "Unity_Assets/TODA-RUSH-RoadPack/Models/RoadNetwork/Segments/RD-ROAD-028.obj"
+    },
+    {
+      "name": "INT-J-001",
+      "kind": "junction",
+      "material": "MAT_Road_Residential_Concrete",
+      "modelPath": "Unity_Assets/TODA-RUSH-RoadPack/Models/RoadNetwork/Junctions/INT-J-001.obj"
+    },
+    {
+      "name": "INT-J-002",
+      "kind": "junction",
+      "material": "MAT_Road_Residential_Concrete",
+      "modelPath": "Unity_Assets/TODA-RUSH-RoadPack/Models/RoadNetwork/Junctions/INT-J-002.obj"
+    },
+    {
+      "name": "INT-J-003",
+      "kind": "junction",
+      "material": "MAT_Road_Residential_Concrete",
+      "modelPath": "Unity_Assets/TODA-RUSH-RoadPack/Models/RoadNetwork/Junctions/INT-J-003.obj"
+    },
+    {
+      "name": "INT-J-004",
+      "kind": "junction",
+      "material": "MAT_Road_Residential_Concrete",
+      "modelPath": "Unity_Assets/TODA-RUSH-RoadPack/Models/RoadNetwork/Junctions/INT-J-004.obj"
+    },
+    {
+      "name": "INT-J-005",
+      "kind": "junction",
+      "material": "MAT_Road_Hillside_Gravel",
+      "modelPath": "Unity_Assets/TODA-RUSH-RoadPack/Models/RoadNetwork/Junctions/INT-J-005.obj"
+    },
+    {
+      "name": "INT-J-006",
+      "kind": "junction",
+      "material": "MAT_Road_Residential_Concrete",
+      "modelPath": "Unity_Assets/TODA-RUSH-RoadPack/Models/RoadNetwork/Junctions/INT-J-006.obj"
+    },
+    {
+      "name": "INT-J-007",
+      "kind": "junction",
+      "material": "MAT_Road_Market_Asphalt",
+      "modelPath": "Unity_Assets/TODA-RUSH-RoadPack/Models/RoadNetwork/Junctions/INT-J-007.obj"
+    },
+    {
+      "name": "INT-J-008",
+      "kind": "junction",
+      "material": "MAT_Road_Market_Asphalt",
+      "modelPath": "Unity_Assets/TODA-RUSH-RoadPack/Models/RoadNetwork/Junctions/INT-J-008.obj"
+    },
+    {
+      "name": "INT-J-009",
+      "kind": "junction",
+      "material": "MAT_Road_Hillside_Gravel",
+      "modelPath": "Unity_Assets/TODA-RUSH-RoadPack/Models/RoadNetwork/Junctions/INT-J-009.obj"
+    },
+    {
+      "name": "INT-J-010",
+      "kind": "junction",
+      "material": "MAT_Road_Residential_Concrete",
+      "modelPath": "Unity_Assets/TODA-RUSH-RoadPack/Models/RoadNetwork/Junctions/INT-J-010.obj"
+    },
+    {
+      "name": "INT-J-011",
+      "kind": "junction",
+      "material": "MAT_Road_Market_Asphalt",
+      "modelPath": "Unity_Assets/TODA-RUSH-RoadPack/Models/RoadNetwork/Junctions/INT-J-011.obj"
+    },
+    {
+      "name": "INT-J-012",
+      "kind": "junction",
+      "material": "MAT_Road_Market_Asphalt",
+      "modelPath": "Unity_Assets/TODA-RUSH-RoadPack/Models/RoadNetwork/Junctions/INT-J-012.obj"
+    },
+    {
+      "name": "INT-J-013",
+      "kind": "junction",
+      "material": "MAT_Road_Residential_Concrete",
+      "modelPath": "Unity_Assets/TODA-RUSH-RoadPack/Models/RoadNetwork/Junctions/INT-J-013.obj"
+    },
+    {
+      "name": "INT-J-014",
+      "kind": "junction",
+      "material": "MAT_Road_Residential_Concrete",
+      "modelPath": "Unity_Assets/TODA-RUSH-RoadPack/Models/RoadNetwork/Junctions/INT-J-014.obj"
+    },
+    {
+      "name": "INT-J-015",
+      "kind": "junction",
+      "material": "MAT_Road_Residential_Concrete",
+      "modelPath": "Unity_Assets/TODA-RUSH-RoadPack/Models/RoadNetwork/Junctions/INT-J-015.obj"
+    },
+    {
+      "name": "INT-J-016",
+      "kind": "junction",
+      "material": "MAT_Road_Residential_Concrete",
+      "modelPath": "Unity_Assets/TODA-RUSH-RoadPack/Models/RoadNetwork/Junctions/INT-J-016.obj"
+    },
+    {
+      "name": "INT-J-017",
+      "kind": "junction",
+      "material": "MAT_Road_Market_Asphalt",
+      "modelPath": "Unity_Assets/TODA-RUSH-RoadPack/Models/RoadNetwork/Junctions/INT-J-017.obj"
+    },
+    {
+      "name": "INT-J-018",
+      "kind": "junction",
+      "material": "MAT_Road_Market_Asphalt",
+      "modelPath": "Unity_Assets/TODA-RUSH-RoadPack/Models/RoadNetwork/Junctions/INT-J-018.obj"
+    },
+    {
+      "name": "INT-J-019",
+      "kind": "junction",
+      "material": "MAT_Road_Market_Asphalt",
+      "modelPath": "Unity_Assets/TODA-RUSH-RoadPack/Models/RoadNetwork/Junctions/INT-J-019.obj"
+    }
+  ],
+  "accessories": [
+    {
+      "name": "RES_Sidewalk_Straight_2m",
+      "category": "Residential",
+      "material": "MAT_Sidewalk_Concrete",
+      "modelPath": "Unity_Assets/TODA-RUSH-RoadPack/Models/Accessories/Residential/RES_Sidewalk_Straight_2m.obj"
+    },
+    {
+      "name": "RES_Sidewalk_Corner_2m",
+      "category": "Residential",
+      "material": "MAT_Sidewalk_Concrete",
+      "modelPath": "Unity_Assets/TODA-RUSH-RoadPack/Models/Accessories/Residential/RES_Sidewalk_Corner_2m.obj"
+    },
+    {
+      "name": "RES_OpenDrain_V_2m",
+      "category": "Residential",
+      "material": "MAT_Drain_Concrete",
+      "modelPath": "Unity_Assets/TODA-RUSH-RoadPack/Models/Accessories/Residential/RES_OpenDrain_V_2m.obj"
+    },
+    {
+      "name": "RES_DrainCover_0p65m",
+      "category": "Residential",
+      "material": "MAT_Drain_Concrete",
+      "modelPath": "Unity_Assets/TODA-RUSH-RoadPack/Models/Accessories/Residential/RES_DrainCover_0p65m.obj"
+    },
+    {
+      "name": "RES_SpeedHump_4p5m",
+      "category": "Residential",
+      "material": "MAT_Road_Residential_Concrete",
+      "modelPath": "Unity_Assets/TODA-RUSH-RoadPack/Models/Accessories/Residential/RES_SpeedHump_4p5m.obj"
+    },
+    {
+      "name": "RES_DrivewayTransition_2m",
+      "category": "Residential",
+      "material": "MAT_Sidewalk_Concrete",
+      "modelPath": "Unity_Assets/TODA-RUSH-RoadPack/Models/Accessories/Residential/RES_DrivewayTransition_2m.obj"
+    },
+    {
+      "name": "RES_PavementPatch_1m",
+      "category": "Residential",
+      "material": "MAT_Road_Residential_Concrete",
+      "modelPath": "Unity_Assets/TODA-RUSH-RoadPack/Models/Accessories/Residential/RES_PavementPatch_1m.obj"
+    },
+    {
+      "name": "RES_Manhole_0p84m",
+      "category": "Residential",
+      "material": "MAT_Drain_Concrete",
+      "modelPath": "Unity_Assets/TODA-RUSH-RoadPack/Models/Accessories/Residential/RES_Manhole_0p84m.obj"
+    },
+    {
+      "name": "MKT_Sidewalk_Straight_2m",
+      "category": "Market",
+      "material": "MAT_Sidewalk_Concrete",
+      "modelPath": "Unity_Assets/TODA-RUSH-RoadPack/Models/Accessories/Market/MKT_Sidewalk_Straight_2m.obj"
+    },
+    {
+      "name": "MKT_ZebraCrossing_8m",
+      "category": "Market",
+      "material": "MAT_RoadMarking_White",
+      "modelPath": "Unity_Assets/TODA-RUSH-RoadPack/Models/Accessories/Market/MKT_ZebraCrossing_8m.obj"
+    },
+    {
+      "name": "MKT_TricycleWaitingBay_Markings",
+      "category": "Market",
+      "material": "MAT_RoadMarking_Yellow",
+      "modelPath": "Unity_Assets/TODA-RUSH-RoadPack/Models/Accessories/Market/MKT_TricycleWaitingBay_Markings.obj"
+    },
+    {
+      "name": "MKT_LoadingApron_3x6m",
+      "category": "Market",
+      "material": "MAT_Sidewalk_Concrete",
+      "modelPath": "Unity_Assets/TODA-RUSH-RoadPack/Models/Accessories/Market/MKT_LoadingApron_3x6m.obj"
+    },
+    {
+      "name": "MKT_SpeedTable_8m",
+      "category": "Market",
+      "material": "MAT_Road_Market_Asphalt",
+      "modelPath": "Unity_Assets/TODA-RUSH-RoadPack/Models/Accessories/Market/MKT_SpeedTable_8m.obj"
+    },
+    {
+      "name": "MKT_CurbRamp_1p5m",
+      "category": "Market",
+      "material": "MAT_Sidewalk_Concrete",
+      "modelPath": "Unity_Assets/TODA-RUSH-RoadPack/Models/Accessories/Market/MKT_CurbRamp_1p5m.obj"
+    },
+    {
+      "name": "MKT_TactilePaving_0p6m",
+      "category": "Market",
+      "material": "MAT_RoadMarking_Yellow",
+      "modelPath": "Unity_Assets/TODA-RUSH-RoadPack/Models/Accessories/Market/MKT_TactilePaving_0p6m.obj"
+    },
+    {
+      "name": "HILL_VDrain_2m",
+      "category": "Hillside",
+      "material": "MAT_Drain_Concrete",
+      "modelPath": "Unity_Assets/TODA-RUSH-RoadPack/Models/Accessories/Hillside/HILL_VDrain_2m.obj"
+    },
+    {
+      "name": "HILL_CulvertHeadwall_2m",
+      "category": "Hillside",
+      "material": "MAT_Drain_Concrete",
+      "modelPath": "Unity_Assets/TODA-RUSH-RoadPack/Models/Accessories/Hillside/HILL_CulvertHeadwall_2m.obj"
+    },
+    {
+      "name": "HILL_RetainingWall_4m",
+      "category": "Hillside",
+      "material": "MAT_Drain_Concrete",
+      "modelPath": "Unity_Assets/TODA-RUSH-RoadPack/Models/Accessories/Hillside/HILL_RetainingWall_4m.obj"
+    },
+    {
+      "name": "HILL_Gabion_3m",
+      "category": "Hillside",
+      "material": "MAT_Road_Hillside_Rocky",
+      "modelPath": "Unity_Assets/TODA-RUSH-RoadPack/Models/Accessories/Hillside/HILL_Gabion_3m.obj"
+    },
+    {
+      "name": "HILL_Guardrail_4m",
+      "category": "Hillside",
+      "material": "MAT_Drain_Concrete",
+      "modelPath": "Unity_Assets/TODA-RUSH-RoadPack/Models/Accessories/Hillside/HILL_Guardrail_4m.obj"
+    },
+    {
+      "name": "HILL_RockShoulder_Cluster",
+      "category": "Hillside",
+      "material": "MAT_Road_Hillside_Rocky",
+      "modelPath": "Unity_Assets/TODA-RUSH-RoadPack/Models/Accessories/Hillside/HILL_RockShoulder_Cluster.obj"
+    },
+    {
+      "name": "HILL_MuddyRoadPatch_2p2m",
+      "category": "Hillside",
+      "material": "MAT_Road_Hillside_Mud",
+      "modelPath": "Unity_Assets/TODA-RUSH-RoadPack/Models/Accessories/Hillside/HILL_MuddyRoadPatch_2p2m.obj"
+    },
+    {
+      "name": "HILL_Puddle_1p7m",
+      "category": "Hillside",
+      "material": "MAT_Wet_Puddle",
+      "modelPath": "Unity_Assets/TODA-RUSH-RoadPack/Models/Accessories/Hillside/HILL_Puddle_1p7m.obj"
+    },
+    {
+      "name": "HILL_GravelShoulder_2m",
+      "category": "Hillside",
+      "material": "MAT_Road_Hillside_Gravel",
+      "modelPath": "Unity_Assets/TODA-RUSH-RoadPack/Models/Accessories/Hillside/HILL_GravelShoulder_2m.obj"
+    },
+    {
+      "name": "SH_Pothole_1p1m",
+      "category": "Shared",
+      "material": "MAT_Pothole_Interior",
+      "modelPath": "Unity_Assets/TODA-RUSH-RoadPack/Models/Accessories/Shared/SH_Pothole_1p1m.obj"
+    },
+    {
+      "name": "SH_RoadPatch_1m",
+      "category": "Shared",
+      "material": "MAT_Road_Market_Asphalt",
+      "modelPath": "Unity_Assets/TODA-RUSH-RoadPack/Models/Accessories/Shared/SH_RoadPatch_1m.obj"
+    },
+    {
+      "name": "SH_Manhole_0p84m",
+      "category": "Shared",
+      "material": "MAT_Drain_Concrete",
+      "modelPath": "Unity_Assets/TODA-RUSH-RoadPack/Models/Accessories/Shared/SH_Manhole_0p84m.obj"
+    },
+    {
+      "name": "SH_DrainCover_0p65m",
+      "category": "Shared",
+      "material": "MAT_Drain_Concrete",
+      "modelPath": "Unity_Assets/TODA-RUSH-RoadPack/Models/Accessories/Shared/SH_DrainCover_0p65m.obj"
+    },
+    {
+      "name": "SH_Puddle_1p7m",
+      "category": "Shared",
+      "material": "MAT_Wet_Puddle",
+      "modelPath": "Unity_Assets/TODA-RUSH-RoadPack/Models/Accessories/Shared/SH_Puddle_1p7m.obj"
+    },
+    {
+      "name": "SH_RoadsideSign_0p65m",
+      "category": "Shared",
+      "material": "MAT_RoadMarking_White",
+      "modelPath": "Unity_Assets/TODA-RUSH-RoadPack/Models/Accessories/Shared/SH_RoadsideSign_0p65m.obj"
+    }
+  ]
+}

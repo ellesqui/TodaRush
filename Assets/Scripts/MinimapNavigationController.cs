@@ -5,6 +5,7 @@ using UnityEngine.AI;
 // - ORANGE: player -> active passenger's destination (during deliveries).
 // - BLUE: player -> TODA Terminal (after all passengers are delivered).
 // Attach to the Player object. Route uses the baked minimap NavMesh (NavMesh-Roads).
+// Also drives the minimap camera: it follows the Player's XZ position and rotates so the Player's heading points to the top of the minimap.
 public class MinimapNavigationController : MonoBehaviour
 {
     [Header("Route Display")]
@@ -44,6 +45,35 @@ public class MinimapNavigationController : MonoBehaviour
     [Tooltip("Maximum distance from the destination to the road NavMesh.")]
     public float destinationSampleDistance = 1f;
 
+    [Header("Heading-Up Minimap Camera")]
+    [Tooltip("The production minimap camera (MinimapRedesignUICamera). Left empty, it is found by name.")]
+    public Camera minimapCamera;
+
+    [Tooltip("When on, the minimap camera follows the Player's XZ position and rotates with the Player's heading.")]
+    public bool followMinimapCamera = true;
+
+    [Tooltip("Fixed world height of the minimap camera. Keep it above the flattened road plane (Y 100.2). Used only in top-down orthographic mode.")]
+    public float minimapCameraHeight = 500f;
+
+    [Tooltip("Orthographic size of the minimap camera. Smaller values zoom in. Used only in top-down orthographic mode.")]
+    public float minimapOrthoSize = 55f;
+
+    [Header("Tilted Perspective Minimap")]
+    [Tooltip("When on, the minimap uses a tilted Perspective camera instead of straight top-down orthographic.")]
+    public bool usePerspectiveMinimap = true;
+
+    [Tooltip("Field of view of the tilted minimap camera, in degrees.")]
+    public float minimapFieldOfView = 50f;
+
+    [Tooltip("World Y of the minimap map plane. The camera height is measured from this plane, not from the Player's Y.")]
+    public float minimapMapPlaneY = 100.5f;
+
+    [Tooltip("Camera height above the minimap map plane.")]
+    public float minimapTiltHeight = 80f;
+
+    [Tooltip("How far the camera sits behind the Player (along the Player's horizontal backward direction).")]
+    public float minimapBackOffset = 55f;
+
     private NavMeshPath path;
     private float timer;
     private bool[] staticLineWasEnabled;
@@ -58,6 +88,29 @@ public class MinimapNavigationController : MonoBehaviour
         if (gameManager == null)
         {
             gameManager = FindAnyObjectByType<GameManager>();
+        }
+
+        if (minimapCamera == null)
+        {
+            GameObject cameraObject = GameObject.Find("MinimapRedesignUICamera");
+            if (cameraObject != null)
+            {
+                minimapCamera = cameraObject.GetComponent<Camera>();
+            }
+        }
+
+        if (minimapCamera != null && followMinimapCamera)
+        {
+            if (usePerspectiveMinimap)
+            {
+                minimapCamera.orthographic = false;
+                minimapCamera.fieldOfView = minimapFieldOfView;
+            }
+            else
+            {
+                minimapCamera.orthographic = true;
+                minimapCamera.orthographicSize = minimapOrthoSize;
+            }
         }
 
         // Guard against an unassigned array in the Inspector.
@@ -108,6 +161,38 @@ public class MinimapNavigationController : MonoBehaviour
 
         timer = 0f;
         RefreshRoute();
+    }
+
+    // Runs after all Player movement for the frame, so the minimap camera follows the vehicle without lag.
+    void LateUpdate()
+    {
+        if (!followMinimapCamera || minimapCamera == null)
+        {
+            return;
+        }
+
+        // Heading on the horizontal plane. The camera's screen-up will point along it.
+        Vector3 playerForward = Vector3.ProjectOnPlane(transform.forward, Vector3.up);
+        if (playerForward.sqrMagnitude < 0.0001f)
+        {
+            return;
+        }
+        playerForward.Normalize();
+
+        if (usePerspectiveMinimap)
+        {
+            // Tilted view: target is the Player's XZ on the minimap map plane.
+            // The camera sits above and behind the Player, then looks at the target with the Player's heading as screen-up.
+            Vector3 target = new Vector3(transform.position.x, minimapMapPlaneY, transform.position.z);
+            Vector3 cameraPosition = target + Vector3.up * minimapTiltHeight - playerForward * minimapBackOffset;
+            Vector3 lookDirection = target - cameraPosition;
+            minimapCamera.transform.SetPositionAndRotation(cameraPosition, Quaternion.LookRotation(lookDirection, playerForward));
+            return;
+        }
+
+        // Top-down orthographic: centered on the Player's XZ, at a fixed height.
+        Vector3 topDownPosition = new Vector3(transform.position.x, minimapCameraHeight, transform.position.z);
+        minimapCamera.transform.SetPositionAndRotation(topDownPosition, Quaternion.LookRotation(Vector3.down, playerForward));
     }
 
     void RefreshRoute()

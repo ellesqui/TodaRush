@@ -1,0 +1,143 @@
+newmtl MAT_Road_Residential_Concrete
+Ka 0.35 0.35 0.35
+Kd 1.0 1.0 1.0
+Ks 0.05 0.05 0.05
+Ns 40.0
+d 1.0
+illum 2
+map_Kd ../../Textures/MAT_Road_Residential_Concrete_BaseColor.png
+map_Bump -bm 0.35 ../../Textures/MAT_Road_Residential_Concrete_Normal.png
+# Roughness map: ../../Textures/MAT_Road_Residential_Concrete_Roughness.png
+# AO map: ../../Textures/MAT_Road_Residential_Concrete_AO.png
+
+newmtl MAT_Road_Market_Asphalt
+Ka 0.35 0.35 0.35
+Kd 1.0 1.0 1.0
+Ks 0.05 0.05 0.05
+Ns 40.0
+d 1.0
+illum 2
+map_Kd ../../Textures/MAT_Road_Market_Asphalt_BaseColor.png
+map_Bump -bm 0.35 ../../Textures/MAT_Road_Market_Asphalt_Normal.png
+# Roughness map: ../../Textures/MAT_Road_Market_Asphalt_Roughness.png
+# AO map: ../../Textures/MAT_Road_Market_Asphalt_AO.png
+
+newmtl MAT_Road_Hillside_Gravel
+Ka 0.35 0.35 0.35
+Kd 1.0 1.0 1.0
+Ks 0.05 0.05 0.05
+Ns 40.0
+d 1.0
+illum 2
+map_Kd ../../Textures/MAT_Road_Hillside_Gravel_BaseColor.png
+map_Bump -bm 0.35 ../../Textures/MAT_Road_Hillside_Gravel_Normal.png
+# Roughness map: ../../Textures/MAT_Road_Hillside_Gravel_Roughness.png
+# AO map: ../../Textures/MAT_Road_Hillside_Gravel_AO.png
+
+newmtl MAT_Road_Hillside_Laterite
+Ka 0.35 0.35 0.35
+Kd 1.0 1.0 1.0
+Ks 0.05 0.05 0.05
+Ns 40.0
+d 1.0
+illum 2
+map_Kd ../../Textures/MAT_Road_Hillside_Laterite_BaseColor.png
+map_Bump -bm 0.35 ../../Textures/MAT_Road_Hillside_Laterite_Normal.png
+# Roughness map: ../../Textures/MAT_Road_Hillside_Laterite_Roughness.png
+# AO map: ../../Textures/MAT_Road_Hillside_Laterite_AO.png
+
+newmtl MAT_Road_Hillside_Mud
+Ka 0.35 0.35 0.35
+Kd 1.0 1.0 1.0
+Ks 0.05 0.05 0.05
+Ns 40.0
+d 1.0
+illum 2
+map_Kd ../../Textures/MAT_Road_Hillside_Mud_BaseColor.png
+map_Bump -bm 0.35 ../../Textures/MAT_Road_Hillside_Mud_Normal.png
+# Roughness map: ../../Textures/MAT_Road_Hillside_Mud_Roughness.png
+# AO map: ../../Textures/MAT_Road_Hillside_Mud_AO.png
+
+newmtl MAT_Road_Hillside_Rocky
+Ka 0.35 0.35 0.35
+Kd 1.0 1.0 1.0
+Ks 0.05 0.05 0.05
+Ns 40.0
+d 1.0
+illum 2
+map_Kd ../../Textures/MAT_Road_Hillside_Rocky_BaseColor.png
+map_Bump -bm 0.35 ../../Textures/MAT_Road_Hillside_Rocky_Normal.png
+# Roughness map: ../../Textures/MAT_Road_Hillside_Rocky_Roughness.png
+# AO map: ../../Textures/MAT_Road_Hillside_Rocky_AO.png
+
+newmtl MAT_Sidewalk_Concrete
+Ka 0.35 0.35 0.35
+Kd 1.0 1.0 1.0
+Ks 0.05 0.05 0.05
+Ns 40.0
+d 1.0
+illum 2
+map_Kd ../../Textures/MAT_Sidewalk_Concrete_BaseColor.png
+map_Bump -bm 0.35 ../../Textures/MAT_Sidewalk_Concrete_Normal.png
+# Roughness map: ../../Textures/MAT_Sidewalk_Concrete_Roughness.png
+# AO map: ../../Textures/MAT_Sidewalk_Concrete_AO.png
+
+newmtl MAT_Drain_Concrete
+Ka 0.35 0.35 0.35
+Kd 1.0 1.0 1.0
+Ks 0.05 0.05 0.05
+Ns 40.0
+d 1.0
+illum 2
+map_Kd ../../Textures/MAT_Drain_Concrete_BaseColor.png
+map_Bump -bm 0.35 ../../Textures/MAT_Drain_Concrete_Normal.png
+# Roughness map: ../../Textures/MAT_Drain_Concrete_Roughness.png
+# AO map: ../../Textures/MAT_Drain_Concrete_AO.png
+
+newmtl MAT_RoadMarking_White
+Ka 0.35 0.35 0.35
+Kd 1.0 1.0 1.0
+Ks 0.05 0.05 0.05
+Ns 40.0
+d 1.0
+illum 2
+map_Kd ../../Textures/MAT_RoadMarking_White_BaseColor.png
+map_Bump -bm 0.35 ../../Textures/MAT_RoadMarking_White_Normal.png
+# Roughness map: ../../Textures/MAT_RoadMarking_White_Roughness.png
+# AO map: ../../Textures/MAT_RoadMarking_White_AO.png
+
+newmtl MAT_RoadMarking_Yellow
+Ka 0.35 0.35 0.35
+Kd 1.0 1.0 1.0
+Ks 0.05 0.05 0.05
+Ns 40.0
+d 1.0
+illum 2
+map_Kd ../../Textures/MAT_RoadMarking_Yellow_BaseColor.png
+map_Bump -bm 0.35 ../../Textures/MAT_RoadMarking_Yellow_Normal.png
+# Roughness map: ../../Textures/MAT_RoadMarking_Yellow_Roughness.png
+# AO map: ../../Textures/MAT_RoadMarking_Yellow_AO.png
+
+newmtl MAT_Pothole_Interior
+Ka 0.35 0.35 0.35
+Kd 1.0 1.0 1.0
+Ks 0.05 0.05 0.05
+Ns 40.0
+d 1.0
+illum 2
+map_Kd ../../Textures/MAT_Pothole_Interior_BaseColor.png
+map_Bump -bm 0.35 ../../Textures/MAT_Pothole_Interior_Normal.png
+# Roughness map: ../../Textures/MAT_Pothole_Interior_Roughness.png
+# AO map: ../../Textures/MAT_Pothole_Interior_AO.png
+
+newmtl MAT_Wet_Puddle
+Ka 0.35 0.35 0.35
+Kd 1.0 1.0 1.0
+Ks 0.05 0.05 0.05
+Ns 40.0
+d 1.0
+illum 2
+map_Kd ../../Textures/MAT_Wet_Puddle_BaseColor.png
+map_Bump -bm 0.35 ../../Textures/MAT_Wet_Puddle_Normal.png
+# Roughness map: ../../Textures/MAT_Wet_Puddle_Roughness.png
+# AO map: ../../Textures/MAT_Wet_Puddle_AO.png

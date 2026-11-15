@@ -1,0 +1,215 @@
+{
+ "coordinate_space": "Blender world, Z up, meters",
+ "junction_count": 19,
+ "junctions": [
+  {
+   "id": "INT-J-001",
+   "zone_provisional": "RESIDENTIAL",
+   "center_world_xyz": [
+    15.82,
+    -48.633,
+    160.721
+   ],
+   "radius_m": 3.0,
+   "material": "MAT_Road_Residential_Concrete"
+  },
+  {
+   "id": "INT-J-002",
+   "zone_provisional": "RESIDENTIAL",
+   "center_world_xyz": [
+    18.164,
+    -81.445,
+    160.721
+   ],
+   "radius_m": 3.0,
+   "material": "MAT_Road_Residential_Concrete"
+  },
+  {
+   "id": "INT-J-003",
+   "zone_provisional": "RESIDENTIAL",
+   "center_world_xyz": [
+    25.195,
+    59.18,
+    132.443
+   ],
+   "radius_m": 3.003,
+   "material": "MAT_Road_Residential_Concrete"
+  },
+  {
+   "id": "INT-J-004",
+   "zone_provisional": "RESIDENTIAL",
+   "center_world_xyz": [
+    28.711,
+    59.18,
+    132.59
+   ],
+   "radius_m": 3.003,
+   "material": "MAT_Road_Residential_Concrete"
+  },
+  {
+   "id": "INT-J-005",
+   "zone_provisional": "HILLSIDE",
+   "center_world_xyz": [
+    181.055,
+    182.227,
+    237.521
+   ],
+   "radius_m": 3.0,
+   "material": "MAT_Road_Hillside_Gravel"
+  },
+  {
+   "id": "INT-J-006",
+   "zone_provisional": "RESIDENTIAL",
+   "center_world_xyz": [
+    39.258,
+    99.023,
+    132.528
+   ],
+   "radius_m": 3.004,
+   "material": "MAT_Road_Residential_Concrete"
+  },
+  {
+   "id": "INT-J-007",
+   "zone_provisional": "MARKET",
+   "center_world_xyz": [
+    200.977,
+    31.055,
+    172.954
+   ],
+   "radius_m": 5.0,
+   "material": "MAT_Road_Market_Asphalt"
+  },
+  {
+   "id": "INT-J-008",
+   "zone_provisional": "MARKET",
+   "center_world_xyz": [
+    200.977,
+    -27.539,
+    172.954
+   ],
+   "radius_m": 5.0,
+   "material": "MAT_Road_Market_Asphalt"
+  },
+  {
+   "id": "INT-J-009",
+   "zone_provisional": "HILLSIDE",
+   "center_world_xyz": [
+    -94.336,
+    211.523,
+    177.512
+   ],
+   "radius_m": 3.004,
+   "material": "MAT_Road_Hillside_Gravel"
+  },
+  {
+   "id": "INT-J-010",
+   "zone_provisional": "RESIDENTIAL",
+   "center_world_xyz": [
+    61.523,
+    18.164,
+    131.651
+   ],
+   "radius_m": 3.005,
+   "material": "MAT_Road_Residential_Concrete"
+  },
+  {
+   "id": "INT-J-011",
+   "zone_provisional": "MARKET",
+   "center_world_xyz": [
+    101.367,
+    -124.805,
+    159.877
+   ],
+   "radius_m": 5.272,
+   "material": "MAT_Road_Market_Asphalt"
+  },
+  {
+   "id": "INT-J-012",
+   "zone_provisional": "MARKET",
+   "center_world_xyz": [
+    107.227,
+    -117.773,
+    160.687
+   ],
+   "radius_m": 5.004,
+   "material": "MAT_Road_Market_Asphalt"
+  },
+  {
+   "id": "INT-J-013",
+   "zone_provisional": "RESIDENTIAL",
+   "center_world_xyz": [
+    -41.602,
+    -80.273,
+    160.721
+   ],
+   "radius_m": 3.0,
+   "material": "MAT_Road_Residential_Concrete"
+  },
+  {
+   "id": "INT-J-014",
+   "zone_provisional": "RESIDENTIAL",
+   "center_world_xyz": [
+    -34.57,
+    -79.102,
+    160.721
+   ],
+   "radius_m": 3.0,
+   "material": "MAT_Road_Residential_Concrete"
+  },
+  {
+   "id": "INT-J-015",
+   "zone_provisional": "RESIDENTIAL",
+   "center_world_xyz": [
+    -31.055,
+    67.383,
+    132.897
+   ],
+   "radius_m": 3.002,
+   "material": "MAT_Road_Residential_Concrete"
+  },
+  {
+   "id": "INT-J-016",
+   "zone_provisional": "RESIDENTIAL",
+   "center_world_xyz": [
+    -29.883,
+    53.906,
+    132.455
+   ],
+   "radius_m": 3.004,
+   "material": "MAT_Road_Residential_Concrete"
+  },
+  {
+   "id": "INT-J-017",
+   "zone_provisional": "MARKET",
+   "center_world_xyz": [
+    -26.367,
+    215.039,
+    177.464
+   ],
+   "radius_m": 5.0,
+   "material": "MAT_Road_Market_Asphalt"
+  },
+  {
+   "id": "INT-J-018",
+   "zone_provisional": "MARKET",
+   "center_world_xyz": [
+    124.805,
+    80.273,
+    132.418
+   ],
+   "radius_m": 5.006,
+   "material": "MAT_Road_Market_Asphalt"
+  },
+  {
+   "id": "INT-J-019",
+   "zone_provisional": "MARKET",
+   "center_world_xyz": [
+    -21.68,
+    -158.789,
+    171.502
+   ],
+   "radius_m": 5.076,
+   "material": "MAT_Road_Market_Asphalt"
+  }
+ ]
+}

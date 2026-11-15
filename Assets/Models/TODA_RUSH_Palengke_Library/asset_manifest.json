@@ -1,0 +1,827 @@
+{
+  "units": "meters",
+  "dimensions_order": "Blender X width, Y depth, Z height; glTF exports Y-up",
+  "pivot": "ground center of bounds",
+  "assets": [
+    {
+      "name": "TR_Market_Main",
+      "category": "01_Public_Market",
+      "file": "GLB/01_Public_Market/TR_Market_Main.glb",
+      "width_m": 12.5125,
+      "depth_m": 8.5076,
+      "height_m": 4.2524,
+      "triangles": 2096,
+      "mesh_parts": 119
+    },
+    {
+      "name": "TR_Stall_Vegetable",
+      "category": "02_Market_Stalls",
+      "file": "GLB/02_Market_Stalls/TR_Stall_Vegetable.glb",
+      "width_m": 2.425,
+      "depth_m": 1.6587,
+      "height_m": 3.1006,
+      "triangles": 2024,
+      "mesh_parts": 67
+    },
+    {
+      "name": "TR_Stall_Fruit",
+      "category": "02_Market_Stalls",
+      "file": "GLB/02_Market_Stalls/TR_Stall_Fruit.glb",
+      "width_m": 2.425,
+      "depth_m": 1.6587,
+      "height_m": 3.1006,
+      "triangles": 1912,
+      "mesh_parts": 67
+    },
+    {
+      "name": "TR_Stall_Fish",
+      "category": "02_Market_Stalls",
+      "file": "GLB/02_Market_Stalls/TR_Stall_Fish.glb",
+      "width_m": 2.425,
+      "depth_m": 1.6587,
+      "height_m": 3.1006,
+      "triangles": 2176,
+      "mesh_parts": 88
+    },
+    {
+      "name": "TR_Stall_Meat",
+      "category": "02_Market_Stalls",
+      "file": "GLB/02_Market_Stalls/TR_Stall_Meat.glb",
+      "width_m": 2.425,
+      "depth_m": 1.6587,
+      "height_m": 3.1006,
+      "triangles": 1756,
+      "mesh_parts": 64
+    },
+    {
+      "name": "TR_Kiosk_IHAW",
+      "category": "03_Food_Kiosks",
+      "file": "GLB/03_Food_Kiosks/TR_Kiosk_IHAW.glb",
+      "width_m": 2.5125,
+      "depth_m": 1.8673,
+      "height_m": 3.1009,
+      "triangles": 988,
+      "mesh_parts": 61
+    },
+    {
+      "name": "TR_Kiosk_MERYENDA",
+      "category": "03_Food_Kiosks",
+      "file": "GLB/03_Food_Kiosks/TR_Kiosk_MERYENDA.glb",
+      "width_m": 2.5125,
+      "depth_m": 1.8673,
+      "height_m": 3.1009,
+      "triangles": 872,
+      "mesh_parts": 37
+    },
+    {
+      "name": "TR_Kiosk_INUMIN",
+      "category": "03_Food_Kiosks",
+      "file": "GLB/03_Food_Kiosks/TR_Kiosk_INUMIN.glb",
+      "width_m": 2.5125,
+      "depth_m": 1.8673,
+      "height_m": 3.1009,
+      "triangles": 844,
+      "mesh_parts": 37
+    },
+    {
+      "name": "TR_Kiosk_HALO_HALO",
+      "category": "03_Food_Kiosks",
+      "file": "GLB/03_Food_Kiosks/TR_Kiosk_HALO_HALO.glb",
+      "width_m": 2.5125,
+      "depth_m": 1.8673,
+      "height_m": 3.1009,
+      "triangles": 896,
+      "mesh_parts": 38
+    },
+    {
+      "name": "TR_Umbrella_red",
+      "category": "04_Canopies",
+      "file": "GLB/04_Canopies/TR_Umbrella_red.glb",
+      "width_m": 2.6052,
+      "depth_m": 2.6052,
+      "height_m": 2.65,
+      "triangles": 248,
+      "mesh_parts": 18
+    },
+    {
+      "name": "TR_Tarpaulin_Tied_red",
+      "category": "04_Canopies",
+      "file": "GLB/04_Canopies/TR_Tarpaulin_Tied_red.glb",
+      "width_m": 3.3208,
+      "depth_m": 2.2208,
+      "height_m": 2.5178,
+      "triangles": 60,
+      "mesh_parts": 5
+    },
+    {
+      "name": "TR_Umbrella_blue",
+      "category": "04_Canopies",
+      "file": "GLB/04_Canopies/TR_Umbrella_blue.glb",
+      "width_m": 2.6052,
+      "depth_m": 2.6052,
+      "height_m": 2.65,
+      "triangles": 248,
+      "mesh_parts": 18
+    },
+    {
+      "name": "TR_Tarpaulin_Tied_blue",
+      "category": "04_Canopies",
+      "file": "GLB/04_Canopies/TR_Tarpaulin_Tied_blue.glb",
+      "width_m": 3.3208,
+      "depth_m": 2.2208,
+      "height_m": 2.5178,
+      "triangles": 60,
+      "mesh_parts": 5
+    },
+    {
+      "name": "TR_Umbrella_green",
+      "category": "04_Canopies",
+      "file": "GLB/04_Canopies/TR_Umbrella_green.glb",
+      "width_m": 2.6052,
+      "depth_m": 2.6052,
+      "height_m": 2.65,
+      "triangles": 248,
+      "mesh_parts": 18
+    },
+    {
+      "name": "TR_Tarpaulin_Tied_green",
+      "category": "04_Canopies",
+      "file": "GLB/04_Canopies/TR_Tarpaulin_Tied_green.glb",
+      "width_m": 3.3208,
+      "depth_m": 2.2208,
+      "height_m": 2.5178,
+      "triangles": 60,
+      "mesh_parts": 5
+    },
+    {
+      "name": "TR_Umbrella_yellow",
+      "category": "04_Canopies",
+      "file": "GLB/04_Canopies/TR_Umbrella_yellow.glb",
+      "width_m": 2.6052,
+      "depth_m": 2.6052,
+      "height_m": 2.65,
+      "triangles": 248,
+      "mesh_parts": 18
+    },
+    {
+      "name": "TR_Tarpaulin_Tied_yellow",
+      "category": "04_Canopies",
+      "file": "GLB/04_Canopies/TR_Tarpaulin_Tied_yellow.glb",
+      "width_m": 3.3208,
+      "depth_m": 2.2208,
+      "height_m": 2.5178,
+      "triangles": 60,
+      "mesh_parts": 5
+    },
+    {
+      "name": "TR_Umbrella_purple",
+      "category": "04_Canopies",
+      "file": "GLB/04_Canopies/TR_Umbrella_purple.glb",
+      "width_m": 2.6052,
+      "depth_m": 2.6052,
+      "height_m": 2.65,
+      "triangles": 248,
+      "mesh_parts": 18
+    },
+    {
+      "name": "TR_Tarpaulin_Tied_purple",
+      "category": "04_Canopies",
+      "file": "GLB/04_Canopies/TR_Tarpaulin_Tied_purple.glb",
+      "width_m": 3.3208,
+      "depth_m": 2.2208,
+      "height_m": 2.5178,
+      "triangles": 60,
+      "mesh_parts": 5
+    },
+    {
+      "name": "TR_Table_Small",
+      "category": "05_Tables_Counters",
+      "file": "GLB/05_Tables_Counters/TR_Table_Small.glb",
+      "width_m": 1.2,
+      "depth_m": 0.65,
+      "height_m": 0.895,
+      "triangles": 72,
+      "mesh_parts": 6
+    },
+    {
+      "name": "TR_Table_Wide",
+      "category": "05_Tables_Counters",
+      "file": "GLB/05_Tables_Counters/TR_Table_Wide.glb",
+      "width_m": 2.4,
+      "depth_m": 0.9,
+      "height_m": 0.895,
+      "triangles": 72,
+      "mesh_parts": 6
+    },
+    {
+      "name": "TR_Counter_Service",
+      "category": "05_Tables_Counters",
+      "file": "GLB/05_Tables_Counters/TR_Counter_Service.glb",
+      "width_m": 1.95,
+      "depth_m": 0.87,
+      "height_m": 1.1,
+      "triangles": 104,
+      "mesh_parts": 6
+    },
+    {
+      "name": "TR_Produce_Tomato",
+      "category": "06_Produce_Displays",
+      "file": "GLB/06_Produce_Displays/TR_Produce_Tomato.glb",
+      "width_m": 0.1789,
+      "depth_m": 0.1701,
+      "height_m": 0.22,
+      "triangles": 40,
+      "mesh_parts": 2
+    },
+    {
+      "name": "TR_Display_Tomato",
+      "category": "06_Produce_Displays",
+      "file": "GLB/06_Produce_Displays/TR_Display_Tomato.glb",
+      "width_m": 1.045,
+      "depth_m": 0.645,
+      "height_m": 0.2325,
+      "triangles": 540,
+      "mesh_parts": 29
+    },
+    {
+      "name": "TR_Produce_Cabbage",
+      "category": "06_Produce_Displays",
+      "file": "GLB/06_Produce_Displays/TR_Produce_Cabbage.glb",
+      "width_m": 0.2683,
+      "depth_m": 0.2552,
+      "height_m": 0.32,
+      "triangles": 40,
+      "mesh_parts": 2
+    },
+    {
+      "name": "TR_Display_Cabbage",
+      "category": "06_Produce_Displays",
+      "file": "GLB/06_Produce_Displays/TR_Display_Cabbage.glb",
+      "width_m": 1.045,
+      "depth_m": 0.645,
+      "height_m": 0.3075,
+      "triangles": 540,
+      "mesh_parts": 29
+    },
+    {
+      "name": "TR_Produce_Carrot",
+      "category": "06_Produce_Displays",
+      "file": "GLB/06_Produce_Displays/TR_Produce_Carrot.glb",
+      "width_m": 0.09,
+      "depth_m": 0.0779,
+      "height_m": 0.3277,
+      "triangles": 44,
+      "mesh_parts": 3
+    },
+    {
+      "name": "TR_Display_Carrot",
+      "category": "06_Produce_Displays",
+      "file": "GLB/06_Produce_Displays/TR_Display_Carrot.glb",
+      "width_m": 1.045,
+      "depth_m": 0.645,
+      "height_m": 0.317,
+      "triangles": 588,
+      "mesh_parts": 41
+    },
+    {
+      "name": "TR_Produce_Eggplant",
+      "category": "06_Produce_Displays",
+      "file": "GLB/06_Produce_Displays/TR_Produce_Eggplant.glb",
+      "width_m": 0.0984,
+      "depth_m": 0.2407,
+      "height_m": 0.12,
+      "triangles": 40,
+      "mesh_parts": 2
+    },
+    {
+      "name": "TR_Display_Eggplant",
+      "category": "06_Produce_Displays",
+      "file": "GLB/06_Produce_Displays/TR_Display_Eggplant.glb",
+      "width_m": 1.045,
+      "depth_m": 0.645,
+      "height_m": 0.1725,
+      "triangles": 540,
+      "mesh_parts": 29
+    },
+    {
+      "name": "TR_Produce_Mango",
+      "category": "06_Produce_Displays",
+      "file": "GLB/06_Produce_Displays/TR_Produce_Mango.glb",
+      "width_m": 0.1342,
+      "depth_m": 0.2042,
+      "height_m": 0.13,
+      "triangles": 20,
+      "mesh_parts": 1
+    },
+    {
+      "name": "TR_Display_Mango",
+      "category": "06_Produce_Displays",
+      "file": "GLB/06_Produce_Displays/TR_Display_Mango.glb",
+      "width_m": 1.045,
+      "depth_m": 0.645,
+      "height_m": 0.1687,
+      "triangles": 300,
+      "mesh_parts": 17
+    },
+    {
+      "name": "TR_Produce_Banana",
+      "category": "06_Produce_Displays",
+      "file": "GLB/06_Produce_Displays/TR_Produce_Banana.glb",
+      "width_m": 0.1537,
+      "depth_m": 0.1755,
+      "height_m": 0.0692,
+      "triangles": 48,
+      "mesh_parts": 4
+    },
+    {
+      "name": "TR_Display_Banana",
+      "category": "06_Produce_Displays",
+      "file": "GLB/06_Produce_Displays/TR_Display_Banana.glb",
+      "width_m": 1.045,
+      "depth_m": 0.645,
+      "height_m": 0.1575,
+      "triangles": 636,
+      "mesh_parts": 53
+    },
+    {
+      "name": "TR_Produce_Orange",
+      "category": "06_Produce_Displays",
+      "file": "GLB/06_Produce_Displays/TR_Produce_Orange.glb",
+      "width_m": 0.1789,
+      "depth_m": 0.1701,
+      "height_m": 0.22,
+      "triangles": 40,
+      "mesh_parts": 2
+    },
+    {
+      "name": "TR_Display_Orange",
+      "category": "06_Produce_Displays",
+      "file": "GLB/06_Produce_Displays/TR_Display_Orange.glb",
+      "width_m": 1.045,
+      "depth_m": 0.645,
+      "height_m": 0.2325,
+      "triangles": 540,
+      "mesh_parts": 29
+    },
+    {
+      "name": "TR_Produce_Coconut",
+      "category": "06_Produce_Displays",
+      "file": "GLB/06_Produce_Displays/TR_Produce_Coconut.glb",
+      "width_m": 0.1789,
+      "depth_m": 0.1701,
+      "height_m": 0.22,
+      "triangles": 40,
+      "mesh_parts": 2
+    },
+    {
+      "name": "TR_Display_Coconut",
+      "category": "06_Produce_Displays",
+      "file": "GLB/06_Produce_Displays/TR_Display_Coconut.glb",
+      "width_m": 1.045,
+      "depth_m": 0.645,
+      "height_m": 0.2325,
+      "triangles": 540,
+      "mesh_parts": 29
+    },
+    {
+      "name": "TR_Produce_Watermelon",
+      "category": "06_Produce_Displays",
+      "file": "GLB/06_Produce_Displays/TR_Produce_Watermelon.glb",
+      "width_m": 0.322,
+      "depth_m": 0.24,
+      "height_m": 0.28,
+      "triangles": 44,
+      "mesh_parts": 3
+    },
+    {
+      "name": "TR_Display_Watermelon",
+      "category": "06_Produce_Displays",
+      "file": "GLB/06_Produce_Displays/TR_Display_Watermelon.glb",
+      "width_m": 1.045,
+      "depth_m": 0.645,
+      "height_m": 0.2775,
+      "triangles": 588,
+      "mesh_parts": 41
+    },
+    {
+      "name": "TR_Produce_Fish",
+      "category": "06_Produce_Displays",
+      "file": "GLB/06_Produce_Displays/TR_Produce_Fish.glb",
+      "width_m": 0.4704,
+      "depth_m": 0.1701,
+      "height_m": 0.175,
+      "triangles": 80,
+      "mesh_parts": 4
+    },
+    {
+      "name": "TR_Display_Fish",
+      "category": "06_Produce_Displays",
+      "file": "GLB/06_Produce_Displays/TR_Display_Fish.glb",
+      "width_m": 1.1012,
+      "depth_m": 0.645,
+      "height_m": 0.195,
+      "triangles": 1020,
+      "mesh_parts": 53
+    },
+    {
+      "name": "TR_Produce_Meat",
+      "category": "06_Produce_Displays",
+      "file": "GLB/06_Produce_Displays/TR_Produce_Meat.glb",
+      "width_m": 0.2862,
+      "depth_m": 0.1871,
+      "height_m": 0.126,
+      "triangles": 40,
+      "mesh_parts": 2
+    },
+    {
+      "name": "TR_Display_Meat",
+      "category": "06_Produce_Displays",
+      "file": "GLB/06_Produce_Displays/TR_Display_Meat.glb",
+      "width_m": 1.045,
+      "depth_m": 0.645,
+      "height_m": 0.1575,
+      "triangles": 540,
+      "mesh_parts": 29
+    },
+    {
+      "name": "TR_Crate_Empty",
+      "category": "07_Supplies",
+      "file": "GLB/07_Supplies/TR_Crate_Empty.glb",
+      "width_m": 0.685,
+      "depth_m": 0.495,
+      "height_m": 0.4,
+      "triangles": 204,
+      "mesh_parts": 17
+    },
+    {
+      "name": "TR_Crate_Tomato",
+      "category": "07_Supplies",
+      "file": "GLB/07_Supplies/TR_Crate_Tomato.glb",
+      "width_m": 0.685,
+      "depth_m": 0.495,
+      "height_m": 0.463,
+      "triangles": 444,
+      "mesh_parts": 29
+    },
+    {
+      "name": "TR_Crate_Mango",
+      "category": "07_Supplies",
+      "file": "GLB/07_Supplies/TR_Crate_Mango.glb",
+      "width_m": 0.685,
+      "depth_m": 0.495,
+      "height_m": 0.4078,
+      "triangles": 324,
+      "mesh_parts": 23
+    },
+    {
+      "name": "TR_Crate_Cabbage",
+      "category": "07_Supplies",
+      "file": "GLB/07_Supplies/TR_Crate_Cabbage.glb",
+      "width_m": 0.685,
+      "depth_m": 0.495,
+      "height_m": 0.528,
+      "triangles": 444,
+      "mesh_parts": 29
+    },
+    {
+      "name": "TR_Basket_Woven",
+      "category": "07_Supplies",
+      "file": "GLB/07_Supplies/TR_Basket_Woven.glb",
+      "width_m": 0.714,
+      "depth_m": 0.714,
+      "height_m": 0.444,
+      "triangles": 764,
+      "mesh_parts": 61
+    },
+    {
+      "name": "TR_Tray_Plastic",
+      "category": "07_Supplies",
+      "file": "GLB/07_Supplies/TR_Tray_Plastic.glb",
+      "width_m": 1.045,
+      "depth_m": 0.645,
+      "height_m": 0.1575,
+      "triangles": 60,
+      "mesh_parts": 5
+    },
+    {
+      "name": "TR_Sack_Rice",
+      "category": "07_Supplies",
+      "file": "GLB/07_Supplies/TR_Sack_Rice.glb",
+      "width_m": 0.5367,
+      "depth_m": 0.4571,
+      "height_m": 0.83,
+      "triangles": 392,
+      "mesh_parts": 4
+    },
+    {
+      "name": "TR_Cooler_IceBox",
+      "category": "07_Supplies",
+      "file": "GLB/07_Supplies/TR_Cooler_IceBox.glb",
+      "width_m": 0.92,
+      "depth_m": 0.52,
+      "height_m": 0.565,
+      "triangles": 48,
+      "mesh_parts": 4
+    },
+    {
+      "name": "TR_Weighing_Scale",
+      "category": "07_Supplies",
+      "file": "GLB/07_Supplies/TR_Weighing_Scale.glb",
+      "width_m": 0.5,
+      "depth_m": 0.5,
+      "height_m": 0.51,
+      "triangles": 128,
+      "mesh_parts": 4
+    },
+    {
+      "name": "TR_Jeepney_Shelter",
+      "category": "08_Jeepney_Loading",
+      "file": "GLB/08_Jeepney_Loading/TR_Jeepney_Shelter.glb",
+      "width_m": 7.525,
+      "depth_m": 3.0618,
+      "height_m": 3.5519,
+      "triangles": 1428,
+      "mesh_parts": 67
+    },
+    {
+      "name": "TR_Sign_Parking",
+      "category": "09_Parking_Signs",
+      "file": "GLB/09_Parking_Signs/TR_Sign_Parking.glb",
+      "width_m": 1.15,
+      "depth_m": 0.38,
+      "height_m": 2.445,
+      "triangles": 444,
+      "mesh_parts": 4
+    },
+    {
+      "name": "TR_Sign_NoParking",
+      "category": "09_Parking_Signs",
+      "file": "GLB/09_Parking_Signs/TR_Sign_NoParking.glb",
+      "width_m": 1.15,
+      "depth_m": 0.38,
+      "height_m": 2.445,
+      "triangles": 804,
+      "mesh_parts": 4
+    },
+    {
+      "name": "TR_Sign_Loading",
+      "category": "09_Parking_Signs",
+      "file": "GLB/09_Parking_Signs/TR_Sign_Loading.glb",
+      "width_m": 1.15,
+      "depth_m": 0.38,
+      "height_m": 2.445,
+      "triangles": 556,
+      "mesh_parts": 4
+    },
+    {
+      "name": "TR_Sign_Speed20",
+      "category": "09_Parking_Signs",
+      "file": "GLB/09_Parking_Signs/TR_Sign_Speed20.glb",
+      "width_m": 1.15,
+      "depth_m": 0.38,
+      "height_m": 2.445,
+      "triangles": 352,
+      "mesh_parts": 4
+    },
+    {
+      "name": "TR_Sign_OneWay",
+      "category": "09_Parking_Signs",
+      "file": "GLB/09_Parking_Signs/TR_Sign_OneWay.glb",
+      "width_m": 1.15,
+      "depth_m": 0.38,
+      "height_m": 2.445,
+      "triangles": 360,
+      "mesh_parts": 4
+    },
+    {
+      "name": "TR_Marking_ParkingBay",
+      "category": "09_Parking_Signs",
+      "file": "GLB/09_Parking_Signs/TR_Marking_ParkingBay.glb",
+      "width_m": 2.59,
+      "depth_m": 5.0,
+      "height_m": 0.008,
+      "triangles": 36,
+      "mesh_parts": 3
+    },
+    {
+      "name": "TR_Marking_Arrow",
+      "category": "09_Parking_Signs",
+      "file": "GLB/09_Parking_Signs/TR_Marking_Arrow.glb",
+      "width_m": 1.2,
+      "depth_m": 2.4,
+      "height_m": 0.01,
+      "triangles": 20,
+      "mesh_parts": 2
+    },
+    {
+      "name": "TR_Marking_Crosswalk",
+      "category": "09_Parking_Signs",
+      "file": "GLB/09_Parking_Signs/TR_Marking_Crosswalk.glb",
+      "width_m": 3.35,
+      "depth_m": 2.5,
+      "height_m": 0.01,
+      "triangles": 72,
+      "mesh_parts": 6
+    },
+    {
+      "name": "TR_Wheel_Stop",
+      "category": "09_Parking_Signs",
+      "file": "GLB/09_Parking_Signs/TR_Wheel_Stop.glb",
+      "width_m": 1.7,
+      "depth_m": 0.19,
+      "height_m": 0.15,
+      "triangles": 12,
+      "mesh_parts": 1
+    },
+    {
+      "name": "TR_Tricycle_red",
+      "category": "10_Vehicles",
+      "file": "GLB/10_Vehicles/TR_Tricycle_red.glb",
+      "width_m": 2.085,
+      "depth_m": 1.77,
+      "height_m": 1.955,
+      "triangles": 724,
+      "mesh_parts": 26
+    },
+    {
+      "name": "TR_Tricycle_blue",
+      "category": "10_Vehicles",
+      "file": "GLB/10_Vehicles/TR_Tricycle_blue.glb",
+      "width_m": 2.085,
+      "depth_m": 1.77,
+      "height_m": 1.955,
+      "triangles": 724,
+      "mesh_parts": 26
+    },
+    {
+      "name": "TR_Tricycle_yellow",
+      "category": "10_Vehicles",
+      "file": "GLB/10_Vehicles/TR_Tricycle_yellow.glb",
+      "width_m": 2.085,
+      "depth_m": 1.77,
+      "height_m": 1.955,
+      "triangles": 724,
+      "mesh_parts": 26
+    },
+    {
+      "name": "TR_Jeepney_red",
+      "category": "10_Vehicles",
+      "file": "GLB/10_Vehicles/TR_Jeepney_red.glb",
+      "width_m": 5.45,
+      "depth_m": 2.36,
+      "height_m": 2.345,
+      "triangles": 1488,
+      "mesh_parts": 44
+    },
+    {
+      "name": "TR_Jeepney_blue",
+      "category": "10_Vehicles",
+      "file": "GLB/10_Vehicles/TR_Jeepney_blue.glb",
+      "width_m": 5.45,
+      "depth_m": 2.36,
+      "height_m": 2.345,
+      "triangles": 1488,
+      "mesh_parts": 44
+    },
+    {
+      "name": "TR_Jeepney_yellow",
+      "category": "10_Vehicles",
+      "file": "GLB/10_Vehicles/TR_Jeepney_yellow.glb",
+      "width_m": 5.45,
+      "depth_m": 2.36,
+      "height_m": 2.345,
+      "triangles": 1488,
+      "mesh_parts": 44
+    },
+    {
+      "name": "TR_Board_Palengke",
+      "category": "11_Market_Boards",
+      "file": "GLB/11_Market_Boards/TR_Board_Palengke.glb",
+      "width_m": 2.0,
+      "depth_m": 0.0765,
+      "height_m": 0.5,
+      "triangles": 388,
+      "mesh_parts": 2
+    },
+    {
+      "name": "TR_Board_Gulay",
+      "category": "11_Market_Boards",
+      "file": "GLB/11_Market_Boards/TR_Board_Gulay.glb",
+      "width_m": 2.0,
+      "depth_m": 0.0765,
+      "height_m": 0.5,
+      "triangles": 708,
+      "mesh_parts": 2
+    },
+    {
+      "name": "TR_Board_Isda",
+      "category": "11_Market_Boards",
+      "file": "GLB/11_Market_Boards/TR_Board_Isda.glb",
+      "width_m": 2.0,
+      "depth_m": 0.0765,
+      "height_m": 0.5,
+      "triangles": 656,
+      "mesh_parts": 2
+    },
+    {
+      "name": "TR_Board_Karne",
+      "category": "11_Market_Boards",
+      "file": "GLB/11_Market_Boards/TR_Board_Karne.glb",
+      "width_m": 2.0,
+      "depth_m": 0.0765,
+      "height_m": 0.5,
+      "triangles": 396,
+      "mesh_parts": 2
+    },
+    {
+      "name": "TR_Board_Prutas",
+      "category": "11_Market_Boards",
+      "file": "GLB/11_Market_Boards/TR_Board_Prutas.glb",
+      "width_m": 2.0,
+      "depth_m": 0.0765,
+      "height_m": 0.5,
+      "triangles": 396,
+      "mesh_parts": 2
+    },
+    {
+      "name": "TR_PriceBoard_AFrame",
+      "category": "11_Market_Boards",
+      "file": "GLB/11_Market_Boards/TR_PriceBoard_AFrame.glb",
+      "width_m": 0.78,
+      "depth_m": 0.4442,
+      "height_m": 1.0584,
+      "triangles": 1608,
+      "mesh_parts": 7
+    },
+    {
+      "name": "TR_Chair_red",
+      "category": "12_Furniture",
+      "file": "GLB/12_Furniture/TR_Chair_red.glb",
+      "width_m": 0.45,
+      "depth_m": 0.45,
+      "height_m": 0.91,
+      "triangles": 96,
+      "mesh_parts": 8
+    },
+    {
+      "name": "TR_Chair_blue",
+      "category": "12_Furniture",
+      "file": "GLB/12_Furniture/TR_Chair_blue.glb",
+      "width_m": 0.45,
+      "depth_m": 0.45,
+      "height_m": 0.91,
+      "triangles": 96,
+      "mesh_parts": 8
+    },
+    {
+      "name": "TR_Chair_green",
+      "category": "12_Furniture",
+      "file": "GLB/12_Furniture/TR_Chair_green.glb",
+      "width_m": 0.45,
+      "depth_m": 0.45,
+      "height_m": 0.91,
+      "triangles": 96,
+      "mesh_parts": 8
+    },
+    {
+      "name": "TR_Bench_Wood",
+      "category": "12_Furniture",
+      "file": "GLB/12_Furniture/TR_Bench_Wood.glb",
+      "width_m": 1.8,
+      "depth_m": 0.5447,
+      "height_m": 0.9845,
+      "triangles": 132,
+      "mesh_parts": 11
+    },
+    {
+      "name": "TR_Bin_green",
+      "category": "12_Furniture",
+      "file": "GLB/12_Furniture/TR_Bin_green.glb",
+      "width_m": 0.61,
+      "depth_m": 0.6305,
+      "height_m": 0.925,
+      "triangles": 604,
+      "mesh_parts": 5
+    },
+    {
+      "name": "TR_Bin_blue",
+      "category": "12_Furniture",
+      "file": "GLB/12_Furniture/TR_Bin_blue.glb",
+      "width_m": 0.61,
+      "depth_m": 0.6305,
+      "height_m": 0.925,
+      "triangles": 592,
+      "mesh_parts": 5
+    },
+    {
+      "name": "TR_Bin_red",
+      "category": "12_Furniture",
+      "file": "GLB/12_Furniture/TR_Bin_red.glb",
+      "width_m": 0.61,
+      "depth_m": 0.6305,
+      "height_m": 0.925,
+      "triangles": 472,
+      "mesh_parts": 5
+    }
+  ]
+}

@@ -1,0 +1,1648 @@
+{
+  "status": "PASS",
+  "asset_count": 82,
+  "total_triangles": 41968,
+  "validation": "structural checks and complete Blender 4.3 reimport; not a Khronos validator certification or Unity playtest",
+  "assets": [
+    {
+      "asset": "TR_Market_Main",
+      "status": "PASS",
+      "triangles": 2096,
+      "gltf_meshes": 1,
+      "material_primitives": 8,
+      "sha256": "502235a2d95e922b74171024cbd21286c88a74dfe15b4f3ec7b5b51778447065",
+      "size_bytes": 138112,
+      "checks": [
+        "GLB 2 header",
+        "embedded buffer ranges",
+        "finite mesh positions",
+        "triangle indices",
+        "triangle count",
+        "Blender reimport",
+        "meter dimensions",
+        "ground center pivot",
+        "assigned materials"
+      ]
+    },
+    {
+      "asset": "TR_Stall_Vegetable",
+      "status": "PASS",
+      "triangles": 2024,
+      "gltf_meshes": 1,
+      "material_primitives": 11,
+      "sha256": "b3aba9aeb5626d4999d2aabbab1bbacae33e5b68aed448c6976fd5535ca3568c",
+      "size_bytes": 126636,
+      "checks": [
+        "GLB 2 header",
+        "embedded buffer ranges",
+        "finite mesh positions",
+        "triangle indices",
+        "triangle count",
+        "Blender reimport",
+        "meter dimensions",
+        "ground center pivot",
+        "assigned materials"
+      ]
+    },
+    {
+      "asset": "TR_Stall_Fruit",
+      "status": "PASS",
+      "triangles": 1912,
+      "gltf_meshes": 1,
+      "material_primitives": 9,
+      "sha256": "0f836a71563d024aed4af4cabaa209432231009d938e442f5024ee7dee70af21",
+      "size_bytes": 120164,
+      "checks": [
+        "GLB 2 header",
+        "embedded buffer ranges",
+        "finite mesh positions",
+        "triangle indices",
+        "triangle count",
+        "Blender reimport",
+        "meter dimensions",
+        "ground center pivot",
+        "assigned materials"
+      ]
+    },
+    {
+      "asset": "TR_Stall_Fish",
+      "status": "PASS",
+      "triangles": 2176,
+      "gltf_meshes": 1,
+      "material_primitives": 9,
+      "sha256": "741c2c23f7cee608c8fba437792a0e5b0e4d98a18622b71c893ffab128e5a05e",
+      "size_bytes": 170424,
+      "checks": [
+        "GLB 2 header",
+        "embedded buffer ranges",
+        "finite mesh positions",
+        "triangle indices",
+        "triangle count",
+        "Blender reimport",
+        "meter dimensions",
+        "ground center pivot",
+        "assigned materials"
+      ]
+    },
+    {
+      "asset": "TR_Stall_Meat",
+      "status": "PASS",
+      "triangles": 1756,
+      "gltf_meshes": 1,
+      "material_primitives": 9,
+      "sha256": "5785d0a0d5f4acace4ca887f4f643049f15203adf12d63e460574c06e3cdcbd2",
+      "size_bytes": 124576,
+      "checks": [
+        "GLB 2 header",
+        "embedded buffer ranges",
+        "finite mesh positions",
+        "triangle indices",
+        "triangle count",
+        "Blender reimport",
+        "meter dimensions",
+        "ground center pivot",
+        "assigned materials"
+      ]
+    },
+    {
+      "asset": "TR_Kiosk_IHAW",
+      "status": "PASS",
+      "triangles": 988,
+      "gltf_meshes": 1,
+      "material_primitives": 7,
+      "sha256": "778e909c16c1cbd34ad3d4de4930bc47f4e301daedc30c91ae0c67a973c78bf4",
+      "size_bytes": 81700,
+      "checks": [
+        "GLB 2 header",
+        "embedded buffer ranges",
+        "finite mesh positions",
+        "triangle indices",
+        "triangle count",
+        "Blender reimport",
+        "meter dimensions",
+        "ground center pivot",
+        "assigned materials"
+      ]
+    },
+    {
+      "asset": "TR_Kiosk_MERYENDA",
+      "status": "PASS",
+      "triangles": 872,
+      "gltf_meshes": 1,
+      "material_primitives": 5,
+      "sha256": "c168226755009a655825c1329725f54d2f5d892ffe4416b31dddbf47825add68",
+      "size_bytes": 57240,
+      "checks": [
+        "GLB 2 header",
+        "embedded buffer ranges",
+        "finite mesh positions",
+        "triangle indices",
+        "triangle count",
+        "Blender reimport",
+        "meter dimensions",
+        "ground center pivot",
+        "assigned materials"
+      ]
+    },
+    {
+      "asset": "TR_Kiosk_INUMIN",
+      "status": "PASS",
+      "triangles": 844,
+      "gltf_meshes": 1,
+      "material_primitives": 6,
+      "sha256": "2d74c408a7cf374197fdaf68df9b20bd21d79df5661e1b7caeaa2c79beec252e",
+      "size_bytes": 55728,
+      "checks": [
+        "GLB 2 header",
+        "embedded buffer ranges",
+        "finite mesh positions",
+        "triangle indices",
+        "triangle count",
+        "Blender reimport",
+        "meter dimensions",
+        "ground center pivot",
+        "assigned materials"
+      ]
+    },
+    {
+      "asset": "TR_Kiosk_HALO_HALO",
+      "status": "PASS",
+      "triangles": 896,
+      "gltf_meshes": 1,
+      "material_primitives": 7,
+      "sha256": "507319d4d8231666b7691454bdcd0cc565209e244dcd53abfd857afa5cc1fd2f",
+      "size_bytes": 60320,
+      "checks": [
+        "GLB 2 header",
+        "embedded buffer ranges",
+        "finite mesh positions",
+        "triangle indices",
+        "triangle count",
+        "Blender reimport",
+        "meter dimensions",
+        "ground center pivot",
+        "assigned materials"
+      ]
+    },
+    {
+      "asset": "TR_Umbrella_red",
+      "status": "PASS",
+      "triangles": 248,
+      "gltf_meshes": 1,
+      "material_primitives": 4,
+      "sha256": "b7638a2b85cdffc8ac899f99794223306e66135e1d3f246f978641996abd85f7",
+      "size_bytes": 16528,
+      "checks": [
+        "GLB 2 header",
+        "embedded buffer ranges",
+        "finite mesh positions",
+        "triangle indices",
+        "triangle count",
+        "Blender reimport",
+        "meter dimensions",
+        "ground center pivot",
+        "assigned materials"
+      ]
+    },
+    {
+      "asset": "TR_Tarpaulin_Tied_red",
+      "status": "PASS",
+      "triangles": 60,
+      "gltf_meshes": 1,
+      "material_primitives": 2,
+      "sha256": "5c488838dbc98c2d026a87fbe6b5611ed070d379507d4dc6f0de950ee54870b4",
+      "size_bytes": 5340,
+      "checks": [
+        "GLB 2 header",
+        "embedded buffer ranges",
+        "finite mesh positions",
+        "triangle indices",
+        "triangle count",
+        "Blender reimport",
+        "meter dimensions",
+        "ground center pivot",
+        "assigned materials"
+      ]
+    },
+    {
+      "asset": "TR_Umbrella_blue",
+      "status": "PASS",
+      "triangles": 248,
+      "gltf_meshes": 1,
+      "material_primitives": 4,
+      "sha256": "6182f7c2c96384c922e29d2ba3e61c1fb6df528d9f6c04cabe4200c94f339c57",
+      "size_bytes": 16532,
+      "checks": [
+        "GLB 2 header",
+        "embedded buffer ranges",
+        "finite mesh positions",
+        "triangle indices",
+        "triangle count",
+        "Blender reimport",
+        "meter dimensions",
+        "ground center pivot",
+        "assigned materials"
+      ]
+    },
+    {
+      "asset": "TR_Tarpaulin_Tied_blue",
+      "status": "PASS",
+      "triangles": 60,
+      "gltf_meshes": 1,
+      "material_primitives": 2,
+      "sha256": "a74b2a84842196a835d548cc86c42c912e2b4a7a76d179346c1aeef46d9faffc",
+      "size_bytes": 5340,
+      "checks": [
+        "GLB 2 header",
+        "embedded buffer ranges",
+        "finite mesh positions",
+        "triangle indices",
+        "triangle count",
+        "Blender reimport",
+        "meter dimensions",
+        "ground center pivot",
+        "assigned materials"
+      ]
+    },
+    {
+      "asset": "TR_Umbrella_green",
+      "status": "PASS",
+      "triangles": 248,
+      "gltf_meshes": 1,
+      "material_primitives": 4,
+      "sha256": "5af3aa885fbbccad9d7dc20970acc64729a7c1e6f99226645a4e6467276b7df1",
+      "size_bytes": 16532,
+      "checks": [
+        "GLB 2 header",
+        "embedded buffer ranges",
+        "finite mesh positions",
+        "triangle indices",
+        "triangle count",
+        "Blender reimport",
+        "meter dimensions",
+        "ground center pivot",
+        "assigned materials"
+      ]
+    },
+    {
+      "asset": "TR_Tarpaulin_Tied_green",
+      "status": "PASS",
+      "triangles": 60,
+      "gltf_meshes": 1,
+      "material_primitives": 2,
+      "sha256": "be527fc4a9ebfce6bf182afaef84d8c527e53ce9799ba5898429f1575f961158",
+      "size_bytes": 5344,
+      "checks": [
+        "GLB 2 header",
+        "embedded buffer ranges",
+        "finite mesh positions",
+        "triangle indices",
+        "triangle count",
+        "Blender reimport",
+        "meter dimensions",
+        "ground center pivot",
+        "assigned materials"
+      ]
+    },
+    {
+      "asset": "TR_Umbrella_yellow",
+      "status": "PASS",
+      "triangles": 248,
+      "gltf_meshes": 1,
+      "material_primitives": 4,
+      "sha256": "aa83e774f4d1a8d8cc11f617e5783e6cb9e2b60c9fd66033281938bd4995c0e3",
+      "size_bytes": 16520,
+      "checks": [
+        "GLB 2 header",
+        "embedded buffer ranges",
+        "finite mesh positions",
+        "triangle indices",
+        "triangle count",
+        "Blender reimport",
+        "meter dimensions",
+        "ground center pivot",
+        "assigned materials"
+      ]
+    },
+    {
+      "asset": "TR_Tarpaulin_Tied_yellow",
+      "status": "PASS",
+      "triangles": 60,
+      "gltf_meshes": 1,
+      "material_primitives": 2,
+      "sha256": "6e7ad1800751ae61deb95d2db0e0279ded50022efb05262c99949e321c03d4ab",
+      "size_bytes": 5328,
+      "checks": [
+        "GLB 2 header",
+        "embedded buffer ranges",
+        "finite mesh positions",
+        "triangle indices",
+        "triangle count",
+        "Blender reimport",
+        "meter dimensions",
+        "ground center pivot",
+        "assigned materials"
+      ]
+    },
+    {
+      "asset": "TR_Umbrella_purple",
+      "status": "PASS",
+      "triangles": 248,
+      "gltf_meshes": 1,
+      "material_primitives": 4,
+      "sha256": "578c42637b37f9495d1945d7afdc54ab1461e142afd909452507ed4a8a40e833",
+      "size_bytes": 16536,
+      "checks": [
+        "GLB 2 header",
+        "embedded buffer ranges",
+        "finite mesh positions",
+        "triangle indices",
+        "triangle count",
+        "Blender reimport",
+        "meter dimensions",
+        "ground center pivot",
+        "assigned materials"
+      ]
+    },
+    {
+      "asset": "TR_Tarpaulin_Tied_purple",
+      "status": "PASS",
+      "triangles": 60,
+      "gltf_meshes": 1,
+      "material_primitives": 2,
+      "sha256": "ca6313f256002cfaea7c44758581b61746ae48e720990cfcd9e038bb2f644e19",
+      "size_bytes": 5344,
+      "checks": [
+        "GLB 2 header",
+        "embedded buffer ranges",
+        "finite mesh positions",
+        "triangle indices",
+        "triangle count",
+        "Blender reimport",
+        "meter dimensions",
+        "ground center pivot",
+        "assigned materials"
+      ]
+    },
+    {
+      "asset": "TR_Table_Small",
+      "status": "PASS",
+      "triangles": 72,
+      "gltf_meshes": 1,
+      "material_primitives": 2,
+      "sha256": "4dbf4fdb8db064096666d39ea71e941de8b361ef9f742f7e1db683e66e722b2c",
+      "size_bytes": 5812,
+      "checks": [
+        "GLB 2 header",
+        "embedded buffer ranges",
+        "finite mesh positions",
+        "triangle indices",
+        "triangle count",
+        "Blender reimport",
+        "meter dimensions",
+        "ground center pivot",
+        "assigned materials"
+      ]
+    },
+    {
+      "asset": "TR_Table_Wide",
+      "status": "PASS",
+      "triangles": 72,
+      "gltf_meshes": 1,
+      "material_primitives": 2,
+      "sha256": "1d1109bac79334b93e5929529e07755cb650d0049dff5aed525551061f36e3d5",
+      "size_bytes": 5812,
+      "checks": [
+        "GLB 2 header",
+        "embedded buffer ranges",
+        "finite mesh positions",
+        "triangle indices",
+        "triangle count",
+        "Blender reimport",
+        "meter dimensions",
+        "ground center pivot",
+        "assigned materials"
+      ]
+    },
+    {
+      "asset": "TR_Counter_Service",
+      "status": "PASS",
+      "triangles": 104,
+      "gltf_meshes": 1,
+      "material_primitives": 3,
+      "sha256": "77f0091765009e85452474e7cb61eca6606c6583a3a70935ae2644f0a46151bf",
+      "size_bytes": 7924,
+      "checks": [
+        "GLB 2 header",
+        "embedded buffer ranges",
+        "finite mesh positions",
+        "triangle indices",
+        "triangle count",
+        "Blender reimport",
+        "meter dimensions",
+        "ground center pivot",
+        "assigned materials"
+      ]
+    },
+    {
+      "asset": "TR_Produce_Tomato",
+      "status": "PASS",
+      "triangles": 40,
+      "gltf_meshes": 1,
+      "material_primitives": 2,
+      "sha256": "477ee33044c83da4f05925bebe77343273b5ffa4d7fc748437b28ab15b63e4ec",
+      "size_bytes": 4492,
+      "checks": [
+        "GLB 2 header",
+        "embedded buffer ranges",
+        "finite mesh positions",
+        "triangle indices",
+        "triangle count",
+        "Blender reimport",
+        "meter dimensions",
+        "ground center pivot",
+        "assigned materials"
+      ]
+    },
+    {
+      "asset": "TR_Display_Tomato",
+      "status": "PASS",
+      "triangles": 540,
+      "gltf_meshes": 1,
+      "material_primitives": 3,
+      "sha256": "f2110ccafb381eddd92a1ba5fc2ceaed31a98f656d1c17fe60275d00e8a2c507",
+      "size_bytes": 36520,
+      "checks": [
+        "GLB 2 header",
+        "embedded buffer ranges",
+        "finite mesh positions",
+        "triangle indices",
+        "triangle count",
+        "Blender reimport",
+        "meter dimensions",
+        "ground center pivot",
+        "assigned materials"
+      ]
+    },
+    {
+      "asset": "TR_Produce_Cabbage",
+      "status": "PASS",
+      "triangles": 40,
+      "gltf_meshes": 1,
+      "material_primitives": 2,
+      "sha256": "33bc8f5a89be563e4a61445c4758806daf19d50ac216c7d023894fcb69703488",
+      "size_bytes": 4492,
+      "checks": [
+        "GLB 2 header",
+        "embedded buffer ranges",
+        "finite mesh positions",
+        "triangle indices",
+        "triangle count",
+        "Blender reimport",
+        "meter dimensions",
+        "ground center pivot",
+        "assigned materials"
+      ]
+    },
+    {
+      "asset": "TR_Display_Cabbage",
+      "status": "PASS",
+      "triangles": 540,
+      "gltf_meshes": 1,
+      "material_primitives": 3,
+      "sha256": "bf0bfd54f5692b7989f9cd11bf3537fbf54e3fd9fd76782c39ca61f457171092",
+      "size_bytes": 36524,
+      "checks": [
+        "GLB 2 header",
+        "embedded buffer ranges",
+        "finite mesh positions",
+        "triangle indices",
+        "triangle count",
+        "Blender reimport",
+        "meter dimensions",
+        "ground center pivot",
+        "assigned materials"
+      ]
+    },
+    {
+      "asset": "TR_Produce_Carrot",
+      "status": "PASS",
+      "triangles": 44,
+      "gltf_meshes": 1,
+      "material_primitives": 2,
+      "sha256": "0c2682ae1b1baa5afa473421a3c26e8ed40cba09e065442ca3bcbf059c09875c",
+      "size_bytes": 4208,
+      "checks": [
+        "GLB 2 header",
+        "embedded buffer ranges",
+        "finite mesh positions",
+        "triangle indices",
+        "triangle count",
+        "Blender reimport",
+        "meter dimensions",
+        "ground center pivot",
+        "assigned materials"
+      ]
+    },
+    {
+      "asset": "TR_Display_Carrot",
+      "status": "PASS",
+      "triangles": 588,
+      "gltf_meshes": 1,
+      "material_primitives": 3,
+      "sha256": "b02a022073a46c6b9cb0440563aa049b06e8a699d48fcdfbddbacdee11191e06",
+      "size_bytes": 33336,
+      "checks": [
+        "GLB 2 header",
+        "embedded buffer ranges",
+        "finite mesh positions",
+        "triangle indices",
+        "triangle count",
+        "Blender reimport",
+        "meter dimensions",
+        "ground center pivot",
+        "assigned materials"
+      ]
+    },
+    {
+      "asset": "TR_Produce_Eggplant",
+      "status": "PASS",
+      "triangles": 40,
+      "gltf_meshes": 1,
+      "material_primitives": 2,
+      "sha256": "8a946f2479a5604b353d7bd4abdafd13dbd62a20ab9a9d0e141fce02a98ab325",
+      "size_bytes": 4512,
+      "checks": [
+        "GLB 2 header",
+        "embedded buffer ranges",
+        "finite mesh positions",
+        "triangle indices",
+        "triangle count",
+        "Blender reimport",
+        "meter dimensions",
+        "ground center pivot",
+        "assigned materials"
+      ]
+    },
+    {
+      "asset": "TR_Display_Eggplant",
+      "status": "PASS",
+      "triangles": 540,
+      "gltf_meshes": 1,
+      "material_primitives": 3,
+      "sha256": "250086a6b10b7af6556d40808f56694fb5d9ea67e49a22010b2243541ab4107f",
+      "size_bytes": 36528,
+      "checks": [
+        "GLB 2 header",
+        "embedded buffer ranges",
+        "finite mesh positions",
+        "triangle indices",
+        "triangle count",
+        "Blender reimport",
+        "meter dimensions",
+        "ground center pivot",
+        "assigned materials"
+      ]
+    },
+    {
+      "asset": "TR_Produce_Mango",
+      "status": "PASS",
+      "triangles": 20,
+      "gltf_meshes": 1,
+      "material_primitives": 1,
+      "sha256": "97ab9daa09d1ae2d2c771d2972b5e9a2b2f917e6a3112b89f92d509a72e4e947",
+      "size_bytes": 2700,
+      "checks": [
+        "GLB 2 header",
+        "embedded buffer ranges",
+        "finite mesh positions",
+        "triangle indices",
+        "triangle count",
+        "Blender reimport",
+        "meter dimensions",
+        "ground center pivot",
+        "assigned materials"
+      ]
+    },
+    {
+      "asset": "TR_Display_Mango",
+      "status": "PASS",
+      "triangles": 300,
+      "gltf_meshes": 1,
+      "material_primitives": 2,
+      "sha256": "9ab117ef2193c67502eec5ce5139203afeb827957c020bc81f663c2ff8db834d",
+      "size_bytes": 23908,
+      "checks": [
+        "GLB 2 header",
+        "embedded buffer ranges",
+        "finite mesh positions",
+        "triangle indices",
+        "triangle count",
+        "Blender reimport",
+        "meter dimensions",
+        "ground center pivot",
+        "assigned materials"
+      ]
+    },
+    {
+      "asset": "TR_Produce_Banana",
+      "status": "PASS",
+      "triangles": 48,
+      "gltf_meshes": 1,
+      "material_primitives": 1,
+      "sha256": "c78e94f061fa2329fd3deb622174c3d3837130eb2011c724dc957965f346a43c",
+      "size_bytes": 3756,
+      "checks": [
+        "GLB 2 header",
+        "embedded buffer ranges",
+        "finite mesh positions",
+        "triangle indices",
+        "triangle count",
+        "Blender reimport",
+        "meter dimensions",
+        "ground center pivot",
+        "assigned materials"
+      ]
+    },
+    {
+      "asset": "TR_Display_Banana",
+      "status": "PASS",
+      "triangles": 636,
+      "gltf_meshes": 1,
+      "material_primitives": 2,
+      "sha256": "cf74102d4f3dbad9889d9f12c7eb00efb3ef58a40188a9ae851aa9da505f50e3",
+      "size_bytes": 36292,
+      "checks": [
+        "GLB 2 header",
+        "embedded buffer ranges",
+        "finite mesh positions",
+        "triangle indices",
+        "triangle count",
+        "Blender reimport",
+        "meter dimensions",
+        "ground center pivot",
+        "assigned materials"
+      ]
+    },
+    {
+      "asset": "TR_Produce_Orange",
+      "status": "PASS",
+      "triangles": 40,
+      "gltf_meshes": 1,
+      "material_primitives": 2,
+      "sha256": "e3c3b552dbb4e0fd66d18e2536454f666284fa70ac4d28911f3bf9ddf61bb123",
+      "size_bytes": 4476,
+      "checks": [
+        "GLB 2 header",
+        "embedded buffer ranges",
+        "finite mesh positions",
+        "triangle indices",
+        "triangle count",
+        "Blender reimport",
+        "meter dimensions",
+        "ground center pivot",
+        "assigned materials"
+      ]
+    },
+    {
+      "asset": "TR_Display_Orange",
+      "status": "PASS",
+      "triangles": 540,
+      "gltf_meshes": 1,
+      "material_primitives": 3,
+      "sha256": "33a673a6f4d80922b38c8117a828d42777cd7ab4206e74759a396482d7ba14e6",
+      "size_bytes": 36504,
+      "checks": [
+        "GLB 2 header",
+        "embedded buffer ranges",
+        "finite mesh positions",
+        "triangle indices",
+        "triangle count",
+        "Blender reimport",
+        "meter dimensions",
+        "ground center pivot",
+        "assigned materials"
+      ]
+    },
+    {
+      "asset": "TR_Produce_Coconut",
+      "status": "PASS",
+      "triangles": 40,
+      "gltf_meshes": 1,
+      "material_primitives": 2,
+      "sha256": "cca8a723bb98e8b4888ff5b565b3f442885571de10d91e770611bc758d951f94",
+      "size_bytes": 4492,
+      "checks": [
+        "GLB 2 header",
+        "embedded buffer ranges",
+        "finite mesh positions",
+        "triangle indices",
+        "triangle count",
+        "Blender reimport",
+        "meter dimensions",
+        "ground center pivot",
+        "assigned materials"
+      ]
+    },
+    {
+      "asset": "TR_Display_Coconut",
+      "status": "PASS",
+      "triangles": 540,
+      "gltf_meshes": 1,
+      "material_primitives": 3,
+      "sha256": "9cad435c5464920890438bf225f2e6ea8235affe115c7f04c74ef85ff647c48c",
+      "size_bytes": 36520,
+      "checks": [
+        "GLB 2 header",
+        "embedded buffer ranges",
+        "finite mesh positions",
+        "triangle indices",
+        "triangle count",
+        "Blender reimport",
+        "meter dimensions",
+        "ground center pivot",
+        "assigned materials"
+      ]
+    },
+    {
+      "asset": "TR_Produce_Watermelon",
+      "status": "PASS",
+      "triangles": 44,
+      "gltf_meshes": 1,
+      "material_primitives": 2,
+      "sha256": "8cb04844c236fa29a21b90d49feff7bd9a2f953b9d46be5967e6dbc8f7351b6f",
+      "size_bytes": 4808,
+      "checks": [
+        "GLB 2 header",
+        "embedded buffer ranges",
+        "finite mesh positions",
+        "triangle indices",
+        "triangle count",
+        "Blender reimport",
+        "meter dimensions",
+        "ground center pivot",
+        "assigned materials"
+      ]
+    },
+    {
+      "asset": "TR_Display_Watermelon",
+      "status": "PASS",
+      "triangles": 588,
+      "gltf_meshes": 1,
+      "material_primitives": 3,
+      "sha256": "9554519eef8986df16bb8bfa09cb233b8f7b1b495dde2d3f2b38b990a9957a37",
+      "size_bytes": 40252,
+      "checks": [
+        "GLB 2 header",
+        "embedded buffer ranges",
+        "finite mesh positions",
+        "triangle indices",
+        "triangle count",
+        "Blender reimport",
+        "meter dimensions",
+        "ground center pivot",
+        "assigned materials"
+      ]
+    },
+    {
+      "asset": "TR_Produce_Fish",
+      "status": "PASS",
+      "triangles": 80,
+      "gltf_meshes": 1,
+      "material_primitives": 4,
+      "sha256": "9074462f1ac1c40ed24ada99dc1b980fba8efdc92a7e705f07c14ba09519439c",
+      "size_bytes": 9552,
+      "checks": [
+        "GLB 2 header",
+        "embedded buffer ranges",
+        "finite mesh positions",
+        "triangle indices",
+        "triangle count",
+        "Blender reimport",
+        "meter dimensions",
+        "ground center pivot",
+        "assigned materials"
+      ]
+    },
+    {
+      "asset": "TR_Display_Fish",
+      "status": "PASS",
+      "triangles": 1020,
+      "gltf_meshes": 1,
+      "material_primitives": 4,
+      "sha256": "495e49674040df722b613fb1d77bcc21f4a1509b0fbd64519f6318ec1f2f1a22",
+      "size_bytes": 81712,
+      "checks": [
+        "GLB 2 header",
+        "embedded buffer ranges",
+        "finite mesh positions",
+        "triangle indices",
+        "triangle count",
+        "Blender reimport",
+        "meter dimensions",
+        "ground center pivot",
+        "assigned materials"
+      ]
+    },
+    {
+      "asset": "TR_Produce_Meat",
+      "status": "PASS",
+      "triangles": 40,
+      "gltf_meshes": 1,
+      "material_primitives": 2,
+      "sha256": "eb7fa6bc277c94aaaae5e6c9e8ec26dbb69a25897a169f8dbc26953548d15ac9",
+      "size_bytes": 5056,
+      "checks": [
+        "GLB 2 header",
+        "embedded buffer ranges",
+        "finite mesh positions",
+        "triangle indices",
+        "triangle count",
+        "Blender reimport",
+        "meter dimensions",
+        "ground center pivot",
+        "assigned materials"
+      ]
+    },
+    {
+      "asset": "TR_Display_Meat",
+      "status": "PASS",
+      "triangles": 540,
+      "gltf_meshes": 1,
+      "material_primitives": 3,
+      "sha256": "76586cfc26ebe9b338d94a882033da7ff093c55fd0c09f0988552356581a1f0b",
+      "size_bytes": 43440,
+      "checks": [
+        "GLB 2 header",
+        "embedded buffer ranges",
+        "finite mesh positions",
+        "triangle indices",
+        "triangle count",
+        "Blender reimport",
+        "meter dimensions",
+        "ground center pivot",
+        "assigned materials"
+      ]
+    },
+    {
+      "asset": "TR_Crate_Empty",
+      "status": "PASS",
+      "triangles": 204,
+      "gltf_meshes": 1,
+      "material_primitives": 2,
+      "sha256": "953b757c22dab8404eb5b4b6ea0dc9066b8c168a898358b94fa087462301f310",
+      "size_bytes": 12956,
+      "checks": [
+        "GLB 2 header",
+        "embedded buffer ranges",
+        "finite mesh positions",
+        "triangle indices",
+        "triangle count",
+        "Blender reimport",
+        "meter dimensions",
+        "ground center pivot",
+        "assigned materials"
+      ]
+    },
+    {
+      "asset": "TR_Crate_Tomato",
+      "status": "PASS",
+      "triangles": 444,
+      "gltf_meshes": 1,
+      "material_primitives": 4,
+      "sha256": "46ea9f43f595bd36832e12147ab27e23c3feca2e79b8ec782676e7b1d541788d",
+      "size_bytes": 29816,
+      "checks": [
+        "GLB 2 header",
+        "embedded buffer ranges",
+        "finite mesh positions",
+        "triangle indices",
+        "triangle count",
+        "Blender reimport",
+        "meter dimensions",
+        "ground center pivot",
+        "assigned materials"
+      ]
+    },
+    {
+      "asset": "TR_Crate_Mango",
+      "status": "PASS",
+      "triangles": 324,
+      "gltf_meshes": 1,
+      "material_primitives": 3,
+      "sha256": "669cbe3a0f74af5d60af401337fc4e70238bc553943b76c43a327359fda83f38",
+      "size_bytes": 23096,
+      "checks": [
+        "GLB 2 header",
+        "embedded buffer ranges",
+        "finite mesh positions",
+        "triangle indices",
+        "triangle count",
+        "Blender reimport",
+        "meter dimensions",
+        "ground center pivot",
+        "assigned materials"
+      ]
+    },
+    {
+      "asset": "TR_Crate_Cabbage",
+      "status": "PASS",
+      "triangles": 444,
+      "gltf_meshes": 1,
+      "material_primitives": 4,
+      "sha256": "694e4733fbf71308a7276a0f014990f645c34158b7f5ff15015fb14f1762d835",
+      "size_bytes": 29812,
+      "checks": [
+        "GLB 2 header",
+        "embedded buffer ranges",
+        "finite mesh positions",
+        "triangle indices",
+        "triangle count",
+        "Blender reimport",
+        "meter dimensions",
+        "ground center pivot",
+        "assigned materials"
+      ]
+    },
+    {
+      "asset": "TR_Basket_Woven",
+      "status": "PASS",
+      "triangles": 764,
+      "gltf_meshes": 1,
+      "material_primitives": 2,
+      "sha256": "c22720df366398a9e438f0182464909ac127cfd81dbb66dd643166c85e73e3c0",
+      "size_bytes": 42832,
+      "checks": [
+        "GLB 2 header",
+        "embedded buffer ranges",
+        "finite mesh positions",
+        "triangle indices",
+        "triangle count",
+        "Blender reimport",
+        "meter dimensions",
+        "ground center pivot",
+        "assigned materials"
+      ]
+    },
+    {
+      "asset": "TR_Tray_Plastic",
+      "status": "PASS",
+      "triangles": 60,
+      "gltf_meshes": 1,
+      "material_primitives": 1,
+      "sha256": "7dfc0da33a4e49c8f7c436c1f5a028f8d4e4f663e6d2af4117ba6bdf0fb7e656",
+      "size_bytes": 4400,
+      "checks": [
+        "GLB 2 header",
+        "embedded buffer ranges",
+        "finite mesh positions",
+        "triangle indices",
+        "triangle count",
+        "Blender reimport",
+        "meter dimensions",
+        "ground center pivot",
+        "assigned materials"
+      ]
+    },
+    {
+      "asset": "TR_Sack_Rice",
+      "status": "PASS",
+      "triangles": 392,
+      "gltf_meshes": 1,
+      "material_primitives": 4,
+      "sha256": "0c008ac89700445a5232ac4334f5f4ea2f05dab2827b20fab4e9e0e49c071648",
+      "size_bytes": 22076,
+      "checks": [
+        "GLB 2 header",
+        "embedded buffer ranges",
+        "finite mesh positions",
+        "triangle indices",
+        "triangle count",
+        "Blender reimport",
+        "meter dimensions",
+        "ground center pivot",
+        "assigned materials"
+      ]
+    },
+    {
+      "asset": "TR_Cooler_IceBox",
+      "status": "PASS",
+      "triangles": 48,
+      "gltf_meshes": 1,
+      "material_primitives": 2,
+      "sha256": "9cc609a1cce45d6fc6761dfc7f2a7cc67593b7ad3c63f8bc0c046db097afc389",
+      "size_bytes": 4484,
+      "checks": [
+        "GLB 2 header",
+        "embedded buffer ranges",
+        "finite mesh positions",
+        "triangle indices",
+        "triangle count",
+        "Blender reimport",
+        "meter dimensions",
+        "ground center pivot",
+        "assigned materials"
+      ]
+    },
+    {
+      "asset": "TR_Weighing_Scale",
+      "status": "PASS",
+      "triangles": 128,
+      "gltf_meshes": 1,
+      "material_primitives": 4,
+      "sha256": "c05c015b37c3b53fd8329fb5880230a458ebd02710a4566e7bf26cf145c66a8f",
+      "size_bytes": 9520,
+      "checks": [
+        "GLB 2 header",
+        "embedded buffer ranges",
+        "finite mesh positions",
+        "triangle indices",
+        "triangle count",
+        "Blender reimport",
+        "meter dimensions",
+        "ground center pivot",
+        "assigned materials"
+      ]
+    },
+    {
+      "asset": "TR_Jeepney_Shelter",
+      "status": "PASS",
+      "triangles": 1428,
+      "gltf_meshes": 1,
+      "material_primitives": 6,
+      "sha256": "1784efaa3e6d6418e172543b018008274621a2d574bd79b9ec1d2ad1fcf28a41",
+      "size_bytes": 87540,
+      "checks": [
+        "GLB 2 header",
+        "embedded buffer ranges",
+        "finite mesh positions",
+        "triangle indices",
+        "triangle count",
+        "Blender reimport",
+        "meter dimensions",
+        "ground center pivot",
+        "assigned materials"
+      ]
+    },
+    {
+      "asset": "TR_Sign_Parking",
+      "status": "PASS",
+      "triangles": 444,
+      "gltf_meshes": 1,
+      "material_primitives": 4,
+      "sha256": "fc56acd771197aae2811f3821757229184d9a4a77dd9922b9ad379a696459cae",
+      "size_bytes": 23568,
+      "checks": [
+        "GLB 2 header",
+        "embedded buffer ranges",
+        "finite mesh positions",
+        "triangle indices",
+        "triangle count",
+        "Blender reimport",
+        "meter dimensions",
+        "ground center pivot",
+        "assigned materials"
+      ]
+    },
+    {
+      "asset": "TR_Sign_NoParking",
+      "status": "PASS",
+      "triangles": 804,
+      "gltf_meshes": 1,
+      "material_primitives": 4,
+      "sha256": "6926ab44fdf294dc74b5704f9db707215b46a92d1a35ff387b743d3cd5bee1ad",
+      "size_bytes": 37956,
+      "checks": [
+        "GLB 2 header",
+        "embedded buffer ranges",
+        "finite mesh positions",
+        "triangle indices",
+        "triangle count",
+        "Blender reimport",
+        "meter dimensions",
+        "ground center pivot",
+        "assigned materials"
+      ]
+    },
+    {
+      "asset": "TR_Sign_Loading",
+      "status": "PASS",
+      "triangles": 556,
+      "gltf_meshes": 1,
+      "material_primitives": 4,
+      "sha256": "e4a74073a739ec6490882d23c6afe6f530d369c0cd3753b7a8a22cf8e0aab1fb",
+      "size_bytes": 28536,
+      "checks": [
+        "GLB 2 header",
+        "embedded buffer ranges",
+        "finite mesh positions",
+        "triangle indices",
+        "triangle count",
+        "Blender reimport",
+        "meter dimensions",
+        "ground center pivot",
+        "assigned materials"
+      ]
+    },
+    {
+      "asset": "TR_Sign_Speed20",
+      "status": "PASS",
+      "triangles": 352,
+      "gltf_meshes": 1,
+      "material_primitives": 4,
+      "sha256": "fb383cd1c7ef5f8f2cd6cea299c09f1477e8b0213be8e645ebbd9e587e5001ea",
+      "size_bytes": 19744,
+      "checks": [
+        "GLB 2 header",
+        "embedded buffer ranges",
+        "finite mesh positions",
+        "triangle indices",
+        "triangle count",
+        "Blender reimport",
+        "meter dimensions",
+        "ground center pivot",
+        "assigned materials"
+      ]
+    },
+    {
+      "asset": "TR_Sign_OneWay",
+      "status": "PASS",
+      "triangles": 360,
+      "gltf_meshes": 1,
+      "material_primitives": 4,
+      "sha256": "5c5ba2c3a9500c89f65eb517111a358dc7e3920874cf7f92f2f23ad38faa06bf",
+      "size_bytes": 20440,
+      "checks": [
+        "GLB 2 header",
+        "embedded buffer ranges",
+        "finite mesh positions",
+        "triangle indices",
+        "triangle count",
+        "Blender reimport",
+        "meter dimensions",
+        "ground center pivot",
+        "assigned materials"
+      ]
+    },
+    {
+      "asset": "TR_Marking_ParkingBay",
+      "status": "PASS",
+      "triangles": 36,
+      "gltf_meshes": 1,
+      "material_primitives": 1,
+      "sha256": "c023f81cb83d300f27e0bdbb05e27c0d3eac73531afa852321d40c99b5bfc981",
+      "size_bytes": 3080,
+      "checks": [
+        "GLB 2 header",
+        "embedded buffer ranges",
+        "finite mesh positions",
+        "triangle indices",
+        "triangle count",
+        "Blender reimport",
+        "meter dimensions",
+        "ground center pivot",
+        "assigned materials"
+      ]
+    },
+    {
+      "asset": "TR_Marking_Arrow",
+      "status": "PASS",
+      "triangles": 20,
+      "gltf_meshes": 1,
+      "material_primitives": 1,
+      "sha256": "bd35dcbcebcbaaa20d5c611c9281dd1cb133bfff2d025ac0633c71f87ea02761",
+      "size_bytes": 2300,
+      "checks": [
+        "GLB 2 header",
+        "embedded buffer ranges",
+        "finite mesh positions",
+        "triangle indices",
+        "triangle count",
+        "Blender reimport",
+        "meter dimensions",
+        "ground center pivot",
+        "assigned materials"
+      ]
+    },
+    {
+      "asset": "TR_Marking_Crosswalk",
+      "status": "PASS",
+      "triangles": 72,
+      "gltf_meshes": 1,
+      "material_primitives": 1,
+      "sha256": "0de81a4a000fdd462a0600c47da7179f4672556cc04cdbc8614e8c104a148b26",
+      "size_bytes": 5032,
+      "checks": [
+        "GLB 2 header",
+        "embedded buffer ranges",
+        "finite mesh positions",
+        "triangle indices",
+        "triangle count",
+        "Blender reimport",
+        "meter dimensions",
+        "ground center pivot",
+        "assigned materials"
+      ]
+    },
+    {
+      "asset": "TR_Wheel_Stop",
+      "status": "PASS",
+      "triangles": 12,
+      "gltf_meshes": 1,
+      "material_primitives": 1,
+      "sha256": "4fc6a5fe60238de612e69da79e855ee4556c04dcf13d85c0ea432e67469e33d5",
+      "size_bytes": 1780,
+      "checks": [
+        "GLB 2 header",
+        "embedded buffer ranges",
+        "finite mesh positions",
+        "triangle indices",
+        "triangle count",
+        "Blender reimport",
+        "meter dimensions",
+        "ground center pivot",
+        "assigned materials"
+      ]
+    },
+    {
+      "asset": "TR_Tricycle_red",
+      "status": "PASS",
+      "triangles": 724,
+      "gltf_meshes": 1,
+      "material_primitives": 7,
+      "sha256": "77a781b340650d4a5d9694d2da4686180e20e8f0bfe14230f69e4ee9da5f8521",
+      "size_bytes": 49468,
+      "checks": [
+        "GLB 2 header",
+        "embedded buffer ranges",
+        "finite mesh positions",
+        "triangle indices",
+        "triangle count",
+        "Blender reimport",
+        "meter dimensions",
+        "ground center pivot",
+        "assigned materials"
+      ]
+    },
+    {
+      "asset": "TR_Tricycle_blue",
+      "status": "PASS",
+      "triangles": 724,
+      "gltf_meshes": 1,
+      "material_primitives": 7,
+      "sha256": "5d9f44cfe6c96a7e7e9d1b09bc27a4ec6da50b5e695c242803397c8b7d9259d0",
+      "size_bytes": 49468,
+      "checks": [
+        "GLB 2 header",
+        "embedded buffer ranges",
+        "finite mesh positions",
+        "triangle indices",
+        "triangle count",
+        "Blender reimport",
+        "meter dimensions",
+        "ground center pivot",
+        "assigned materials"
+      ]
+    },
+    {
+      "asset": "TR_Tricycle_yellow",
+      "status": "PASS",
+      "triangles": 724,
+      "gltf_meshes": 1,
+      "material_primitives": 7,
+      "sha256": "a4822ed141343361ca53b0aaf68969bc026657d78cbdeaf9e320b0b474e24606",
+      "size_bytes": 49460,
+      "checks": [
+        "GLB 2 header",
+        "embedded buffer ranges",
+        "finite mesh positions",
+        "triangle indices",
+        "triangle count",
+        "Blender reimport",
+        "meter dimensions",
+        "ground center pivot",
+        "assigned materials"
+      ]
+    },
+    {
+      "asset": "TR_Jeepney_red",
+      "status": "PASS",
+      "triangles": 1488,
+      "gltf_meshes": 1,
+      "material_primitives": 8,
+      "sha256": "78dc34e05a5ba8f2d1f45470807874af937dbdf632b893c92e017722ccf4447d",
+      "size_bytes": 88148,
+      "checks": [
+        "GLB 2 header",
+        "embedded buffer ranges",
+        "finite mesh positions",
+        "triangle indices",
+        "triangle count",
+        "Blender reimport",
+        "meter dimensions",
+        "ground center pivot",
+        "assigned materials"
+      ]
+    },
+    {
+      "asset": "TR_Jeepney_blue",
+      "status": "PASS",
+      "triangles": 1488,
+      "gltf_meshes": 1,
+      "material_primitives": 8,
+      "sha256": "13ca296e26c2938c61c5be3f39c55ae0615336698521195e7e864d0794812ea3",
+      "size_bytes": 88152,
+      "checks": [
+        "GLB 2 header",
+        "embedded buffer ranges",
+        "finite mesh positions",
+        "triangle indices",
+        "triangle count",
+        "Blender reimport",
+        "meter dimensions",
+        "ground center pivot",
+        "assigned materials"
+      ]
+    },
+    {
+      "asset": "TR_Jeepney_yellow",
+      "status": "PASS",
+      "triangles": 1488,
+      "gltf_meshes": 1,
+      "material_primitives": 7,
+      "sha256": "b8b896f952fdbc3cdc731f579df4c5af216e928c499c1d982f67cc83437c35dc",
+      "size_bytes": 87700,
+      "checks": [
+        "GLB 2 header",
+        "embedded buffer ranges",
+        "finite mesh positions",
+        "triangle indices",
+        "triangle count",
+        "Blender reimport",
+        "meter dimensions",
+        "ground center pivot",
+        "assigned materials"
+      ]
+    },
+    {
+      "asset": "TR_Board_Palengke",
+      "status": "PASS",
+      "triangles": 388,
+      "gltf_meshes": 1,
+      "material_primitives": 2,
+      "sha256": "72d38b06631e05ec699a4d28ce0cc7fe058da6332e64d63bd3a03184562f5892",
+      "size_bytes": 18708,
+      "checks": [
+        "GLB 2 header",
+        "embedded buffer ranges",
+        "finite mesh positions",
+        "triangle indices",
+        "triangle count",
+        "Blender reimport",
+        "meter dimensions",
+        "ground center pivot",
+        "assigned materials"
+      ]
+    },
+    {
+      "asset": "TR_Board_Gulay",
+      "status": "PASS",
+      "triangles": 708,
+      "gltf_meshes": 1,
+      "material_primitives": 2,
+      "sha256": "e657f727da9ff618b6404740be301f590729f6e608fba8e7a411a4eebb5bff90",
+      "size_bytes": 31700,
+      "checks": [
+        "GLB 2 header",
+        "embedded buffer ranges",
+        "finite mesh positions",
+        "triangle indices",
+        "triangle count",
+        "Blender reimport",
+        "meter dimensions",
+        "ground center pivot",
+        "assigned materials"
+      ]
+    },
+    {
+      "asset": "TR_Board_Isda",
+      "status": "PASS",
+      "triangles": 656,
+      "gltf_meshes": 1,
+      "material_primitives": 2,
+      "sha256": "38ba9472f11d8ed0d00474fbd6873a5158644ad9b5ce086acfa55b6f549ba185",
+      "size_bytes": 29464,
+      "checks": [
+        "GLB 2 header",
+        "embedded buffer ranges",
+        "finite mesh positions",
+        "triangle indices",
+        "triangle count",
+        "Blender reimport",
+        "meter dimensions",
+        "ground center pivot",
+        "assigned materials"
+      ]
+    },
+    {
+      "asset": "TR_Board_Karne",
+      "status": "PASS",
+      "triangles": 396,
+      "gltf_meshes": 1,
+      "material_primitives": 2,
+      "sha256": "de31285d0278a2cbfa236f7e80f6c69f1acc13f563bfd52abe50ef218ac601a9",
+      "size_bytes": 18948,
+      "checks": [
+        "GLB 2 header",
+        "embedded buffer ranges",
+        "finite mesh positions",
+        "triangle indices",
+        "triangle count",
+        "Blender reimport",
+        "meter dimensions",
+        "ground center pivot",
+        "assigned materials"
+      ]
+    },
+    {
+      "asset": "TR_Board_Prutas",
+      "status": "PASS",
+      "triangles": 396,
+      "gltf_meshes": 1,
+      "material_primitives": 2,
+      "sha256": "bad87486b676a3ec9972ae1301c06361e21d31c039ad1acb0c276248e54faf68",
+      "size_bytes": 18868,
+      "checks": [
+        "GLB 2 header",
+        "embedded buffer ranges",
+        "finite mesh positions",
+        "triangle indices",
+        "triangle count",
+        "Blender reimport",
+        "meter dimensions",
+        "ground center pivot",
+        "assigned materials"
+      ]
+    },
+    {
+      "asset": "TR_PriceBoard_AFrame",
+      "status": "PASS",
+      "triangles": 1608,
+      "gltf_meshes": 1,
+      "material_primitives": 3,
+      "sha256": "302654c69b939bf5c7696cad92b6eb5a73e23176dada664e4cb770067375a35a",
+      "size_bytes": 71240,
+      "checks": [
+        "GLB 2 header",
+        "embedded buffer ranges",
+        "finite mesh positions",
+        "triangle indices",
+        "triangle count",
+        "Blender reimport",
+        "meter dimensions",
+        "ground center pivot",
+        "assigned materials"
+      ]
+    },
+    {
+      "asset": "TR_Chair_red",
+      "status": "PASS",
+      "triangles": 96,
+      "gltf_meshes": 1,
+      "material_primitives": 1,
+      "sha256": "1f21705c069324fd414bff09d1524bad8731b65275731d4328980eafbcf4ddbc",
+      "size_bytes": 6336,
+      "checks": [
+        "GLB 2 header",
+        "embedded buffer ranges",
+        "finite mesh positions",
+        "triangle indices",
+        "triangle count",
+        "Blender reimport",
+        "meter dimensions",
+        "ground center pivot",
+        "assigned materials"
+      ]
+    },
+    {
+      "asset": "TR_Chair_blue",
+      "status": "PASS",
+      "triangles": 96,
+      "gltf_meshes": 1,
+      "material_primitives": 1,
+      "sha256": "a217933f2e4ca3306985540f35da6773202246f29b5c83745f235c6635406381",
+      "size_bytes": 6340,
+      "checks": [
+        "GLB 2 header",
+        "embedded buffer ranges",
+        "finite mesh positions",
+        "triangle indices",
+        "triangle count",
+        "Blender reimport",
+        "meter dimensions",
+        "ground center pivot",
+        "assigned materials"
+      ]
+    },
+    {
+      "asset": "TR_Chair_green",
+      "status": "PASS",
+      "triangles": 96,
+      "gltf_meshes": 1,
+      "material_primitives": 1,
+      "sha256": "4e03bbefb55b64336df0eefef4d8986ce9e76d3e3a966d6643f9e67edab72547",
+      "size_bytes": 6340,
+      "checks": [
+        "GLB 2 header",
+        "embedded buffer ranges",
+        "finite mesh positions",
+        "triangle indices",
+        "triangle count",
+        "Blender reimport",
+        "meter dimensions",
+        "ground center pivot",
+        "assigned materials"
+      ]
+    },
+    {
+      "asset": "TR_Bench_Wood",
+      "status": "PASS",
+      "triangles": 132,
+      "gltf_meshes": 1,
+      "material_primitives": 2,
+      "sha256": "edd8bec2430c6f60b26b96929b82652db8d9676dd242d4ddc5ce6b709143fc21",
+      "size_bytes": 9112,
+      "checks": [
+        "GLB 2 header",
+        "embedded buffer ranges",
+        "finite mesh positions",
+        "triangle indices",
+        "triangle count",
+        "Blender reimport",
+        "meter dimensions",
+        "ground center pivot",
+        "assigned materials"
+      ]
+    },
+    {
+      "asset": "TR_Bin_green",
+      "status": "PASS",
+      "triangles": 604,
+      "gltf_meshes": 1,
+      "material_primitives": 4,
+      "sha256": "caf92f6b7d3f43e9e6661b4c5b548239309830ccd3185e6fb7cb28ebc2214e28",
+      "size_bytes": 29740,
+      "checks": [
+        "GLB 2 header",
+        "embedded buffer ranges",
+        "finite mesh positions",
+        "triangle indices",
+        "triangle count",
+        "Blender reimport",
+        "meter dimensions",
+        "ground center pivot",
+        "assigned materials"
+      ]
+    },
+    {
+      "asset": "TR_Bin_blue",
+      "status": "PASS",
+      "triangles": 592,
+      "gltf_meshes": 1,
+      "material_primitives": 4,
+      "sha256": "26dbeaa9f697277c3425fa77f7296196a3ac0e436daa5189e7672f1ad2589fd3",
+      "size_bytes": 29892,
+      "checks": [
+        "GLB 2 header",
+        "embedded buffer ranges",
+        "finite mesh positions",
+        "triangle indices",
+        "triangle count",
+        "Blender reimport",
+        "meter dimensions",
+        "ground center pivot",
+        "assigned materials"
+      ]
+    },
+    {
+      "asset": "TR_Bin_red",
+      "status": "PASS",
+      "triangles": 472,
+      "gltf_meshes": 1,
+      "material_primitives": 4,
+      "sha256": "52893a6718bd85050fab05be33ed5a000958feee3a4c48a42a126beeab1b7a0f",
+      "size_bytes": 24816,
+      "checks": [
+        "GLB 2 header",
+        "embedded buffer ranges",
+        "finite mesh positions",
+        "triangle indices",
+        "triangle count",
+        "Blender reimport",
+        "meter dimensions",
+        "ground center pivot",
+        "assigned materials"
+      ]
+    }
+  ]
+}
