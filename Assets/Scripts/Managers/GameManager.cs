@@ -8,12 +8,9 @@ public class GameManager : MonoBehaviour
     public int requiredLaps = 3;
     [HideInInspector] public int completedLaps = 0;
     public int damage = 10;
-    [HideInInspector] public bool allDestinationsDone = false;
     [HideInInspector] public bool gameWon = false;
     [HideInInspector] public bool timeExpired = false;
-    public GameObject winText;
-    public GameObject gameOverText;
-    public GameObject restartButton;
+    public GameObject winText, gameOverText, restartButton;
     public UIManager uiManager;
     public PassengerPickup[] passengers = new PassengerPickup[5];
     [HideInInspector] public int passengersOnboard = 0;
@@ -23,7 +20,7 @@ public class GameManager : MonoBehaviour
     // Passenger formula: Level 1 = 3, Level 2 = 4, Level 3 = 5
     public int CalculateRequiredPassengers()
     {
-        return 3 + (levelNumber - 1) * 1;
+        return 3 + (levelNumber - 1);
     }
 
     void Awake()
@@ -35,10 +32,7 @@ public class GameManager : MonoBehaviour
             System.Array.Resize(ref passengers, requiredLaps);
         }
 
-        if (scoreManager == null)
-        {
-        scoreManager = GetComponent<ScoreManager>();
-        }
+        if (scoreManager == null) scoreManager = GetComponent<ScoreManager>();
     }
 
     void Update()
@@ -51,31 +45,26 @@ public class GameManager : MonoBehaviour
             restartButton.SetActive(true);
             enabled = false;
         }
-
-        if (destinationCount >= requiredLaps)
-        {
-            allDestinationsDone = true;
-        }
     }
 
     public bool CompleteLap()
     {
         TripTimer tripTimer = GetComponent<TripTimer>();
 
-    if (tripTimer == null || !tripTimer.IsTimerStarted() || timeExpired || health <= 0 || gameWon || destinationCount <= completedLaps || completedLaps >= requiredLaps)
+        if (tripTimer == null || !tripTimer.IsTimerStarted() || timeExpired || health <= 0 || gameWon || destinationCount <= completedLaps || completedLaps >= requiredLaps)
         {
-        return false;
+            return false;
         }
 
         completedLaps++;
 
-    if (completedLaps >= requiredLaps)
+        if (completedLaps >= requiredLaps)
         {
-        gameWon = true;
-        // WinText is a child of VictorySummaryPanel, so show the whole panel first
-        winText.transform.parent.gameObject.SetActive(true);
-        winText.SetActive(true);
-        restartButton.SetActive(true);
+            gameWon = true;
+            // WinText is a child of VictorySummaryPanel, so show the whole panel first
+            winText.transform.parent.gameObject.SetActive(true);
+            winText.SetActive(true);
+            restartButton.SetActive(true);
         }
 
         return true;
@@ -83,28 +72,24 @@ public class GameManager : MonoBehaviour
 
     public void TakeDamage()
     {
+        TakeDamage(damage);
+    }
+
+    public void TakeDamage(int amount)
+    {
         // Ignore damage after game over, win, or time up.
-        if (health <= 0 || gameWon || timeExpired)
-        {
-            return;
-        }
+        if (health <= 0 || gameWon || timeExpired) return;
 
-        health = Mathf.Max(0, health - damage);
+        health = Mathf.Max(0, health - amount);
 
-        if (uiManager != null)
-        {
-        uiManager.ShowDamagePopup(damage);
-        }
+        if (uiManager != null) uiManager.ShowDamagePopup(amount);
     }
 
     public bool DeliverPassenger(Destination destination)
     {
         TripTimer tripTimer = GetComponent<TripTimer>();
 
-        if (tripTimer == null || !tripTimer.IsTimerStarted())
-        {
-            return false;
-        }
+        if (tripTimer == null || !tripTimer.IsTimerStarted()) return false;
 
         foreach (PassengerPickup passenger in passengers)
         {

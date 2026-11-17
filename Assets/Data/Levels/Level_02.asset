@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8fbf1ea3ba3b36d40b5fe4868e7224ea, type: 3}
+  m_Name: Level_02
+  m_EditorClassIdentifier: Assembly-CSharp::LevelData
+  levelName: Palengke District
+  sceneName: Level_02
+  playable: 1
+  difficulty: Medium
+  passengerCount: 4
+  timeLimit: 180
+  accentColor: {r: 0.9490196, g: 0.54901963, b: 0.15686275, a: 1}
+  subtitle: "Crowded market streets \xB7 4 passengers"
+  description: Weave through market streets and traffic. Keep your wheels steady and deliver every passenger before the timer runs out.

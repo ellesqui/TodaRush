@@ -1,8 +1,7 @@
-
 using TMPro;
 using UnityEngine;
 
-public class PassengerRequestDialogue : MonoBehaviour
+public class PassengerDialogue : MonoBehaviour
 {
     public GameObject requestBubbleCanvas;
     public TMP_Text requestText;
@@ -19,10 +18,7 @@ public class PassengerRequestDialogue : MonoBehaviour
         bool showDialogue = !passengerPickup.hasBoarded && !passengerPickup.IsApproaching && passengerPickup.targetDestination != null;
         requestBubbleCanvas.SetActive(showDialogue);
 
-        if (!showDialogue)
-        {
-            return;
-        }
+        if (!showDialogue) return;
 
         requestText.text = "Pahatid po sa " + passengerPickup.targetDestination.destinationName + "!";
         requestBubbleCanvas.transform.LookAt(mainCamera.transform);

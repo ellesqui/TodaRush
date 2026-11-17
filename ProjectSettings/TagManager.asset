@@ -35,9 +35,9 @@ TagManager:
   - 
   - 
   - 
+  - MinimapArrow
   - 
-  - 
-  - 
+  - FullMapArrow
   m_SortingLayers:
   - name: Default
     uniqueID: 0

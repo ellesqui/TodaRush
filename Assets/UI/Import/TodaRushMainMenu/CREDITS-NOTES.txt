@@ -1,0 +1,5 @@
+Credits updated in Assets/TodaRushMainMenu/TODA-RUSH Main Menu.unity. Existing CreditsPanel, main CREDITS event, and Back button reused.
+Two equal editable uGUI sections: EMC 3A (6 names) and EMC 3C (5 names), exact spelling and order from the brief. Names use TMP and Vertical Layout Groups. Orange header, people icon, checkered accent, cream frame, charcoal sections, yellow headers and red Back.
+MainMenuController.Credits now hides logo; existing Back restores logo and five buttons. Settings and How To Play hierarchies unchanged. No separate scene, Canvas, EventSystem or runtime manager created.
+Barlow Condensed Bold, Barlow Condensed SemiBold and Inter are absent: documented Liberation Sans SDF placeholders remain.
+Play-mode checks at 1920x1080 passed: exact 11 names/order, headings, name fit, Credits open/Back, Settings category/Back, tutorial ten-card UI/Back, Play configuration feedback, unchanged settings, no scene reload, one Canvas/EventSystem and Quit exit.

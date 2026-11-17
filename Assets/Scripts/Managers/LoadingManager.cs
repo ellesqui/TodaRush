@@ -10,17 +10,30 @@ public class LoadingManager : MonoBehaviour
     public Slider progressBar;
     public TMP_Text progressText;
     public GameObject continueHint;
+    public RectTransform progressFill;   // LoadingBarFill, inside the track
+    public RectTransform tricycleIcon;   // rides on the right edge of the fill
+    public Animator logoAnimator;        // Logo bounce, enabled when loading starts
 
-    private static string targetScene = "LevelSelect";
+    private static string targetScene = "MainMap";
 
     public static void LoadThroughLoadingScreen(string sceneName)
     {
         targetScene = sceneName;
-        SceneManager.LoadScene("LoadingScreen");
+        SceneManager.LoadScene("LoadingScene");
+    }
+
+    void LateUpdate()
+    {
+        if (progressFill == null || tricycleIcon == null) return;
+
+        // World position of the fill's right edge, keeping the icon's own height
+        Vector3 edge = progressFill.TransformPoint(new Vector3(progressFill.rect.xMax, progressFill.rect.center.y, 0f));
+        tricycleIcon.position = new Vector3(edge.x, tricycleIcon.position.y, tricycleIcon.position.z);
     }
 
     async void Start()
     {
+        if (logoAnimator != null) logoAnimator.enabled = true;
         await LoadSelectedScene();
     }
 
@@ -30,12 +43,15 @@ public class LoadingManager : MonoBehaviour
 
         operation.allowSceneActivation = false;
 
-        for (int progress = 10; progress <= 90; progress += 10)
+        // Smooth fake progress: rises every frame up to 90% (about 9 seconds)
+        float shown = 0f;
+        while (shown < 0.9f)
         {
-            progressBar.value = progress / 100f;
-            progressText.text = progress.ToString() + "%";
+            shown = Mathf.MoveTowards(shown, 0.9f, Time.deltaTime * 0.1f);
+            progressBar.value = shown;
+            progressText.text = Mathf.RoundToInt(shown * 100f).ToString() + "%";
 
-            await Task.Delay(1000);
+            await Task.Yield();
         }
 
         while (operation.progress < 0.9f)

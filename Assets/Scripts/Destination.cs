@@ -55,6 +55,7 @@ public class Destination : Interactable
         {
             gameManager.scoreManager.AddScore(100);
             gameManager.destinationCount++;
+            FindFirstObjectByType<UIManager>()?.ShowSuccess("DELIVERED!");
             if (destinationVisual != null)
             {
                 destinationVisual.SetActive(false);

@@ -6,22 +6,13 @@ using TMPro;
 // Level select: pins choose a level, the info panel shows it, Start Mission loads it.
 public class LevelSelectManager : MonoBehaviour
 {
-    // Assigned by the scene setup (each array should have 3 items: Level 1, 2, 3)
-    public Image[] pinBodies;       // 3 pins: green, orange, red
-    public GameObject[] pinHalos;   // pulsing halo for each pin
+    public GameObject[] pinHalos;   // pulsing halo for each pin (Level 1, 2, 3)
     public TMP_Text[] pinLabels;    // map name label for each pin
     public GameObject[] routes;     // dashed route to each pin
     public Image accentStrip;
-    public TMP_Text badgeText;
-    public TMP_Text titleText;
-    public TMP_Text subtitleText;
-    public TMP_Text descriptionText;
-    public TMP_Text passengersText;
-    public TMP_Text timeText;
-    public TMP_Text difficultyText;
+    public TMP_Text badgeText, titleText, subtitleText, descriptionText, passengersText, timeText, difficultyText;
     public Button startButton;
 
-    // Verified values: MainMap = 3 passengers, Level_02 = 4 passengers, both 180 s time limit
     private readonly string[] levelNames = { "Purok Residential", "Palengke District", "Bukid Hillside" };
     private readonly string[] levelScenes = { "MainMap", "Level_02", "" }; // Level 3 has no scene yet
     private readonly int[] passengerCounts = { 3, 4, 0 };
@@ -47,8 +38,8 @@ public class LevelSelectManager : MonoBehaviour
 
     void Update()
     {
-        // Subtle pulse on the selected pin's halo (skipped if the halo is not assigned)
-        if (!HasIndex(pinHalos, selected) || pinHalos[selected] == null) return;
+        // Subtle pulse on the selected pin's halo
+        if (selected >= pinHalos.Length || pinHalos[selected] == null) return;
 
         float s = 1f + 0.08f * Mathf.Sin(Time.time * 3f);
         pinHalos[selected].transform.localScale = new Vector3(s, s, 1f);
@@ -57,7 +48,6 @@ public class LevelSelectManager : MonoBehaviour
     // Called by the pin buttons: 0 = Level 1, 1 = Level 2, 2 = Level 3
     public void SelectLevel(int index)
     {
-        // Ignore invalid indexes so a wrong button can't crash the screen
         if (index < 0 || index >= levelNames.Length) return;
 
         selected = index;
@@ -65,13 +55,9 @@ public class LevelSelectManager : MonoBehaviour
         for (int i = 0; i < levelNames.Length; i++)
         {
             bool isSelected = i == selected;
-
-            if (HasIndex(pinHalos, i) && pinHalos[i] != null) pinHalos[i].SetActive(isSelected);
-            if (HasIndex(routes, i) && routes[i] != null) routes[i].SetActive(isSelected);
-            if (HasIndex(pinLabels, i) && pinLabels[i] != null)
-            {
-                pinLabels[i].fontStyle = isSelected ? TMPro.FontStyles.Bold : TMPro.FontStyles.Normal;
-            }
+            if (i < pinHalos.Length && pinHalos[i] != null) pinHalos[i].SetActive(isSelected);
+            if (i < routes.Length && routes[i] != null) routes[i].SetActive(isSelected);
+            if (i < pinLabels.Length && pinLabels[i] != null) pinLabels[i].fontStyle = isSelected ? FontStyles.Bold : FontStyles.Normal;
         }
 
         RefreshPanel();
@@ -88,39 +74,23 @@ public class LevelSelectManager : MonoBehaviour
             badgeText.text = "LEVEL 0" + (selected + 1);
             badgeText.color = c;
         }
-        if (titleText != null) titleText.text = levelNames[selected];
 
+        SetText(titleText, levelNames[selected]);
         SetText(subtitleText, subtitles[selected]);
         SetText(descriptionText, descriptions[selected]);
         SetText(difficultyText, difficultyNames[selected]);
-
-        if (playable)
-        {
-            SetText(passengersText, passengerCounts[selected].ToString());
-            SetText(timeText, timeLimit);
-        }
-        else
-        {
-            SetText(passengersText, "--");
-            SetText(timeText, "--");
-        }
+        SetText(passengersText, playable ? passengerCounts[selected].ToString() : "--");
+        SetText(timeText, playable ? timeLimit : "--");
 
         if (startButton != null) startButton.interactable = playable;
     }
 
-    // Start Mission: loads the selected playable level through the existing loading screen
+    // Start Mission: loads the selected playable level through the loading screen
     public void StartMission()
     {
-        if (selected < 0 || selected >= levelScenes.Length) return;
         if (levelScenes[selected] == "") return;
 
         LoadingManager.LoadThroughLoadingScreen(levelScenes[selected]);
-    }
-
-    // Kept from the original script (no longer wired to a button)
-    public void SelectLevel1()
-    {
-        LoadingManager.LoadThroughLoadingScreen("MainMap");
     }
 
     public void BackToMainMenu()
@@ -128,13 +98,7 @@ public class LevelSelectManager : MonoBehaviour
         SceneManager.LoadScene("MainMenu");
     }
 
-    // Safe helpers: check the array length and null before using an index
-    private static bool HasIndex<T>(T[] array, int index)
-    {
-        return array != null && index >= 0 && index < array.Length;
-    }
-
-    private static void SetText(TMP_Text label, string value)
+    private void SetText(TMP_Text label, string value)
     {
         if (label != null) label.text = value;
     }

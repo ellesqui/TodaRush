@@ -1,4 +1,3 @@
-
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -7,61 +6,35 @@ using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
-    public TextMeshProUGUI healthText;
+    public TextMeshProUGUI healthText, scoreText, highScoreText, timerText, damagePopupText, speedText;
+    public TextMeshProUGUI scoreValueText, passengersValueText, timeValueText;
+    public TextMeshProUGUI gameOverScoreValueText, gameOverPassengersValueText, gameOverHealthValueText, failureReasonText;
     public Image healthBarFill;
-    public Color healthNormalColor = new Color32(62, 155, 108, 255);
-    public Color healthCriticalColor = new Color32(214, 40, 40, 255);
-    [Range(0f, 1f)] public float criticalHealthThreshold = 0.3f;
-
-    public TextMeshProUGUI scoreText;
-    public TextMeshProUGUI highScoreText;
-    public TextMeshProUGUI timerText;
-    public TextMeshProUGUI damagePopupText;
-    public TextMeshProUGUI lapText;
-    public TextMeshProUGUI lapNotificationText;
-    public TextMeshProUGUI missionSummaryText;
-
-    // Victory statistics (WinPanel/ResultCard/StatsBox)
-    public TextMeshProUGUI scoreValueText;
-    public TextMeshProUGUI passengersValueText;
-    public TextMeshProUGUI timeValueText;
-
-    // Game Over statistics (GameOverPanel/ResultCard/StatsBox)
-    public TextMeshProUGUI gameOverScoreValueText;
-    public TextMeshProUGUI gameOverPassengersValueText;
-    public TextMeshProUGUI gameOverHealthValueText;
-    public TextMeshProUGUI failureReasonText;
-
-    public GameObject gameplayHUD;
-    public GameObject victoryDimOverlay;
-    public GameObject victorySummaryPanel;
-
-    public GameObject pauseOverlay;
-
+    public PassengerProgressWidget passengerProgress;
+    public GameObject gameplayHUD, victoryDimOverlay, victorySummaryPanel, pauseOverlay, successNotification;
     public GameManager gameManager;
     public TripTimer tripTimer;
     public PlayerController playerController;
-    public TextMeshProUGUI speedText;
+    public float healthFillDuration = 0.4f;
+    public float popupDuration = 1.3f, popupRiseDistance = 50f, popupStartScale = 1.2f;
 
-    public float popupDuration = 1.3f;
-    public float popupRiseDistance = 50f;
-    public float popupStartScale = 1.2f;
-    public float notificationDuration = 2.5f;
+    [Header("Full Map")]
+    public Camera fullMapCamera;
+    public GameObject fullMapPanel;
 
+    [Header("Passenger Dialogue HUD")]
+    public GameObject passengerDialogueHUD;
+    public UnityEngine.UI.Image damageFlash;
+    private float flashAlpha;
+    public TextMeshProUGUI passengerNameText, speechText;
+
+    private float healthFillShown = -1f, healthFillFrom, healthFillTarget, healthFillTimer;
     private Coroutine popupCoroutine;
-    private Coroutine notificationCoroutine;
-
     private RectTransform popupRect;
     private Vector2 popupStartPosition;
     private Vector3 popupNormalScale;
     private Color popupColor;
-
-    private int previousDisplayedLap = -1;
-    private int previousCompletedLaps = 0;
-    private bool summaryShown = false;
-    private bool gameOverShown = false;
-
-    private bool isPaused = false;
+    private bool summaryShown, gameOverShown, isPaused;
 
     private const string TimerExpiredReason = "The timer ran out before all passengers were delivered.";
 
@@ -69,36 +42,20 @@ public class UIManager : MonoBehaviour
     {
         Time.timeScale = 1f;
         isPaused = false;
-
-        if (pauseOverlay != null)
-        {
-            pauseOverlay.SetActive(false);
-        }
-
+        if (pauseOverlay != null) pauseOverlay.SetActive(false);
         CachePopup();
-
-        if (damagePopupText != null)
-        {
-            damagePopupText.gameObject.SetActive(false);
-        }
-
-        if (lapNotificationText != null)
-        {
-            lapNotificationText.gameObject.SetActive(false);
-        }
+        if (passengerProgress != null) passengerProgress.Initialize(gameManager, UnityEngine.Object.FindAnyObjectByType<Queue>());
+        if (damagePopupText != null) damagePopupText.gameObject.SetActive(false);
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            TogglePause();
-        }
+        if (Input.GetKeyDown(KeyCode.Escape)) TogglePause();
+        if (Input.GetKeyDown(KeyCode.R)) ToggleFullMap();
+        FadeDamageFlash();
+        if (gameManager == null) return;
 
-        if (gameManager == null)
-        {
-            return;
-        }
+        UpdatePassengerCard();
 
         if (gameManager.gameWon)
         {
@@ -106,54 +63,154 @@ public class UIManager : MonoBehaviour
             return;
         }
 
-        if (!gameOverShown && (gameManager.timeExpired || gameManager.health <= 0))
-        {
-            UpdateGameOverStats();
-        }
+        if (!gameOverShown && (gameManager.timeExpired || gameManager.health <= 0)) UpdateGameOverStats();
 
         UpdateHealthDisplay();
-
-        scoreText.text = "Score: " + gameManager.scoreManager.score.ToString();
-        highScoreText.text = "High Score: " + gameManager.scoreManager.highScore.ToString();
-
+        scoreText.text = "Score: " + gameManager.scoreManager.score;
+        highScoreText.text = "High Score: " + gameManager.scoreManager.highScore;
         UpdateTimerText();
-        UpdateLapText();
-        UpdateLapNotification();
-
         speedText.text = playerController.currentSpeed.ToString("0");
     }
 
-    // HEALTH BAR
-
-    private void UpdateHealthDisplay()
+    // PASSENGER DIALOGUE HUD (shows the passenger currently boarded)
+    private void UpdatePassengerCard()
     {
-        int maxHealth = Mathf.Max(1, gameManager.maxHealth);
-        int currentHealth = Mathf.Clamp(gameManager.health, 0, maxHealth);
+        if (passengerDialogueHUD == null) return;
 
-        float healthPercent = (float)currentHealth / maxHealth;
-
-        if (healthText != null)
+        int index = 0;
+        foreach (PassengerPickup passenger in gameManager.passengers)
         {
-            healthText.text = currentHealth.ToString() + " / " + maxHealth.ToString();
+            index++;
+            if (passenger == null || !passenger.hasBoarded || passenger.targetDestination == null) continue;
+
+            passengerDialogueHUD.SetActive(true);
+            if (passengerNameText != null) passengerNameText.text = "Passenger " + index.ToString("00");
+            if (speechText != null) speechText.text = "Pahatid po sa " + passenger.targetDestination.destinationName + "!";
+            return;
         }
 
-        if (healthBarFill != null)
-        {
-            healthBarFill.fillAmount = healthPercent;
+        passengerDialogueHUD.SetActive(false);
+    }
 
-            if (healthPercent <= criticalHealthThreshold)
-            {
-                healthBarFill.color = healthCriticalColor;
-            }
-            else
-            {
-                healthBarFill.color = healthNormalColor;
-            }
+    // RED FLASH WHEN THE PLAYER GETS HURT
+    public void ShowDamageFlash() { flashAlpha = 0.45f; }
+
+    private void FadeDamageFlash()
+    {
+        if (damageFlash == null) return;
+        flashAlpha = Mathf.MoveTowards(flashAlpha, 0f, Time.unscaledDeltaTime * 1.5f);
+        damageFlash.color = new Color(1f, 0f, 0f, flashAlpha);
+    }
+
+    // FULL MAP (R key or click minimap to open; R key or click full map to close)
+    public void ToggleFullMap()
+    {
+        if (fullMapPanel == null) return;
+
+        bool show = !fullMapPanel.activeSelf;
+        fullMapPanel.SetActive(show);
+        if (fullMapCamera != null) fullMapCamera.enabled = show;
+    }
+
+    // SETTINGS (opened from the pause menu)
+    public GameObject settingsPanel;
+
+    public void OpenSettings()
+    {
+        settingsPanel.SetActive(true);
+    }
+
+    public void CloseSettings()
+    {
+        settingsPanel.SetActive(false);
+    }
+
+    // SETTINGS TABS (Audio / Graphics / Controls)
+    public GameObject audioContent, graphicsContent, controlsContent;
+    public Image audioTab, graphicsTab, controlsTab;
+
+    public void ShowAudioSettings() { ShowTab(0); }
+    public void ShowGraphicsSettings() { ShowTab(1); }
+    public void ShowControlsSettings() { ShowTab(2); }
+
+    void ShowTab(int index)
+    {
+        GameObject[] contents = { audioContent, graphicsContent, controlsContent };
+        Image[] tabs = { audioTab, graphicsTab, controlsTab };
+        Color orange = new Color32(242, 140, 40, 255);
+        Color dark = new Color32(37, 39, 43, 255);
+
+        for (int i = 0; i < 3; i++)
+        {
+            contents[i].SetActive(i == index);
+            tabs[i].color = i == index ? orange : dark;
         }
     }
 
-    // PAUSE SYSTEM
+    // SUCCESS / DELIVERED NOTIFICATION (shows for 2 seconds)
+    public void ShowSuccess(string message = "SUCCESS")
+    {
+        if (successNotification == null) return;
 
+        successNotification.GetComponentInChildren<TextMeshProUGUI>(true).text = message;
+        successNotification.SetActive(true);
+        CancelInvoke(nameof(HideSuccess));
+        Invoke(nameof(HideSuccess), 2f);
+    }
+
+    void HideSuccess()
+    {
+        successNotification.SetActive(false);
+    }
+
+    // HEALTH BAR
+    private void UpdateHealthDisplay()
+    {
+        int maxHealth = Mathf.Max(1, gameManager.maxHealth);
+        float healthPercent = (float)Mathf.Clamp(gameManager.health, 0, maxHealth) / maxHealth;
+
+        if (healthText != null) healthText.text = Mathf.RoundToInt(healthPercent * 100f) + "%";
+        UpdateHealthFill(healthPercent);
+    }
+
+    private void UpdateHealthFill(float targetPercent)
+    {
+        if (healthBarFill == null) return;
+
+        targetPercent = Mathf.Clamp01(targetPercent);
+
+        if (healthFillShown < 0f)
+        {
+            healthFillShown = healthFillFrom = healthFillTarget = targetPercent;
+            healthFillTimer = healthFillDuration;
+        }
+
+        if (!Mathf.Approximately(targetPercent, healthFillTarget))
+        {
+            healthFillFrom = healthFillShown;
+            healthFillTarget = targetPercent;
+            healthFillTimer = 0f;
+        }
+
+        if (healthFillTimer < healthFillDuration)
+        {
+            healthFillTimer += Time.unscaledDeltaTime;
+            float t = Mathf.Clamp01(healthFillTimer / healthFillDuration);
+            float eased = 1f - Mathf.Pow(1f - t, 3f); // approximates cubic-bezier(0.25, 1, 0.5, 1)
+            healthFillShown = Mathf.Lerp(healthFillFrom, healthFillTarget, eased);
+        }
+        else
+        {
+            healthFillShown = healthFillTarget;
+        }
+
+        RectTransform barRect = healthBarFill.rectTransform.parent as RectTransform;
+        float innerWidth = barRect != null ? barRect.rect.width : 364f;
+        Vector2 size = healthBarFill.rectTransform.sizeDelta;
+        healthBarFill.rectTransform.sizeDelta = new Vector2(innerWidth * Mathf.Clamp01(healthFillShown), size.y);
+    }
+
+    // PAUSE SYSTEM
     private bool CanPause()
     {
         return gameManager != null && !gameManager.gameWon && !gameManager.timeExpired && gameManager.health > 0;
@@ -167,10 +224,7 @@ public class UIManager : MonoBehaviour
             return;
         }
 
-        if (!CanPause() || pauseOverlay == null)
-        {
-            return;
-        }
+        if (!CanPause() || pauseOverlay == null) return;
 
         isPaused = true;
         pauseOverlay.SetActive(true);
@@ -181,18 +235,13 @@ public class UIManager : MonoBehaviour
     {
         isPaused = false;
         Time.timeScale = 1f;
-
-        if (pauseOverlay != null)
-        {
-            pauseOverlay.SetActive(false);
-        }
+        if (pauseOverlay != null) pauseOverlay.SetActive(false);
     }
 
     public void RestartLevel()
     {
         Time.timeScale = 1f;
         isPaused = false;
-
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
@@ -200,51 +249,21 @@ public class UIManager : MonoBehaviour
     {
         Time.timeScale = 1f;
         isPaused = false;
-
         SceneManager.LoadScene("MainMenu");
     }
 
-    // LAP DISPLAY
-
-    private void UpdateLapText()
-    {
-        if (lapText == null)
-        {
-            return;
-        }
-
-        int currentLap = Mathf.Min(gameManager.completedLaps + 1, gameManager.requiredLaps);
-
-        if (currentLap == previousDisplayedLap)
-        {
-            return;
-        }
-
-        previousDisplayedLap = currentLap;
-
-        lapText.text = "LAP " + currentLap.ToString() + " / " + gameManager.requiredLaps.ToString();
-    }
-
     // DAMAGE POPUP
-
     public void ShowDamagePopup(int damageAmount)
     {
-        if (damagePopupText == null)
-        {
-            return;
-        }
+        if (damagePopupText == null) return;
 
         CachePopup();
-
-        if (popupCoroutine != null)
-        {
-            StopCoroutine(popupCoroutine);
-        }
+        if (popupCoroutine != null) StopCoroutine(popupCoroutine);
 
         popupRect.anchoredPosition = popupStartPosition;
         popupRect.localScale = popupNormalScale * popupStartScale;
         damagePopupText.color = popupColor;
-        damagePopupText.text = "-" + damageAmount.ToString() + " DAMAGE!";
+        damagePopupText.text = "-" + damageAmount + " DAMAGE!";
         damagePopupText.gameObject.SetActive(true);
 
         popupCoroutine = StartCoroutine(AnimatePopup());
@@ -260,12 +279,8 @@ public class UIManager : MonoBehaviour
             float t = Mathf.Clamp01(timer / popupDuration);
 
             popupRect.anchoredPosition = popupStartPosition + Vector2.up * (popupRiseDistance * t);
-
             popupRect.localScale = popupNormalScale * Mathf.Lerp(popupStartScale, 1f, Mathf.Clamp01(t * 4f));
-
-            Color c = popupColor;
-            c.a = popupColor.a * (1f - t);
-            damagePopupText.color = c;
+            damagePopupText.color = new Color(popupColor.r, popupColor.g, popupColor.b, popupColor.a * (1f - t));
 
             yield return null;
         }
@@ -276,10 +291,7 @@ public class UIManager : MonoBehaviour
 
     private void CachePopup()
     {
-        if (popupRect != null || damagePopupText == null)
-        {
-            return;
-        }
+        if (popupRect != null || damagePopupText == null) return;
 
         popupRect = damagePopupText.rectTransform;
         popupStartPosition = popupRect.anchoredPosition;
@@ -288,124 +300,48 @@ public class UIManager : MonoBehaviour
     }
 
     // TIMER DISPLAY
+    private string FormatTime(float seconds)
+    {
+        return Mathf.FloorToInt(seconds / 60f).ToString("00") + ":" + Mathf.FloorToInt(seconds % 60f).ToString("00");
+    }
 
     private void UpdateTimerText()
     {
-        if (tripTimer == null || timerText == null)
-        {
-            return;
-        }
+        if (tripTimer == null || timerText == null) return;
 
-        if (gameManager.timeExpired)
-        {
-            timerText.text = "TIME'S UP!";
-        }
-        else if (!tripTimer.IsTimerStarted())
-        {
-            timerText.text = "Waiting for passengers (" + gameManager.passengersOnboard.ToString() + "/" + tripTimer.requiredPassengerCount.ToString() + ")";
-        }
-        else
-        {
-            float remainingTime = Mathf.Max(0f, tripTimer.GetTimeRemaining());
-
-            int minutes = Mathf.FloorToInt(remainingTime / 60f);
-            int seconds = Mathf.FloorToInt(remainingTime % 60f);
-
-            timerText.text = minutes.ToString("00") + ":" + seconds.ToString("00");
-        }
-    }
-
-    // LAP NOTIFICATION
-
-    private void UpdateLapNotification()
-    {
-        if (lapNotificationText == null)
-        {
-            return;
-        }
-
-        if (gameManager.completedLaps > previousCompletedLaps)
-        {
-            previousCompletedLaps = gameManager.completedLaps;
-
-            if (notificationCoroutine != null)
-            {
-                StopCoroutine(notificationCoroutine);
-            }
-
-            if (gameManager.completedLaps >= gameManager.requiredLaps)
-            {
-                lapNotificationText.text = "RACE COMPLETE!";
-            }
-            else
-            {
-                lapNotificationText.text = "LAP " + gameManager.completedLaps.ToString() + " COMPLETE!";
-            }
-
-            lapNotificationText.gameObject.SetActive(true);
-            notificationCoroutine = StartCoroutine(HideLapNotification());
-        }
-    }
-
-    private IEnumerator HideLapNotification()
-    {
-        yield return new WaitForSeconds(notificationDuration);
-
-        lapNotificationText.gameObject.SetActive(false);
-        notificationCoroutine = null;
+        if (gameManager.timeExpired) timerText.text = "TIME'S UP!";
+        else timerText.text = FormatTime(Mathf.Max(0f, tripTimer.GetTimeRemaining()));
     }
 
     // VICTORY SUMMARY
-
     private void UpdateMissionSummary()
     {
-        if (summaryShown)
-        {
-            return;
-        }
-
-        if (gameplayHUD == null || victoryDimOverlay == null || victorySummaryPanel == null || missionSummaryText == null || tripTimer == null || gameManager.scoreManager == null)
-        {
-            return;
-        }
+        if (summaryShown) return;
+        if (gameplayHUD == null || victoryDimOverlay == null || victorySummaryPanel == null || tripTimer == null || gameManager.scoreManager == null) return;
 
         summaryShown = true;
-
         gameplayHUD.SetActive(false);
         victoryDimOverlay.SetActive(true);
         victorySummaryPanel.SetActive(true);
 
-        float remainingTime = tripTimer.GetTimeRemaining();
+        string time = FormatTime(tripTimer.GetTimeRemaining());
+        int score = gameManager.scoreManager.score;
 
-        int minutes = Mathf.FloorToInt(remainingTime / 60f);
-        int seconds = Mathf.FloorToInt(remainingTime % 60f);
-
-        // Original multiline summary, kept for compatibility during testing.
-        missionSummaryText.text = "LAPS COMPLETED: " + gameManager.completedLaps.ToString() + " / " + gameManager.requiredLaps.ToString() + "\n" + "PASSENGERS DELIVERED: " + gameManager.destinationCount.ToString() + " / " + gameManager.requiredLaps.ToString() + "\n" + "FINAL SCORE: " + gameManager.scoreManager.score.ToString() + "\n" + "TIME REMAINING: " + minutes.ToString("00") + ":" + seconds.ToString("00");
-
-        // Three-column statistics.
-        SetText(scoreValueText, gameManager.scoreManager.score.ToString());
-        SetText(passengersValueText, gameManager.destinationCount.ToString() + " / " + gameManager.requiredLaps.ToString());
-        SetText(timeValueText, minutes.ToString("00") + ":" + seconds.ToString("00"));
+        SetText(scoreValueText, score.ToString());
+        SetText(passengersValueText, gameManager.destinationCount + " / " + gameManager.requiredLaps);
+        SetText(timeValueText, time);
     }
 
     // GAME OVER STATISTICS
-
     private void UpdateGameOverStats()
     {
-        if (gameManager.scoreManager == null)
-        {
-            return;
-        }
+        if (gameManager.scoreManager == null) return;
 
         gameOverShown = true;
 
-        int maxHealth = Mathf.Max(1, gameManager.maxHealth);
-        int currentHealth = Mathf.Clamp(gameManager.health, 0, maxHealth);
-
         SetText(gameOverScoreValueText, gameManager.scoreManager.score.ToString());
-        SetText(gameOverPassengersValueText, gameManager.destinationCount.ToString() + " / " + gameManager.requiredLaps.ToString());
-        SetText(gameOverHealthValueText, currentHealth.ToString());
+        SetText(gameOverPassengersValueText, gameManager.destinationCount + " / " + gameManager.requiredLaps);
+        SetText(gameOverHealthValueText, Mathf.Clamp(gameManager.health, 0, Mathf.Max(1, gameManager.maxHealth)).ToString());
 
         // Only the timer can produce this reason. Health depletion keeps it hidden.
         if (failureReasonText != null)
@@ -417,9 +353,6 @@ public class UIManager : MonoBehaviour
 
     private void SetText(TextMeshProUGUI target, string value)
     {
-        if (target != null)
-        {
-            target.text = value;
-        }
+        if (target != null) target.text = value;
     }
 }
