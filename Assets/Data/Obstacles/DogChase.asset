@@ -12,9 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4563847fd52671649a40dd9205f8a00d, type: 3}
   m_Name: DogChase
   m_EditorClassIdentifier: Assembly-CSharp::ObstacleData
+  damage: 5
+  damageCooldown: 1
+  damageOnTrigger: 0
+  effect: 0
+  effectSeconds: 1.5
+  slowAmount: 0.5
+  pushDegrees: 30
   detectRadius: 12
   loseRadius: 20
   walkSpeed: 3
   chaseSpeed: 8
   wanderRadius: 30
-  damage: 10

@@ -5,11 +5,12 @@ using UnityEngine.AI;
 // Needs: NavMeshAgent on the dog, and the road baked as a NavMesh.
 public class Chasing : MonoBehaviour
 {
-    public float detectRadius = 12f;   // start chasing when the player is this close
-    public float loseRadius = 20f;     // stop chasing when the player is this far
-    public float walkSpeed = 3f;
-    public float chaseSpeed = 8f;
-    public float wanderRadius = 30f;   // how far to look for a random road point
+    private float detectRadius = 12f;   // start chasing when the player is this close
+    private float loseRadius = 20f;     // stop chasing when the player is this far
+    private float walkSpeed = 3f;
+    private float chaseSpeed = 8f;
+    private float wanderRadius = 30f;   // how far to look for a random road point
+    public ObstacleData data;          // required: settings asset
 
     private NavMeshAgent agent;
     private Transform player;
@@ -18,6 +19,15 @@ public class Chasing : MonoBehaviour
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
+        if (data == null) Debug.LogWarning(name + " has no ObstacleData assigned!");
+        if (data != null)
+        {
+            detectRadius = data.detectRadius;
+            loseRadius = data.loseRadius;
+            walkSpeed = data.walkSpeed;
+            chaseSpeed = data.chaseSpeed;
+            wanderRadius = data.wanderRadius;
+        }
         player = FindFirstObjectByType<PlayerController>().transform;
         PickRandomRoadPoint();
     }

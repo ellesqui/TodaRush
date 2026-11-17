@@ -11,6 +11,9 @@ public class Obstacle : Interactable
     // Damage this obstacle deals to the player.
     public int damage = 10;
 
+    // Seconds to wait before this obstacle can hurt the player again.
+    public float damageCooldown = 1f;
+
     // Turn on for non-blocking potholes (trigger colliders) that should also damage the Player.
     public bool damageOnTrigger = false;
 
@@ -19,9 +22,13 @@ public class Obstacle : Interactable
     public float effectSeconds = 1.5f;   // how long Slow and Spin last
     public float slowAmount = 0.5f;      // 0.5 = half speed
     public float pushDegrees = 30f;      // how much Push turns the player
+    public float pushDistance = 1.5f;    // how far Push shoves the player sideways
 
     // Stops repeated damage while the Player stays inside the trigger.
     private bool playerInside = false;
+
+    // Time of the last hit, used for the cooldown.
+    private float lastHitTime = -999f;
 
     private static bool isSlowed = false;
     private static float originalSpeed;
@@ -32,7 +39,7 @@ public class Obstacle : Interactable
 
         if (reactionAnimator != null) reactionAnimator.SetTrigger(reactionTrigger);
 
-        if (gameManager != null)
+        if (gameManager != null && CanHit())
         {
             gameManager.TakeDamage(damage);
             FlashRed();
@@ -46,7 +53,7 @@ public class Obstacle : Interactable
 
         if (reactionAnimator != null) reactionAnimator.SetTrigger(reactionTrigger);
 
-        if (damageOnTrigger && !playerInside && gameManager != null)
+        if (damageOnTrigger && !playerInside && gameManager != null && CanHit())
         {
             playerInside = true;
             gameManager.TakeDamage(damage);
@@ -58,6 +65,14 @@ public class Obstacle : Interactable
     private void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Player")) playerInside = false;
+    }
+
+    // Returns true only if the cooldown has passed, then starts a new cooldown
+    private bool CanHit()
+    {
+        if (Time.time - lastHitTime < damageCooldown) return false;
+        lastHitTime = Time.time;
+        return true;
     }
 
     private void FlashRed()
@@ -73,7 +88,7 @@ public class Obstacle : Interactable
         if (player == null) return;
 
         if (effect == EffectType.Slow && !isSlowed) StartCoroutine(SlowRoutine(player));
-        if (effect == EffectType.Push) player.transform.Rotate(0f, pushDegrees, 0f);
+        if (effect == EffectType.Push) StartCoroutine(PushRoutine(player));
         if (effect == EffectType.Spin) StartCoroutine(SpinRoutine(player));
     }
 
@@ -87,6 +102,30 @@ public class Obstacle : Interactable
 
         player.moveSpeed = originalSpeed;
         isSlowed = false;
+    }
+
+    // Shoves the player sideways, away from this obstacle, and turns them a bit
+    private IEnumerator PushRoutine(PlayerController player)
+    {
+        Rigidbody rb = player.GetComponent<Rigidbody>();
+
+        // Which side of the player is away from the obstacle
+        float side = Vector3.Dot(player.transform.position - transform.position, player.transform.right) >= 0f ? 1f : -1f;
+
+        player.transform.Rotate(0f, side * pushDegrees, 0f);
+
+        float duration = 0.25f;
+        float timer = 0f;
+        while (timer < duration)
+        {
+            if (rb != null)
+            {
+                float step = pushDistance * Time.fixedDeltaTime / duration;
+                rb.MovePosition(rb.position + player.transform.right * side * step);
+            }
+            timer += Time.fixedDeltaTime;
+            yield return new WaitForFixedUpdate();
+        }
     }
 
     private IEnumerator SpinRoutine(PlayerController player)

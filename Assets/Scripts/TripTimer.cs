@@ -62,6 +62,11 @@ public class TripTimer : MonoBehaviour
         return timerStarted;
     }
 
+    public void AddTime(float seconds)
+    {
+        timeRemaining += seconds;
+    }
+
     public float GetTimeRemaining()
     {
         return timeRemaining;

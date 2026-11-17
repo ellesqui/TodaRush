@@ -13,6 +13,14 @@ public class BarrierPatrolCar : MonoBehaviour
     public float lookAhead = 3f;               // how far ahead to check for a sign or car
     public int carAgentTypeID = -1512830617;   // "Car" agent type (Navigation settings)
 
+    private int trafficStopUntilFrame = -1; // refreshed by TrafficLight while red
+
+    // Called by TrafficLight every frame while its light is red
+    public void StopForTraffic()
+    {
+        trafficStopUntilFrame = Time.frameCount + 1;
+    }
+
     private NavMeshAgent agent;
     private Rigidbody rb;
     private BoxCollider box;
@@ -66,6 +74,11 @@ public class BarrierPatrolCar : MonoBehaviour
     private void FixedUpdate()
     {
         if (!agent.enabled || !agent.isOnNavMesh) return;
+
+        // Red light: stop and wait
+        if (Time.frameCount <= trafficStopUntilFrame) { agent.isStopped = true; stuckTimer = 0f; return; }
+        if (agent.isStopped && cooldownTimer <= 0f) agent.isStopped = false; // resume after red
+
         if (cooldownTimer > 0f)
         {
             cooldownTimer -= Time.fixedDeltaTime;
