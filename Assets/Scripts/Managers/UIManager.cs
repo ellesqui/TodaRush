@@ -27,9 +27,16 @@ public class UIManager : MonoBehaviour
     public UnityEngine.UI.Image damageFlash;
     private float flashAlpha;
     public TextMeshProUGUI passengerNameText, speechText;
+    public float speechSeconds = 4f;   // how long the passenger speech stays on screen
+
+    [Header("Passenger Speech Lines (default for now)")]
+    public string[] boardingLines = { "Salamat po, boss!", "Sige po, bilisan natin!", "Tara na po!" };
+    public string[] reactionLines = { "Aray! Dahan-dahan naman, boss!", "Ingat po tayo!", "Diyos ko po, ingat!" };
+    public string[] dropLines = { "Salamat po, boss!", "Ingat po kayo!" };
 
     private float healthFillShown = -1f, healthFillFrom, healthFillTarget, healthFillTimer;
     private Coroutine popupCoroutine;
+    private Coroutine speechCoroutine;
     private RectTransform popupRect;
     private Vector2 popupStartPosition;
     private Vector3 popupNormalScale;
@@ -46,6 +53,7 @@ public class UIManager : MonoBehaviour
         CachePopup();
         if (passengerProgress != null) passengerProgress.Initialize(gameManager, UnityEngine.Object.FindAnyObjectByType<Queue>());
         if (damagePopupText != null) damagePopupText.gameObject.SetActive(false);
+        if (passengerDialogueHUD != null) passengerDialogueHUD.SetActive(false);
     }
 
     void Update()
@@ -54,8 +62,6 @@ public class UIManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.R)) ToggleFullMap();
         FadeDamageFlash();
         if (gameManager == null) return;
-
-        UpdatePassengerCard();
 
         if (gameManager.gameWon)
         {
@@ -72,24 +78,54 @@ public class UIManager : MonoBehaviour
         speedText.text = playerController.currentSpeed.ToString("0");
     }
 
-    // PASSENGER DIALOGUE HUD (shows the passenger currently boarded)
-    private void UpdatePassengerCard()
+    // PASSENGER SPEECH (shows for a few seconds, then hides)
+    public void PassengerBoarded(PassengerPickup passenger)
     {
-        if (passengerDialogueHUD == null) return;
+        ShowPassengerSpeech(passenger, PickLine(boardingLines));
+    }
 
-        int index = 0;
+    public void PassengerDropped(PassengerPickup passenger)
+    {
+        ShowPassengerSpeech(passenger, PickLine(dropLines));
+    }
+
+    // Called every few hits (see GameManager)
+    public void PlayerHitReaction()
+    {
         foreach (PassengerPickup passenger in gameManager.passengers)
         {
-            index++;
-            if (passenger == null || !passenger.hasBoarded || passenger.targetDestination == null) continue;
-
-            passengerDialogueHUD.SetActive(true);
-            if (passengerNameText != null) passengerNameText.text = "Passenger " + index.ToString("00");
-            if (speechText != null) speechText.text = "Pahatid po sa " + passenger.targetDestination.destinationName + "!";
-            return;
+            if (passenger != null && passenger.hasBoarded && passenger.targetDestination != null)
+            {
+                ShowPassengerSpeech(passenger, PickLine(reactionLines));
+                return;
+            }
         }
+    }
 
+    private void ShowPassengerSpeech(PassengerPickup passenger, string line)
+    {
+        if (passengerDialogueHUD == null || speechText == null) return;
+
+        int index = System.Array.IndexOf(gameManager.passengers, passenger) + 1;
+        if (passengerNameText != null) passengerNameText.text = "Passenger " + index.ToString("00");
+        speechText.text = line;
+        passengerDialogueHUD.SetActive(true);
+
+        if (speechCoroutine != null) StopCoroutine(speechCoroutine);
+        speechCoroutine = StartCoroutine(HideSpeechAfterDelay());
+    }
+
+    private IEnumerator HideSpeechAfterDelay()
+    {
+        yield return new WaitForSeconds(speechSeconds);
         passengerDialogueHUD.SetActive(false);
+        speechCoroutine = null;
+    }
+
+    private string PickLine(string[] lines)
+    {
+        if (lines == null || lines.Length == 0) return "";
+        return lines[Random.Range(0, lines.Length)];
     }
 
     // RED FLASH WHEN THE PLAYER GETS HURT

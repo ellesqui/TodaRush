@@ -1,5 +1,5 @@
-
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class PlayerController : MonoBehaviour
 {
@@ -13,14 +13,39 @@ public class PlayerController : MonoBehaviour
     public GameManager gameManager;
     public float currentSpeed = 0f;
 
+    [Header("Engine sound")]
+    public AudioClip idleClip;           // Idle Motor
+    public AudioClip drivingClip;        // Driving (loops)
+    public AudioClip accelerateClip;     // Accelerate (plays once on boost)
+
     private Rigidbody rb;
     private float moveInput;
     private float turnInput;
     private float drivingSpeed = 0f;
+    private AudioSource engineSource;
+    private AudioSource boostSource;
 
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
+    }
+
+    void Start()
+    {
+        if (AudioManager.Instance == null) return;
+
+        AudioMixerGroup sfxGroup = AudioManager.Instance.mixer.FindMatchingGroups("SFX")[0];
+
+        // Engine loop (idle or driving)
+        engineSource = gameObject.AddComponent<AudioSource>();
+        engineSource.loop = true;
+        engineSource.clip = idleClip;
+        engineSource.outputAudioMixerGroup = sfxGroup;
+        engineSource.Play();
+
+        // Boost sound (one shot)
+        boostSource = gameObject.AddComponent<AudioSource>();
+        boostSource.outputAudioMixerGroup = sfxGroup;
     }
 
     void Update()
@@ -48,6 +73,7 @@ public class PlayerController : MonoBehaviour
             rb.linearVelocity = stoppedVelocity;
 
             currentSpeed = 0f;
+            if (engineSource != null) engineSource.Stop();
             return;
         }
 
@@ -91,5 +117,29 @@ public class PlayerController : MonoBehaviour
             rb.linearVelocity.x, 0f, rb.linearVelocity.z);
 
         currentSpeed = flatVelocity.magnitude * 3.6f;
+
+        UpdateEngineSound();
+    }
+
+    // Idle when stopped, driving when moving. Higher speed = higher pitch.
+    void UpdateEngineSound()
+    {
+        if (engineSource == null) return;
+
+        AudioClip wanted = currentSpeed > 1f ? drivingClip : idleClip;
+        if (wanted != null && engineSource.clip != wanted)
+        {
+            engineSource.clip = wanted;
+            engineSource.Play();
+        }
+
+        float percent = Mathf.Clamp01(currentSpeed / (moveSpeed * 3.6f));
+        engineSource.pitch = Mathf.Lerp(0.8f, 1.4f, percent);
+    }
+
+    // Called by Pickup when the player gets a Gas (boost) item
+    public void PlayBoostSound()
+    {
+        if (boostSource != null && accelerateClip != null) boostSource.PlayOneShot(accelerateClip);
     }
 }

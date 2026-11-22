@@ -64,6 +64,10 @@ public class Pickup : MonoBehaviour
         collected = true;
         ApplyEffect();
         PlayPlayerEffect();
+
+        // Pick up sound
+        if (AudioManager.Instance != null) AudioManager.Instance.PlaySfx(AudioManager.Instance.pickupSound);
+
         StartCoroutine(RespawnRoutine());
     }
 
@@ -76,7 +80,11 @@ public class Pickup : MonoBehaviour
         else if (data.type == PickupType.Gas)
         {
             PlayerController player = FindFirstObjectByType<PlayerController>();
-            if (player != null) StartCoroutine(SpeedBoostRoutine(player));
+            if (player != null)
+            {
+                StartCoroutine(SpeedBoostRoutine(player));
+                player.PlayBoostSound();   // Accelerate sound
+            }
         }
         else if (data.type == PickupType.Timer)
         {

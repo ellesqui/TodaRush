@@ -17,6 +17,10 @@ public class GameManager : MonoBehaviour
     public ScoreManager scoreManager;
     public int levelNumber = 1; // 1 = MainMap, 2 = Level_02, 3 = Level_03
 
+    [Header("Passenger speech")]
+    public int hitsPerReaction = 3;   // every 3rd obstacle hit, the passenger reacts
+    private int hitCount = 0;
+
     // Passenger formula: Level 1 = 3, Level 2 = 4, Level 3 = 5
     public int CalculateRequiredPassengers()
     {
@@ -83,6 +87,13 @@ public class GameManager : MonoBehaviour
         health = Mathf.Max(0, health - amount);
 
         if (uiManager != null) uiManager.ShowDamagePopup(amount);
+
+        // Hit sound
+        if (AudioManager.Instance != null) AudioManager.Instance.PlaySfx(AudioManager.Instance.hitSound);
+
+        // Every 3rd hit, the passenger reacts
+        hitCount++;
+        if (uiManager != null && hitCount % hitsPerReaction == 0) uiManager.PlayerHitReaction();
     }
 
     public bool DeliverPassenger(Destination destination)
@@ -97,7 +108,9 @@ public class GameManager : MonoBehaviour
             {
                 passengersOnboard--;
                 passenger.targetDestination = null;
-                passenger.gameObject.SetActive(false);
+
+                // Walk the passenger out, then hide them (see PassengerPickup.DropRoutine)
+                StartCoroutine(passenger.DropRoutine());
                 return true;
             }
         }

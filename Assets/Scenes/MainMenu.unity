@@ -21090,6 +21090,61 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1509723303}
   m_CullTransparentMesh: 1
+--- !u!1 &1512140422
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1512140423}
+  - component: {fileID: 1512140424}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1512140423
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1512140422}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1512140424
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1512140422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 259cc0e38dacd214ca8ef9fc3bf2674c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AudioManager
+  mixer: {fileID: 24100000, guid: 66a69ec48ebe12045abfcb2141cb98db, type: 2}
+  masterVolume: 1
+  sfxVolume: 1
+  musicVolume: 1
+  mainMusic: {fileID: 8300000, guid: 0da2fc977f7c697488ebeba719638475, type: 3}
+  buttonClick: {fileID: 8300000, guid: 73d50aec8f2432f4996992696f3ed11d, type: 3}
+  ruralClip: {fileID: 0}
+  urbanClip: {fileID: 0}
+  nightClip: {fileID: 0}
+  sky: {fileID: 0}
+  fadeSeconds: 2
 --- !u!1 &1514818823
 GameObject:
   m_ObjectHideFlags: 0
@@ -30226,3 +30281,4 @@ SceneRoots:
   - {fileID: 203844589}
   - {fileID: 1428621052}
   - {fileID: 1480174701}
+  - {fileID: 1512140423}

@@ -1,4 +1,3 @@
-
 using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
@@ -68,6 +67,9 @@ public class LoadingManager : MonoBehaviour
         {
             await Task.Yield();
         }
+
+        // Click sound for "press any key to continue" (same sound as the buttons)
+        if (AudioManager.Instance != null) AudioManager.Instance.PlaySfx(AudioManager.Instance.buttonClick);
 
         operation.allowSceneActivation = true;
     }

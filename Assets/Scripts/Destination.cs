@@ -14,10 +14,10 @@ public class Destination : Interactable
     private Vector3 markerBaseScale;
 
     void Start()
-{
-    markerBaseScale = markerRoot.transform.localScale;
-    markerText.isOverlay = true;
-}
+    {
+        markerBaseScale = markerRoot.transform.localScale;
+        markerText.isOverlay = true;
+    }
 
     void Update()
     {
@@ -46,16 +46,15 @@ public class Destination : Interactable
         float cameraDistance = Vector3.Distance(mainCamera.transform.position, markerRoot.transform.position);
         float markerScale = Mathf.Clamp(cameraDistance / 50f, 1f, 3f);
         markerRoot.transform.localScale = markerBaseScale * markerScale;
-        
     }
 
+    // The "DELIVERED!" message now shows after the passenger walks out (see PassengerPickup)
     public void DeliverPassenger()
     {
         if (gameManager != null && gameManager.DeliverPassenger(this))
         {
             gameManager.scoreManager.AddScore(100);
             gameManager.destinationCount++;
-            FindFirstObjectByType<UIManager>()?.ShowSuccess("DELIVERED!");
             if (destinationVisual != null)
             {
                 destinationVisual.SetActive(false);
