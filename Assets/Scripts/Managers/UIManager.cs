@@ -10,6 +10,10 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI scoreText, highScoreText, timerText, damagePopupText, speedText;
     public TextMeshProUGUI scoreValueText, passengersValueText, timeValueText;
     public TextMeshProUGUI gameOverScoreValueText, gameOverPassengersValueText, gameOverTimeValueText, failureReasonText;
+
+    // NEW: the HIGH SCORE number on the Level Complete panel (HighScoreValue)
+    public TextMeshProUGUI levelCompleteHighScoreText;
+
     public PassengerProgressWidget passengerProgress;
     public GameObject gameplayHUD, victoryDimOverlay, victorySummaryPanel, pauseOverlay, successNotification;
     public GameManager gameManager;
@@ -99,6 +103,12 @@ public class UIManager : MonoBehaviour
     public void PassengerDropped(PassengerPickup passenger)
     {
         ShowPassengerSpeech(passenger, PickLine(dropLines));
+    }
+
+    // Used by PassengerPickup for angry / falling-out lines (any line the passenger chooses)
+    public void PassengerSays(PassengerPickup passenger, string line)
+    {
+        ShowPassengerSpeech(passenger, line);
     }
 
     // Called every few hits (see GameManager). A random boarded passenger reacts.
@@ -206,7 +216,7 @@ public class UIManager : MonoBehaviour
     public void ShowSuccess(string message = "SUCCESS")
     {
         // Delivery sound plays together with the DELIVERED notification
-        if (message == "DELIVERED!" && deliveredClip != null && sfx != null) sfx.PlayOneShot(deliveredClip);
+        if (message.StartsWith("DELIVERED") && deliveredClip != null && sfx != null) sfx.PlayOneShot(deliveredClip);
         if (successNotification == null) return;
 
         successNotification.GetComponentInChildren<TextMeshProUGUI>(true).text = message;
@@ -375,7 +385,7 @@ public class UIManager : MonoBehaviour
         else timerText.text = FormatTime(Mathf.Max(0f, tripTimer.GetTimeRemaining()));
     }
 
-    // VICTORY SUMMARY
+    // VICTORY SUMMARY (Level Complete panel)
     private void UpdateMissionSummary()
     {
         if (summaryShown) return;
@@ -392,6 +402,9 @@ public class UIManager : MonoBehaviour
         SetText(scoreValueText, score.ToString());
         SetText(passengersValueText, gameManager.destinationCount + " / " + gameManager.requiredLaps);
         SetText(timeValueText, time);
+
+        // HIGH SCORE: read from PlayerPrefs (saved by ScoreManager for this level)
+        SetText(levelCompleteHighScoreText, gameManager.scoreManager.highScore.ToString());
     }
 
     // GAME OVER STATISTICS

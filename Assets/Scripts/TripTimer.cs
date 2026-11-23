@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class TripTimer : MonoBehaviour
 {
-    public float tripTimeLimit = 180f;
+    public float tripTimeLimit = 120f;
     public bool holdUntilGo = false;   // true while the 3-2-1-GO countdown plays (timer does not count yet)
     private float timeRemaining;
     private bool timerStarted = false;

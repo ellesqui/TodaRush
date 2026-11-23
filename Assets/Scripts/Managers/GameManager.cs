@@ -16,6 +16,15 @@ public class GameManager : MonoBehaviour
     public PassengerPickup[] passengers = new PassengerPickup[5];
     [HideInInspector] public int passengersOnboard = 0;
     public ScoreManager scoreManager;
+
+    [Header("Tip (delivery bonus)")]
+    public float tipPerMeter = 1f;     // tip = meters x this x tier
+    public float fullTipRatio = 1f;    // delivered within expected time x this = full tier (x1.0)
+    public float goodTipRatio = 1.5f;  // up to this = x0.6
+    public float lowTipRatio = 2f;     // up to this = x0.3, slower = no tip
+    public float tipReferenceSpeed = 3f;   // m/s a normal trip should average (lower = more time allowed = more tip)
+    [HideInInspector] public int lastTip = 0;
+    private PlayerController tipPlayer;
     public int levelNumber = 1; // 1 = MainMap, 2 = Level_02, 3 = Level_03
 
     [Header("Passenger spawn")]
@@ -168,8 +177,44 @@ public class GameManager : MonoBehaviour
         if (uiManager != null && hitCount % hitsPerReaction == 0) uiManager.PlayerHitReaction();
     }
 
+    // Measures the real distance driven while a passenger is onboard (GameManager stays active, passenger objects are hidden).
+    void Update()
+    {
+        if (passengers == null) return;
+        if (tipPlayer == null) tipPlayer = FindAnyObjectByType<PlayerController>();
+        if (tipPlayer == null) return;
+        Vector3 playerPos = tipPlayer.transform.position;
+        foreach (PassengerPickup p in passengers)
+        {
+            if (p == null || !p.hasBoarded || p.targetDestination == null) continue;
+            p.tripMeters += Vector3.Distance(playerPos, p.lastTripPos);
+            p.lastTripPos = playerPos;
+        }
+    }
+
+    // Tip: based on trip distance and how fast the delivery was. Faster = bigger tip. Too slow = no tip.
+    int CalculateTip(PassengerPickup p)
+    {
+        float distance = p.tripMeters;   // real distance driven with this passenger
+        if (distance <= 0f || tipReferenceSpeed <= 0f) return 0;
+
+        float expectedTime = distance / tipReferenceSpeed;   // seconds the trip should take
+        float elapsed = Time.time - p.boardedAt;
+        float ratio = elapsed / expectedTime;
+
+        float tier;
+        if (ratio <= fullTipRatio) tier = 1f;
+        else if (ratio <= goodTipRatio) tier = 0.6f;
+        else if (ratio <= lowTipRatio) tier = 0.3f;
+        else return 0;
+
+        UnityEngine.Debug.Log("[TIP] dist=" + distance.ToString("0.0") + "m expected=" + expectedTime.ToString("0.0") + "s elapsed=" + elapsed.ToString("0.0") + "s ratio=" + ratio.ToString("0.00") + " tier=" + tier);
+        return Mathf.RoundToInt(distance * tipPerMeter * tier);
+    }
+
     public bool DeliverPassenger(Destination destination)
     {
+        lastTip = 0;
         TripTimer tripTimer = GetComponent<TripTimer>();
 
         if (tripTimer == null || !tripTimer.IsTimerStarted()) return false;
@@ -178,6 +223,8 @@ public class GameManager : MonoBehaviour
         {
             if (passenger != null && passenger.hasBoarded && passenger.targetDestination == destination)
             {
+                lastTip = CalculateTip(passenger);
+                if (lastTip > 0 && scoreManager != null) scoreManager.AddScore(lastTip);
                 passengersOnboard--;
                 passenger.targetDestination = null;
 

@@ -14,6 +14,10 @@ public class PlayerController : MonoBehaviour
     public bool canDrive = false;   // set to true by UIManager when the GO countdown ends
     public float currentSpeed = 0f;
 
+    [Header("Handbrake")]
+    public bool handbrakeEnabled = true;           // turn off to disable the handbrake
+    public KeyCode handbrakeKey = KeyCode.Space;   // hold this key to force the tricycle to stop
+
     [Header("Engine sound")]
     public AudioClip idleClip;           // Idle Motor
     public AudioClip drivingClip;        // Driving (loops)
@@ -23,6 +27,7 @@ public class PlayerController : MonoBehaviour
     private float moveInput;
     private float turnInput;
     private float drivingSpeed = 0f;
+    private bool handbrakeOn = false;
     private AudioSource engineSource;
     private AudioSource boostSource;
 
@@ -61,6 +66,9 @@ public class PlayerController : MonoBehaviour
         moveInput = Input.GetAxisRaw("Vertical");
         turnInput = Input.GetAxis("Horizontal");
         if (!canDrive) { moveInput = 0f; turnInput = 0f; }   // locked until the GO countdown ends
+
+        // Handbrake: works only while the player is allowed to drive
+        handbrakeOn = handbrakeEnabled && canDrive && Input.GetKey(handbrakeKey);
     }
 
     void FixedUpdate()
@@ -76,6 +84,17 @@ public class PlayerController : MonoBehaviour
 
             currentSpeed = 0f;
             if (engineSource != null) engineSource.Stop();
+            return;
+        }
+
+        // HANDBRAKE: force stop while the key is held
+        if (handbrakeOn)
+        {
+            drivingSpeed = 0f;
+            rb.linearVelocity = new Vector3(0f, rb.linearVelocity.y, 0f);
+            rb.angularVelocity = Vector3.zero;
+            currentSpeed = 0f;
+            UpdateEngineSound();
             return;
         }
 

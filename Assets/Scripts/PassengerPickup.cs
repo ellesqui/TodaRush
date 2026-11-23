@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -19,6 +20,10 @@ public class PassengerPickup : MonoBehaviour
     }
     private Transform playerTransform;
 
+    [HideInInspector] public float boardedAt;        // Time.time when the passenger boarded (used for tip)
+    [HideInInspector] public float tripMeters;       // meters the tricycle actually drove with this passenger (for tip)
+    [HideInInspector] public Vector3 lastTripPos;
+
     [Header("Identity (set at spawn)")]
     public string displayName = "Pasahero";   // Filipino name, tied to the model
     public string jobTitle = "";              // job = model prefab name
@@ -27,8 +32,19 @@ public class PassengerPickup : MonoBehaviour
     public float walkSeconds = 3f;   // how long the passenger walks after arriving (drop-off)
     public float walkSpeed = 1.5f;   // how fast the passenger walks back / drop-off
 
+    [Header("Patience")]
+    public int maxPatience = 3;      // how many obstacle hits before this passenger falls out
+    public float looseSeconds = 2f;  // how long the passenger stays out after falling
+    public float respawnSeconds = 2f; // how long before a new passenger shows up at the terminal
+    [HideInInspector] public int patience;
+
+    [Header("Patience Dialogue")]
+    public string[] angryLines = { "Boss, naiinis na po ako!", "Pwede po bang ingat naman?", "Ang lakas naman ng tama natin!" };
+    public string[] fallLines = { "Ayoko na po! Bababa na ako!", "Sige na po, dito na lang ako!", "Ang sama naman po ng biyahe!" };
+
     private Vector3 spawnPosition;
     private bool isReturning = false;
+    private bool isLoose = false;     // true while the passenger has fallen out (not walking)
     private int claimedSlot = -1;
     private Animator animator;
     private string lastState = "Idle";
@@ -62,6 +78,7 @@ public class PassengerPickup : MonoBehaviour
 
         spawnPosition = spot;
         transform.position = spot;
+        patience = maxPatience;
         PlayState("Idle");
     }
 
@@ -71,6 +88,7 @@ public class PassengerPickup : MonoBehaviour
         if (transform.Find("Model") == null) return;
         HideCapsules(transform.Find("Model"));
         animator = transform.Find("Model").GetComponentInChildren<Animator>();
+        patience = maxPatience;
         PlayState("Idle");
     }
 
@@ -90,7 +108,7 @@ public class PassengerPickup : MonoBehaviour
 
     void Update()
     {
-        if (hasBoarded || gameManager == null || boardingPoint == null) return;
+        if (hasBoarded || isLoose || gameManager == null || boardingPoint == null) return;
 
         if (playerTransform == null)
         {
@@ -166,6 +184,9 @@ public class PassengerPickup : MonoBehaviour
         isApproaching = false;
         hasBoarded = true;
         gameManager.passengersOnboard++;
+        boardedAt = Time.time;
+        tripMeters = 0f;
+        lastTripPos = playerTransform != null ? playerTransform.position : transform.position;
 
         // Fills this passenger's icon only (one at a time, as each one boards)
         Passenger.Invoke();
@@ -243,6 +264,97 @@ public class PassengerPickup : MonoBehaviour
         yield return new WaitForSeconds(dropSeconds);
 
         gameObject.SetActive(false);
+    }
+
+    // PATIENCE: called by Obstacle every time the player gets hit.
+    // One random passenger on board loses 1 patience. At 1 they get angry, at 0 they fall out.
+    public static void PlayerGotHit(GameManager gm)
+    {
+        if (gm == null || gm.gameWon || gm.IsOver()) return;
+
+        List<PassengerPickup> boarded = new List<PassengerPickup>();
+        foreach (PassengerPickup p in gm.passengers)
+        {
+            if (p != null && p.hasBoarded) boarded.Add(p);
+        }
+
+        if (boarded.Count == 0) return;
+
+        PassengerPickup victim = boarded[Random.Range(0, boarded.Count)];
+        victim.patience--;
+
+        if (victim.patience <= 0)
+        {
+            victim.Loose();
+        }
+        else if (victim.patience == 1)
+        {
+            victim.Angry();
+        }
+    }
+
+    // Passenger complains (shows the speech bubble)
+    public void Angry()
+    {
+        if (gameManager.uiManager != null) gameManager.uiManager.PassengerSays(this, RandomLine(angryLines));
+    }
+
+    // The passenger falls out of the tricycle, then comes back to the terminal.
+    public void Loose()
+    {
+        if (!hasBoarded) return;
+
+        hasBoarded = false;
+        isLoose = true;
+        targetDestination = null;
+        gameManager.passengersOnboard--;
+
+        // Seat icon turns gray again and the count goes down
+        if (gameManager.uiManager != null && gameManager.uiManager.passengerProgress != null)
+            gameManager.uiManager.passengerProgress.OnPassengerLost(this);
+
+        // Run on the GameManager, because this object is hidden right now (a hidden object cannot run a coroutine)
+        gameManager.StartCoroutine(LooseRoutine());
+    }
+
+    IEnumerator LooseRoutine()
+    {
+        // Appear beside the tricycle and play the loose animation (falls back to Jump)
+        Vector3 p = boardingPoint.position;
+        transform.position = new Vector3(p.x, RoadHeightAt(p.x, p.z) + groundOffset, p.z);
+        gameObject.SetActive(true);
+        PlayState(HasLooseState() ? "Loose" : "Jump");
+
+        // Speech when falling out
+        if (gameManager.uiManager != null) gameManager.uiManager.PassengerSays(this, RandomLine(fallLines));
+
+        yield return new WaitForSeconds(looseSeconds);
+
+        // Leave the seat and hide
+        gameObject.SetActive(false);
+        if (claimedSlot >= 0 && gameManager.passengers[claimedSlot] == this) gameManager.passengers[claimedSlot] = null;
+        claimedSlot = -1;
+
+        yield return new WaitForSeconds(respawnSeconds);
+
+        // New passenger shows up at the terminal again
+        transform.position = spawnPosition;
+        patience = maxPatience;
+        isApproaching = false;
+        isReturning = false;
+        isLoose = false;
+        gameObject.SetActive(true);
+    }
+
+    string RandomLine(string[] lines)
+    {
+        if (lines == null || lines.Length == 0) return "";
+        return lines[Random.Range(0, lines.Length)];
+    }
+
+    bool HasLooseState()
+    {
+        return animator != null && animator.isActiveAndEnabled && animator.runtimeAnimatorController != null && animator.HasState(0, Animator.StringToHash("Loose"));
     }
 
     // Road surface height under (x, z), from the GUIDE road meshes (the highest road surface)

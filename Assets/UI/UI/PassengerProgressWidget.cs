@@ -5,7 +5,8 @@ using UnityEngine;
 using UnityEngine.UI;
 
 // PASAHERO progress widget. Recreates the HTML reference (.cartoon-panel) in uGUI.
-// Counts unique passengers that successfully boarded this level. A slot never turns gray again.
+// Counts unique passengers that successfully boarded this level.
+// A passenger who falls out (patience) turns their seat gray again.
 // The seat hierarchy is saved in the scene. Initialize() rebuilds it from scratch.
 public class PassengerProgressWidget : MonoBehaviour
 {
@@ -29,6 +30,7 @@ public class PassengerProgressWidget : MonoBehaviour
     public int maxSeats = 5;
 
     private readonly HashSet<PassengerPickup> counted = new HashSet<PassengerPickup>();
+    private readonly Dictionary<PassengerPickup, int> slotOf = new Dictionary<PassengerPickup, int>();
     private readonly List<RectTransform> seatRects = new List<RectTransform>();
     private readonly List<Image> seatIcons = new List<Image>();
     private int targetSeats;
@@ -116,18 +118,50 @@ public class PassengerProgressWidget : MonoBehaviour
             return; // duplicate event or same passenger: count once only
         }
 
-        if (filledCount >= targetSeats)
+        int slot = FirstFreeSlot();
+        if (slot < 0)
+        {
+            return; // no free seat
+        }
+
+        slotOf[pax] = slot;
+        SetSeatFilled(slot, true, true);
+        Image border = seatBorders[slot];
+        border.gameObject.SetActive(true);
+        pendingPax.Add(pax);
+        pendingBorders.Add(border);
+        filledCount = slotOf.Count;
+        UpdateCounter();
+    }
+
+    // PATIENCE: a passenger fell out. Their seat turns gray and the count goes down.
+    public void OnPassengerLost(PassengerPickup pax)
+    {
+        if (pax == null || !counted.Remove(pax))
         {
             return;
         }
 
-        SetSeatFilled(filledCount, true, true);
-        Image border = seatBorders[filledCount];
-        border.gameObject.SetActive(true);
-        pendingPax.Add(pax);
-        pendingBorders.Add(border);
-        filledCount++;
+        if (!slotOf.TryGetValue(pax, out int slot))
+        {
+            return;
+        }
+
+        slotOf.Remove(pax);
+        SetSeatFilled(slot, false, false);
+        seatBorders[slot].gameObject.SetActive(false);
+        filledCount = slotOf.Count;
         UpdateCounter();
+    }
+
+    // First seat that is not used by a passenger yet
+    private int FirstFreeSlot()
+    {
+        for (int i = 0; i < seatRects.Count; i++)
+        {
+            if (!slotOf.ContainsValue(i)) return i;
+        }
+        return -1;
     }
 
     // Pending-delivery glow: loops while the passenger is onboard. Stops when the passenger is delivered.
@@ -139,7 +173,7 @@ public class PassengerProgressWidget : MonoBehaviour
             Image border = pendingBorders[i];
             if (pax == null || pax.targetDestination == null)
             {
-                // Delivered: stop the glow and hide the border again.
+                // Delivered (or fell out): stop the glow and hide the border again.
                 if (border != null) border.gameObject.SetActive(false);
                 pendingPax.RemoveAt(i);
                 pendingBorders.RemoveAt(i);

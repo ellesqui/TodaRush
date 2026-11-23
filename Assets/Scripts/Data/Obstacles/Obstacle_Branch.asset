@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4563847fd52671649a40dd9205f8a00d, type: 3}
   m_Name: Obstacle_Branch
   m_EditorClassIdentifier: Assembly-CSharp::ObstacleData
-  damage: 10
+  damage: 20
   damageCooldown: 1
   damageOnTrigger: 1
-  effect: 0
+  effect: 1
   effectSeconds: 1.5
   slowAmount: 0.5
   pushDegrees: 30

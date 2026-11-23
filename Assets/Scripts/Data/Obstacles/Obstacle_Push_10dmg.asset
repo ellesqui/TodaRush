@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4563847fd52671649a40dd9205f8a00d, type: 3}
   m_Name: Obstacle_Push_10dmg
   m_EditorClassIdentifier: Assembly-CSharp::ObstacleData
-  damage: 10
+  damage: 25
   damageCooldown: 1
   damageOnTrigger: 0
   effect: 2

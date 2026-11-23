@@ -55,7 +55,8 @@ public class Destination : Interactable
         {
             gameManager.scoreManager.AddScore(100);
             gameManager.destinationCount++;
-            if (gameManager.uiManager != null) gameManager.uiManager.ShowSuccess("DELIVERED!");
+            string message = gameManager.lastTip > 0 ? "DELIVERED! +" + gameManager.lastTip + " TIP" : "DELIVERED!";
+            if (gameManager.uiManager != null) gameManager.uiManager.ShowSuccess(message);
             if (destinationVisual != null)
             {
                 destinationVisual.SetActive(false);

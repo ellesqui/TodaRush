@@ -60,6 +60,7 @@ public class Obstacle : Interactable
         if (gameManager != null && CanHit())
         {
             gameManager.TakeDamage(damage);
+            PassengerPickup.PlayerGotHit(gameManager);   // patience: one passenger loses 1 patience
             FlashRed();
             ApplyEffect();
         }
@@ -75,6 +76,7 @@ public class Obstacle : Interactable
         {
             playerInside = true;
             gameManager.TakeDamage(damage);
+            PassengerPickup.PlayerGotHit(gameManager);   // patience: one passenger loses 1 patience
             FlashRed();
             ApplyEffect();
         }
