@@ -19,7 +19,7 @@ public class HornController : MonoBehaviour
 
     void Start()
     {
-        spawner = FindFirstObjectByType<PedestrianSpawner>();
+        spawner = FindAnyObjectByType<PedestrianSpawner>();
 
         if (hornButton != null)
             hornButton.onClick.AddListener(PressHorn);

@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "TodaRush/Obstacle Data", fileName = "Obstacle_New")]
 public class ObstacleData : ScriptableObject
 {
-    [Header("Damage")]
+    [Header("Score penalty (points lost on hit)")]
     public int damage = 10;
     public float damageCooldown = 1f;
     public bool damageOnTrigger = false;

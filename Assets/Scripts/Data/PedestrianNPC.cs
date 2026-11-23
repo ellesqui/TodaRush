@@ -28,7 +28,7 @@ public class PedestrianNPC : MonoBehaviour
         spawner = owner;
         pointB = end;
         anim = GetComponent<Animator>();
-        player = FindFirstObjectByType<PlayerController>();
+        player = FindAnyObjectByType<PlayerController>();
         behavior = Random.Range(0, 3);
 
         Vector3 dir = pointB.position - transform.position;

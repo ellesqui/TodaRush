@@ -38,6 +38,13 @@ public class ScoreManager : MonoBehaviour
         highScore = PlayerPrefs.GetInt(highScoreKey, 0);
     }
 
+    // Points lost (collisions). Score never goes below 0.
+    public void SubtractScore(int amount)
+    {
+        if (amount <= 0) return;
+        score = Mathf.Max(0, score - amount);
+    }
+
     public void AddScore(int amount)
     {
         if (amount <= 0)

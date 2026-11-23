@@ -1,15 +1,16 @@
+using System.Linq;
+using TMPro;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public int health = 100;
-    public int maxHealth = 100;
     [HideInInspector] public int destinationCount = 0;
     public int requiredLaps = 3;
     [HideInInspector] public int completedLaps = 0;
     public int damage = 10;
     [HideInInspector] public bool gameWon = false;
-    [HideInInspector] public bool timeExpired = false;
+    [HideInInspector] public bool timeExpired = false;     // game over reason 1: the timer ran out (UIManager shows the time text)
+    [HideInInspector] public bool scoreExpired = false;    // game over reason 2: no points at the Terminal
     public GameObject winText, gameOverText, restartButton;
     public UIManager uiManager;
     public PassengerPickup[] passengers = new PassengerPickup[5];
@@ -17,9 +18,28 @@ public class GameManager : MonoBehaviour
     public ScoreManager scoreManager;
     public int levelNumber = 1; // 1 = MainMap, 2 = Level_02, 3 = Level_03
 
+    [Header("Passenger spawn")]
+    public GameObject[] passengerPrefabs;   // the 5 passenger models (random pick each game)
+
     [Header("Passenger speech")]
     public int hitsPerReaction = 3;   // every 3rd obstacle hit, the passenger reacts
     private int hitCount = 0;
+
+    private const string NoPointsReason = "Walang naihatid na puntos sa terminal.";
+
+    // Filipino name per model (the model's prefab name is the job)
+    public static string NameForModel(string modelName)
+    {
+        switch (modelName)
+        {
+            case "JeepneyDriver": return "Mang Ben Reyes";
+            case "Pulis":         return "PO1 Carlo Mendoza";
+            case "OfficeWorker":  return "Ana dela Cruz";
+            case "SIGA":          return "Lito Santos";
+            case "Student":       return "Mika Villanueva";
+            default:              return "Pasahero";
+        }
+    }
 
     // Passenger formula: Level 1 = 3, Level 2 = 4, Level 3 = 5
     public int CalculateRequiredPassengers()
@@ -39,39 +59,91 @@ public class GameManager : MonoBehaviour
         if (scoreManager == null) scoreManager = GetComponent<ScoreManager>();
     }
 
-    void Update()
+    void Start()
     {
-        if (health <= 0)
+        SpawnPassengers();
+    }
+
+    // Every passenger spot in the scene gets a random model this session.
+    // Only the first passenger is shown; the next appears after each pickup.
+    void SpawnPassengers()
+    {
+        if (passengerPrefabs == null || passengerPrefabs.Length == 0) return;
+
+        PassengerPickup[] spots = FindObjectsByType<PassengerPickup>(FindObjectsInactive.Include)
+            .OrderBy(p => p.name)
+            .ToArray();
+
+        for (int i = 0; i < spots.Length; i++)
         {
-            // GameOverText is a child of GameOverPanel, so show the whole panel first
-            gameOverText.transform.parent.gameObject.SetActive(true);
-            gameOverText.SetActive(true);
-            restartButton.SetActive(true);
-            enabled = false;
+            PassengerPickup pax = spots[i];
+            GameObject model = passengerPrefabs[Random.Range(0, passengerPrefabs.Length)];
+            pax.SetupAtSpawn(model, NameForModel(model.name), pax.transform.position);
+            pax.gameObject.SetActive(i == 0);
         }
     }
 
+    // Called when the player touches the Terminal.
+    // Win only after ALL passengers are delivered AND the player still has points.
     public bool CompleteLap()
     {
         TripTimer tripTimer = GetComponent<TripTimer>();
 
-        if (tripTimer == null || !tripTimer.IsTimerStarted() || timeExpired || health <= 0 || gameWon || destinationCount <= completedLaps || completedLaps >= requiredLaps)
+        if (tripTimer == null || !tripTimer.IsTimerStarted() || IsOver() || destinationCount < requiredLaps)
         {
             return false;
         }
 
-        completedLaps++;
-
-        if (completedLaps >= requiredLaps)
+        // Score is the player's performance. No points left at the Terminal = game over.
+        if (scoreManager != null && scoreManager.score <= 0)
         {
-            gameWon = true;
-            // WinText is a child of VictorySummaryPanel, so show the whole panel first
-            winText.transform.parent.gameObject.SetActive(true);
-            winText.SetActive(true);
-            restartButton.SetActive(true);
+            scoreExpired = true;   // stops the car
+            ShowNoPointsGameOver();
+            return false;
         }
 
+        completedLaps = requiredLaps;
+        gameWon = true;
+
+        // Victory panel: WinText is a child of VictorySummaryPanel, so show the whole panel first
+        winText.transform.parent.gameObject.SetActive(true);
+        winText.SetActive(true);
+        restartButton.SetActive(true);
+
         return true;
+    }
+
+    // True when the game is over for any reason (time ran out or no points at the Terminal)
+    public bool IsOver()
+    {
+        return timeExpired || scoreExpired;
+    }
+
+    // Game over for "no points at the Terminal": shows the game over panel with its own reason.
+    // The timer text is not touched, so the remaining time stays visible.
+    void ShowNoPointsGameOver()
+    {
+        gameOverText.transform.parent.gameObject.SetActive(true);
+        gameOverText.SetActive(true);
+        restartButton.SetActive(true);
+
+        if (uiManager != null)
+        {
+            SetText(uiManager.gameOverScoreValueText, (scoreManager != null ? scoreManager.score : 0).ToString());
+            SetText(uiManager.gameOverPassengersValueText, destinationCount + " / " + requiredLaps);
+            uiManager.SetGameOverTime();
+
+            if (uiManager.failureReasonText != null)
+            {
+                uiManager.failureReasonText.text = NoPointsReason;
+                uiManager.failureReasonText.gameObject.SetActive(true);
+            }
+        }
+    }
+
+    private void SetText(TextMeshProUGUI target, string value)
+    {
+        if (target != null) target.text = value;
     }
 
     public void TakeDamage()
@@ -81,17 +153,17 @@ public class GameManager : MonoBehaviour
 
     public void TakeDamage(int amount)
     {
-        // Ignore damage after game over, win, or time up.
-        if (health <= 0 || gameWon || timeExpired) return;
+        // Points lost (collisions, red light). Ignored after win or game over.
+        if (gameWon || IsOver()) return;
 
-        health = Mathf.Max(0, health - amount);
+        if (scoreManager != null) scoreManager.SubtractScore(amount);
 
         if (uiManager != null) uiManager.ShowDamagePopup(amount);
 
         // Hit sound
         if (AudioManager.Instance != null) AudioManager.Instance.PlaySfx(AudioManager.Instance.hitSound);
 
-        // Every 3rd hit, the passenger reacts
+        // Every 3rd hit, a random boarded passenger reacts
         hitCount++;
         if (uiManager != null && hitCount % hitsPerReaction == 0) uiManager.PlayerHitReaction();
     }

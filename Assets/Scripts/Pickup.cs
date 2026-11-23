@@ -20,7 +20,7 @@ public class Pickup : MonoBehaviour
 
     void Awake()
     {
-        gameManager = FindFirstObjectByType<GameManager>();
+        gameManager = FindAnyObjectByType<GameManager>();
         pickupCollider = GetComponent<Collider>();
     }
 
@@ -73,13 +73,9 @@ public class Pickup : MonoBehaviour
 
     void ApplyEffect()
     {
-        if (data.type == PickupType.Gear)
+        if (data.type == PickupType.Gas)
         {
-            gameManager.health = Mathf.Min(gameManager.maxHealth, gameManager.health + (int)data.amount);
-        }
-        else if (data.type == PickupType.Gas)
-        {
-            PlayerController player = FindFirstObjectByType<PlayerController>();
+            PlayerController player = FindAnyObjectByType<PlayerController>();
             if (player != null)
             {
                 StartCoroutine(SpeedBoostRoutine(player));
@@ -88,7 +84,7 @@ public class Pickup : MonoBehaviour
         }
         else if (data.type == PickupType.Timer)
         {
-            TripTimer timer = FindFirstObjectByType<TripTimer>();
+            TripTimer timer = FindAnyObjectByType<TripTimer>();
             if (timer != null) timer.AddTime(data.amount);
         }
     }
@@ -96,7 +92,7 @@ public class Pickup : MonoBehaviour
     // Plays the effect on the player's tricycle (GearFX, GasFX or TimerFX)
     void PlayPlayerEffect()
     {
-        PlayerController player = FindFirstObjectByType<PlayerController>();
+        PlayerController player = FindAnyObjectByType<PlayerController>();
         if (player == null) return;
 
         Transform fx = player.transform.Find("TricycleDriver/PlayerPickupFX/" + data.type + "FX");

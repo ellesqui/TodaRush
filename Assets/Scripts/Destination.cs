@@ -48,13 +48,14 @@ public class Destination : Interactable
         markerRoot.transform.localScale = markerBaseScale * markerScale;
     }
 
-    // The "DELIVERED!" message now shows after the passenger walks out (see PassengerPickup)
+    // Runs when the passenger gets off here: the DELIVERED notification and sound play right away.
     public void DeliverPassenger()
     {
         if (gameManager != null && gameManager.DeliverPassenger(this))
         {
             gameManager.scoreManager.AddScore(100);
             gameManager.destinationCount++;
+            if (gameManager.uiManager != null) gameManager.uiManager.ShowSuccess("DELIVERED!");
             if (destinationVisual != null)
             {
                 destinationVisual.SetActive(false);

@@ -9,7 +9,7 @@ public class Terminal : Interactable
         {
             if (gameManager.CompleteLap())
             {
-                FindFirstObjectByType<UIManager>()?.ShowSuccess("SUCCESS!");
+                FindAnyObjectByType<UIManager>()?.ShowSuccess("SUCCESS!");
                 if (!gameManager.gameWon)
                 {
                     gameManager.GetComponent<Queue>().ShowNextTerminalPassenger();

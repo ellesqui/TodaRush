@@ -8,7 +8,7 @@ public class Obstacle : Interactable
     public Animator reactionAnimator;
     public string reactionTrigger = "ObstacleBump";
 
-    // Damage this obstacle deals to the player.
+    // Points lost from the score when this obstacle hits the player.
     public int damage = 10;
 
     // Seconds to wait before this obstacle can hurt the player again.
@@ -32,6 +32,24 @@ public class Obstacle : Interactable
 
     private static bool isSlowed = false;
     private static float originalSpeed;
+
+    // Settings asset (Assets/Scripts/Data/Obstacles). Assign it in the Inspector.
+    // When assigned, its values are used: damage (points lost), cooldown, trigger, and effect.
+    public ObstacleData data;
+
+    protected override void Awake()
+    {
+        base.Awake();
+        if (data == null) return;
+
+        damage = data.damage;
+        damageCooldown = data.damageCooldown;
+        damageOnTrigger = data.damageOnTrigger;
+        effect = data.effect;
+        effectSeconds = data.effectSeconds;
+        slowAmount = data.slowAmount;
+        pushDegrees = data.pushDegrees;
+    }
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -77,14 +95,14 @@ public class Obstacle : Interactable
 
     private void FlashRed()
     {
-        UIManager ui = FindFirstObjectByType<UIManager>();
+        UIManager ui = FindAnyObjectByType<UIManager>();
         if (ui != null) ui.ShowDamageFlash();
     }
 
     // Runs the effect picked in the Inspector
     private void ApplyEffect()
     {
-        PlayerController player = FindFirstObjectByType<PlayerController>();
+        PlayerController player = FindAnyObjectByType<PlayerController>();
         if (player == null) return;
 
         if (effect == EffectType.Slow && !isSlowed) StartCoroutine(SlowRoutine(player));

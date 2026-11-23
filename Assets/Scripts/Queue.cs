@@ -7,51 +7,32 @@ public class Queue : MonoBehaviour
     public float nextPassengerArrivalDelay = 2f;
     private int nextTerminalPassengerIndex = 0;
 
-void Start()
-{
-    if (terminalPassengers == null || terminalPassengers.Length == 0)
+    // All passengers are spawned by GameManager now, so nothing is hidden here.
+    void Start()
     {
-        return;
     }
 
-    for (int i = 0; i < terminalPassengers.Length; i++)
+    public void ShowNextTerminalPassenger()
     {
-        if (terminalPassengers[i] != null)
+        StartCoroutine(ShowNextTerminalPassengerAfterDelay());
+    }
+
+    private IEnumerator ShowNextTerminalPassengerAfterDelay()
+    {
+        yield return new WaitForSeconds(nextPassengerArrivalDelay);
+
+        if (terminalPassengers == null || nextTerminalPassengerIndex >= terminalPassengers.Length)
         {
-            terminalPassengers[i].gameObject.SetActive(false);
+            yield break;
+        }
+
+        PassengerPickup nextPassenger = terminalPassengers[nextTerminalPassengerIndex];
+
+        nextTerminalPassengerIndex++;
+
+        if (nextPassenger != null)
+        {
+            nextPassenger.gameObject.SetActive(true);
         }
     }
-
-    if (terminalPassengers[0] != null)
-    {
-        terminalPassengers[0].gameObject.SetActive(true);
-        nextTerminalPassengerIndex = 1;
-    }
-}
-
-public void ShowNextTerminalPassenger()
-{
-    StartCoroutine(ShowNextTerminalPassengerAfterDelay());
-}
-
-private IEnumerator ShowNextTerminalPassengerAfterDelay()
-{
-    yield return new WaitForSeconds(nextPassengerArrivalDelay);
-
-    if (terminalPassengers == null || nextTerminalPassengerIndex >= terminalPassengers.Length)
-    {
-        yield break;
-    }
-
-    PassengerPickup nextPassenger = terminalPassengers[nextTerminalPassengerIndex];
-
-    nextTerminalPassengerIndex++;
-
-    if (nextPassenger != null)
-    {
-        nextPassenger.gameObject.SetActive(true);
-    }
-}
-
-
 }

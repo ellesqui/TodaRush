@@ -50,7 +50,7 @@ public class NightController : MonoBehaviour
     private void Start()
     {
         tripTimer = GetComponent<TripTimer>();
-        foreach (var l in FindObjectsByType<Light>(FindObjectsSortMode.None))
+        foreach (var l in FindObjectsByType<Light>())
         {
             if (l.type == LightType.Directional) { sun = l; break; }
         }
@@ -136,7 +136,7 @@ public class NightController : MonoBehaviour
     // Creates a spotlight on the tricycle that faces the same way as the player
     private void SetupHeadlight()
     {
-        PlayerController player = FindFirstObjectByType<PlayerController>();
+        PlayerController player = FindAnyObjectByType<PlayerController>();
         if (player == null) return;
 
         Transform lampPart = player.transform.Find("TricycleDriver/Tricycle_Root/Moto_Headlight");

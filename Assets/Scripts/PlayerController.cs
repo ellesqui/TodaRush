@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
     public float turnSpeed = 100f;
 
     public GameManager gameManager;
+    public bool canDrive = false;   // set to true by UIManager when the GO countdown ends
     public float currentSpeed = 0f;
 
     [Header("Engine sound")]
@@ -50,7 +51,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if (gameManager.health <= 0 || gameManager.gameWon || gameManager.timeExpired)
+        if (gameManager.gameWon || gameManager.IsOver())
         {
             moveInput = 0f;
             turnInput = 0f;
@@ -59,11 +60,12 @@ public class PlayerController : MonoBehaviour
 
         moveInput = Input.GetAxisRaw("Vertical");
         turnInput = Input.GetAxis("Horizontal");
+        if (!canDrive) { moveInput = 0f; turnInput = 0f; }   // locked until the GO countdown ends
     }
 
     void FixedUpdate()
     {
-        if (gameManager.health <= 0 || gameManager.gameWon || gameManager.timeExpired)
+        if (gameManager.gameWon || gameManager.IsOver())
         {
             drivingSpeed = 0f;
 

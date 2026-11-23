@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,16 +7,14 @@ using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
-    public TextMeshProUGUI healthText, scoreText, highScoreText, timerText, damagePopupText, speedText;
+    public TextMeshProUGUI scoreText, highScoreText, timerText, damagePopupText, speedText;
     public TextMeshProUGUI scoreValueText, passengersValueText, timeValueText;
-    public TextMeshProUGUI gameOverScoreValueText, gameOverPassengersValueText, gameOverHealthValueText, failureReasonText;
-    public Image healthBarFill;
+    public TextMeshProUGUI gameOverScoreValueText, gameOverPassengersValueText, gameOverTimeValueText, failureReasonText;
     public PassengerProgressWidget passengerProgress;
     public GameObject gameplayHUD, victoryDimOverlay, victorySummaryPanel, pauseOverlay, successNotification;
     public GameManager gameManager;
     public TripTimer tripTimer;
     public PlayerController playerController;
-    public float healthFillDuration = 0.4f;
     public float popupDuration = 1.3f, popupRiseDistance = 50f, popupStartScale = 1.2f;
 
     [Header("Full Map")]
@@ -26,7 +25,17 @@ public class UIManager : MonoBehaviour
     public GameObject passengerDialogueHUD;
     public UnityEngine.UI.Image damageFlash;
     private float flashAlpha;
-    public TextMeshProUGUI passengerNameText, speechText;
+    public TextMeshProUGUI passengerNameText;   // name label only
+    public TextMeshProUGUI passengerJobText;    // "passenger job" label (job = model prefab name)
+    public TextMeshProUGUI speechText;
+    public TextMeshProUGUI objectiveMainText;   // OBJECTIVE panel main line (shows the mission while the timer runs)
+    private const string MissionText = "DELIVER ALL · BEAT THE CLOCK";
+    public TextMeshProUGUI countdownText;      // big 3 / 2 / 1 / GO text on the HUD
+    public AudioClip countdownClip;            // Mario Start (plays with the countdown)
+    public AudioClip deliveredClip;            // Delivered sound: plays with the DELIVERED notification
+    private AudioSource sfx;
+    private float baseObjectiveFontSize;
+    private bool countdownStarted;
     public float speechSeconds = 4f;   // how long the passenger speech stays on screen
 
     [Header("Passenger Speech Lines (default for now)")]
@@ -34,7 +43,6 @@ public class UIManager : MonoBehaviour
     public string[] reactionLines = { "Aray! Dahan-dahan naman, boss!", "Ingat po tayo!", "Diyos ko po, ingat!" };
     public string[] dropLines = { "Salamat po, boss!", "Ingat po kayo!" };
 
-    private float healthFillShown = -1f, healthFillFrom, healthFillTarget, healthFillTimer;
     private Coroutine popupCoroutine;
     private Coroutine speechCoroutine;
     private RectTransform popupRect;
@@ -47,6 +55,10 @@ public class UIManager : MonoBehaviour
 
     void Start()
     {
+        sfx = gameObject.AddComponent<AudioSource>();
+        sfx.playOnAwake = false;
+        if (objectiveMainText != null) baseObjectiveFontSize = objectiveMainText.fontSize;
+        if (countdownText != null) // Countdown starts after all passengers are picked up (see StartCountdown)
         Time.timeScale = 1f;
         isPaused = false;
         if (pauseOverlay != null) pauseOverlay.SetActive(false);
@@ -62,6 +74,7 @@ public class UIManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.R)) ToggleFullMap();
         FadeDamageFlash();
         if (gameManager == null) return;
+        UpdateObjectiveText();
 
         if (gameManager.gameWon)
         {
@@ -69,9 +82,8 @@ public class UIManager : MonoBehaviour
             return;
         }
 
-        if (!gameOverShown && (gameManager.timeExpired || gameManager.health <= 0)) UpdateGameOverStats();
+        if (!gameOverShown && gameManager.timeExpired) UpdateGameOverStats();
 
-        UpdateHealthDisplay();
         scoreText.text = "Score: " + gameManager.scoreManager.score;
         highScoreText.text = "High Score: " + gameManager.scoreManager.highScore;
         UpdateTimerText();
@@ -89,25 +101,32 @@ public class UIManager : MonoBehaviour
         ShowPassengerSpeech(passenger, PickLine(dropLines));
     }
 
-    // Called every few hits (see GameManager)
+    // Called every few hits (see GameManager). A random boarded passenger reacts.
     public void PlayerHitReaction()
     {
+        if (gameManager == null) return;
+
+        List<PassengerPickup> boarded = new List<PassengerPickup>();
         foreach (PassengerPickup passenger in gameManager.passengers)
         {
             if (passenger != null && passenger.hasBoarded && passenger.targetDestination != null)
-            {
-                ShowPassengerSpeech(passenger, PickLine(reactionLines));
-                return;
-            }
+                boarded.Add(passenger);
         }
+
+        if (boarded.Count == 0) return;
+
+        PassengerPickup speaker = boarded[Random.Range(0, boarded.Count)];
+        ShowPassengerSpeech(speaker, PickLine(reactionLines));
     }
 
     private void ShowPassengerSpeech(PassengerPickup passenger, string line)
     {
         if (passengerDialogueHUD == null || speechText == null) return;
 
-        int index = System.Array.IndexOf(gameManager.passengers, passenger) + 1;
-        if (passengerNameText != null) passengerNameText.text = "Passenger " + index.ToString("00");
+        // Name on the name label, job on the passenger job label
+        if (passengerNameText != null) passengerNameText.text = passenger.displayName;
+        if (passengerJobText != null) passengerJobText.text = passenger.jobTitle;
+
         speechText.text = line;
         passengerDialogueHUD.SetActive(true);
 
@@ -186,6 +205,8 @@ public class UIManager : MonoBehaviour
     // SUCCESS / DELIVERED NOTIFICATION (shows for 2 seconds)
     public void ShowSuccess(string message = "SUCCESS")
     {
+        // Delivery sound plays together with the DELIVERED notification
+        if (message == "DELIVERED!" && deliveredClip != null && sfx != null) sfx.PlayOneShot(deliveredClip);
         if (successNotification == null) return;
 
         successNotification.GetComponentInChildren<TextMeshProUGUI>(true).text = message;
@@ -199,57 +220,10 @@ public class UIManager : MonoBehaviour
         successNotification.SetActive(false);
     }
 
-    // HEALTH BAR
-    private void UpdateHealthDisplay()
-    {
-        int maxHealth = Mathf.Max(1, gameManager.maxHealth);
-        float healthPercent = (float)Mathf.Clamp(gameManager.health, 0, maxHealth) / maxHealth;
-
-        if (healthText != null) healthText.text = Mathf.RoundToInt(healthPercent * 100f) + "%";
-        UpdateHealthFill(healthPercent);
-    }
-
-    private void UpdateHealthFill(float targetPercent)
-    {
-        if (healthBarFill == null) return;
-
-        targetPercent = Mathf.Clamp01(targetPercent);
-
-        if (healthFillShown < 0f)
-        {
-            healthFillShown = healthFillFrom = healthFillTarget = targetPercent;
-            healthFillTimer = healthFillDuration;
-        }
-
-        if (!Mathf.Approximately(targetPercent, healthFillTarget))
-        {
-            healthFillFrom = healthFillShown;
-            healthFillTarget = targetPercent;
-            healthFillTimer = 0f;
-        }
-
-        if (healthFillTimer < healthFillDuration)
-        {
-            healthFillTimer += Time.unscaledDeltaTime;
-            float t = Mathf.Clamp01(healthFillTimer / healthFillDuration);
-            float eased = 1f - Mathf.Pow(1f - t, 3f); // approximates cubic-bezier(0.25, 1, 0.5, 1)
-            healthFillShown = Mathf.Lerp(healthFillFrom, healthFillTarget, eased);
-        }
-        else
-        {
-            healthFillShown = healthFillTarget;
-        }
-
-        RectTransform barRect = healthBarFill.rectTransform.parent as RectTransform;
-        float innerWidth = barRect != null ? barRect.rect.width : 364f;
-        Vector2 size = healthBarFill.rectTransform.sizeDelta;
-        healthBarFill.rectTransform.sizeDelta = new Vector2(innerWidth * Mathf.Clamp01(healthFillShown), size.y);
-    }
-
     // PAUSE SYSTEM
     private bool CanPause()
     {
-        return gameManager != null && !gameManager.gameWon && !gameManager.timeExpired && gameManager.health > 0;
+        return gameManager != null && !gameManager.gameWon && !gameManager.timeExpired;
     }
 
     public void TogglePause()
@@ -299,7 +273,7 @@ public class UIManager : MonoBehaviour
         popupRect.anchoredPosition = popupStartPosition;
         popupRect.localScale = popupNormalScale * popupStartScale;
         damagePopupText.color = popupColor;
-        damagePopupText.text = "-" + damageAmount + " DAMAGE!";
+        damagePopupText.text = "-" + damageAmount + " POINTS";
         damagePopupText.gameObject.SetActive(true);
 
         popupCoroutine = StartCoroutine(AnimatePopup());
@@ -341,6 +315,58 @@ public class UIManager : MonoBehaviour
         return Mathf.FloorToInt(seconds / 60f).ToString("00") + ":" + Mathf.FloorToInt(seconds % 60f).ToString("00");
     }
 
+    // Big 3 / 2 / 1 / GO countdown, fading out one number at a time (Mario Start plays with it)
+    IEnumerator CountdownRoutine()
+    {
+        countdownText.gameObject.SetActive(true);
+        if (countdownClip != null) sfx.PlayOneShot(countdownClip);
+        string[] steps = { "3", "2", "1", "GO" };
+        foreach (string s in steps)
+        {
+            countdownText.text = s;
+            float startTime = Time.realtimeSinceStartup;
+            while (Time.realtimeSinceStartup - startTime < 1f)
+            {
+                float t = Time.realtimeSinceStartup - startTime;
+                countdownText.color = new Color(1f, 0.55f, 0f, 1f - t);
+                yield return null;
+            }
+        }
+        countdownText.gameObject.SetActive(false);
+        if (tripTimer != null) tripTimer.holdUntilGo = false;   // timer counts down after GO
+        if (playerController != null) playerController.canDrive = true;   // tricycle can move after GO
+    }
+
+    // Called by PassengerPickup after the last passenger boards: starts 3-2-1-GO once
+    public void StartCountdown()
+    {
+        if (countdownStarted || countdownText == null) return;
+        countdownStarted = true;
+        if (tripTimer != null) tripTimer.holdUntilGo = true;   // timer waits until GO
+        StartCoroutine(CountdownRoutine());
+    }
+
+    // Objective text flow: WAITING -> DELIVER ALL -> RETURN TO TERMINAL -> MISSION COMPLETE
+    private void UpdateObjectiveText()
+    {
+        if (objectiveMainText == null || tripTimer == null) return;
+
+        string wanted;
+        if (gameManager.gameWon) wanted = "MISSION COMPLETE";
+        else if ((gameManager.destinationCount >= gameManager.requiredLaps)) wanted = "RETURN TO TERMINAL";
+        else if (tripTimer.IsTimerStarted()) wanted = MissionText;
+        else wanted = "WAITING FOR PASSENGERS";
+
+        if (objectiveMainText.text != wanted)
+        {
+            objectiveMainText.text = wanted;
+        }
+
+        // Same font size as the WAITING FOR PASSENGERS text
+        objectiveMainText.enableAutoSizing = false;
+        objectiveMainText.fontSize = baseObjectiveFontSize;
+    }
+
     private void UpdateTimerText()
     {
         if (tripTimer == null || timerText == null) return;
@@ -377,14 +403,21 @@ public class UIManager : MonoBehaviour
 
         SetText(gameOverScoreValueText, gameManager.scoreManager.score.ToString());
         SetText(gameOverPassengersValueText, gameManager.destinationCount + " / " + gameManager.requiredLaps);
-        SetText(gameOverHealthValueText, Mathf.Clamp(gameManager.health, 0, Mathf.Max(1, gameManager.maxHealth)).ToString());
+        SetGameOverTime();
 
-        // Only the timer can produce this reason. Health depletion keeps it hidden.
+        // Only the timer can produce this reason.
         if (failureReasonText != null)
         {
             failureReasonText.text = TimerExpiredReason;
             failureReasonText.gameObject.SetActive(gameManager.timeExpired);
         }
+    }
+
+    // TIME LEFT on the game over panel (same value as the win panel)
+    public void SetGameOverTime()
+    {
+        if (tripTimer == null) return;
+        SetText(gameOverTimeValueText, FormatTime(Mathf.Max(0f, tripTimer.GetTimeRemaining())));
     }
 
     private void SetText(TextMeshProUGUI target, string value)

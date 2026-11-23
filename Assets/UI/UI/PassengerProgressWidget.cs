@@ -91,9 +91,9 @@ public class PassengerProgressWidget : MonoBehaviour
         // Borders start hidden; each one appears when its passenger is picked up.
         foreach (var b in seatBorders) b.gameObject.SetActive(false);
 
-        if (queue != null && queue.terminalPassengers != null)
+        if (true) // passengers are found in the scene, not from the Queue list
         {
-            foreach (PassengerPickup pax in queue.terminalPassengers)
+            foreach (PassengerPickup pax in FindObjectsByType<PassengerPickup>(FindObjectsInactive.Include))
             {
                 if (pax == null)
                 {

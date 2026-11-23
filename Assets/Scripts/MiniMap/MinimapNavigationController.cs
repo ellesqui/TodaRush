@@ -1,15 +1,16 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-// Draws one route at a time on the minimap:
-// - ORANGE: player -> active passenger's destination (during deliveries).
-// - BLUE: player -> TODA Terminal (after a delivery, while returning).
+// Draws the routes on the minimap:
+// - ORANGE: player -> each boarded passenger's destination (all at the same time).
+// - BLUE: player -> TODA Terminal (only after ALL passengers are delivered).
 // Also drives the minimap camera: top-down, centered on the Player, rotated to the Player's heading.
 // Attach to the Player object.
 public class MinimapNavigationController : MonoBehaviour
 {
     [Header("Route Display")]
-    public LineRenderer routeLine;               // orange, on PlayerArrow
+    public LineRenderer routeLine;               // orange, on PlayerArrow (copied for more passengers)
     public LineRenderer terminalRouteLine;       // blue, on TerminalRouteLine
     public LineRenderer[] staticRouteLines;      // turned off during Play Mode
     public float routeHeight = 100.5f;
@@ -39,6 +40,7 @@ public class MinimapNavigationController : MonoBehaviour
     private float timer;
     private bool[] staticLineWasEnabled;
     private Transform arrowTransform;
+    private List<LineRenderer> orangeLines = new List<LineRenderer>();
 
     void Awake()
     {
@@ -75,8 +77,25 @@ public class MinimapNavigationController : MonoBehaviour
             }
         }
 
-        HideRoute();
+        // One orange line for each passenger, so all routes can show at once
+        MakeOrangeLines();
+
+        HideAllOrangeRoutes();
         HideTerminalRoute();
+    }
+
+    // Makes one copy of the orange route line for each passenger
+    void MakeOrangeLines()
+    {
+        if (routeLine == null || gameManager == null) return;
+
+        orangeLines.Add(routeLine);
+        for (int i = 1; i < gameManager.passengers.Length; i++)
+        {
+            LineRenderer copy = Instantiate(routeLine, routeLine.transform.parent);
+            copy.name = "RouteLine_" + (i + 1).ToString("D2");
+            orangeLines.Add(copy);
+        }
     }
 
     void OnDisable()
@@ -124,47 +143,55 @@ public class MinimapNavigationController : MonoBehaviour
         // Mission finished: hide both routes.
         if (gameManager != null && gameManager.gameWon)
         {
-            HideRoute();
+            HideAllOrangeRoutes();
             HideTerminalRoute();
             return;
         }
 
-        // A delivered passenger still needs the return trip to the Terminal.
-        if (gameManager != null && gameManager.destinationCount > gameManager.completedLaps)
+        // All passengers delivered: blue route back to the Terminal.
+        if (gameManager != null && gameManager.destinationCount >= gameManager.requiredLaps)
         {
-            HideRoute();
+            HideAllOrangeRoutes();
             RefreshTerminalRoute();
             return;
         }
 
-        // Delivery phase: orange route to the active passenger's destination.
+        // Passengers onboard: one orange route for each boarded passenger.
         HideTerminalRoute();
+        RefreshOrangeRoutes();
+    }
 
-        PassengerPickup activePassenger = FindActivePassenger();
-        if (activePassenger == null || routeLine == null)
+    void RefreshOrangeRoutes()
+    {
+        HideAllOrangeRoutes();
+        if (gameManager == null || gameManager.passengers == null) return;
+
+        int lineIndex = 0;
+        foreach (PassengerPickup passenger in gameManager.passengers)
         {
-            HideRoute();
-            return;
+            if (passenger == null || !passenger.hasBoarded || passenger.targetDestination == null) continue;
+            if (lineIndex >= orangeLines.Count) break;
+
+            DrawOrangeRoute(orangeLines[lineIndex], passenger.targetDestination.transform.position);
+            lineIndex++;
         }
+    }
+
+    void DrawOrangeRoute(LineRenderer line, Vector3 destinationPosition)
+    {
+        if (line == null) return;
 
         Vector3 playerRoadPoint;
         Vector3 destinationRoadPoint;
-        Vector3 destinationPosition = activePassenger.targetDestination.transform.position;
 
         if (!TrySampleNavMesh(transform.position, playerSampleDistance, out playerRoadPoint) ||
-            !TrySampleNavMesh(destinationPosition, destinationSampleDistance, out destinationRoadPoint))
+            !TrySampleNavMesh(destinationPosition, destinationSampleDistance, out destinationRoadPoint) ||
+            !CalculatePath(playerRoadPoint, destinationRoadPoint))
         {
-            HideRoute();
             return;
         }
 
-        if (!CalculatePath(playerRoadPoint, destinationRoadPoint))
-        {
-            HideRoute();
-            return;
-        }
-
-        DrawRoute(routeLine, path.corners);
+        DrawRoute(line, path.corners);
     }
 
     // Blue route: same path logic, but the target is the Terminal.
@@ -194,19 +221,6 @@ public class MinimapNavigationController : MonoBehaviour
     {
         bool calculated = NavMesh.CalculatePath(from, to, NavMesh.AllAreas, path);
         return calculated && path.status == NavMeshPathStatus.PathComplete && path.corners.Length >= 2;
-    }
-
-    // Returns the first boarded passenger that still has a destination.
-    PassengerPickup FindActivePassenger()
-    {
-        if (gameManager == null || gameManager.passengers == null) return null;
-
-        foreach (PassengerPickup passenger in gameManager.passengers)
-        {
-            if (passenger != null && passenger.hasBoarded && passenger.targetDestination != null) return passenger;
-        }
-
-        return null;
     }
 
     // Finds the nearest point on the road NavMesh, close enough to the requested position.
@@ -239,9 +253,12 @@ public class MinimapNavigationController : MonoBehaviour
         }
     }
 
-    void HideRoute()
+    void HideAllOrangeRoutes()
     {
-        if (routeLine != null) routeLine.enabled = false;
+        foreach (LineRenderer line in orangeLines)
+        {
+            if (line != null) line.enabled = false;
+        }
     }
 
     void HideTerminalRoute()

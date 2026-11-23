@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class TripTimer : MonoBehaviour
 {
-    public int requiredPassengerCount = 3;
     public float tripTimeLimit = 180f;
+    public bool holdUntilGo = false;   // true while the 3-2-1-GO countdown plays (timer does not count yet)
     private float timeRemaining;
     private bool timerStarted = false;
     private GameManager gameManager;
@@ -25,12 +25,13 @@ public class TripTimer : MonoBehaviour
             return;
         }
 
-        if (!timerStarted && gameManager.passengersOnboard >= requiredPassengerCount)
+        // Timer starts only when ALL passengers for this level are onboard (Level 1 = 3)
+        if (!timerStarted && !holdUntilGo && gameManager.passengersOnboard >= gameManager.CalculateRequiredPassengers())
         {
             timerStarted = true;
         }
 
-        if (timerStarted && !gameManager.gameWon && !gameManager.timeExpired && gameManager.health > 0)
+        if (timerStarted && !holdUntilGo && !gameManager.gameWon && !gameManager.timeExpired)
         {
             timeRemaining -= Time.deltaTime;
 

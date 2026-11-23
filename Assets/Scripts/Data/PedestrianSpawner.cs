@@ -25,7 +25,7 @@ public class PedestrianSpawner : MonoBehaviour
     void Start()
     {
         timer = waitSeconds;
-        player = FindFirstObjectByType<PlayerController>();
+        player = FindAnyObjectByType<PlayerController>();
     }
 
     void Update()

@@ -28,7 +28,7 @@ public class Chasing : MonoBehaviour
             chaseSpeed = data.chaseSpeed;
             wanderRadius = data.wanderRadius;
         }
-        player = FindFirstObjectByType<PlayerController>().transform;
+        player = FindAnyObjectByType<PlayerController>().transform;
         PickRandomRoadPoint();
     }
 
