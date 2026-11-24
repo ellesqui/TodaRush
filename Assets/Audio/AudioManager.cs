@@ -36,6 +36,7 @@ public class AudioManager : MonoBehaviour
     public Slider musicSlider;
     public Slider sfxSlider;
     public Toggle muteToggle;
+    public Animator muteAnimator;      // knob animator on the Mute toggle (states: Normal = off, Selected = on)
     public TMP_Text musicPercentText;
     public TMP_Text sfxPercentText;
 
@@ -151,6 +152,7 @@ public class AudioManager : MonoBehaviour
         muted = on;
         PlayerPrefs.SetInt(PrefMute, on ? 1 : 0);
         ApplyVolumes();
+        if (muteAnimator != null) muteAnimator.CrossFadeInFixedTime(on ? "Selected" : "Normal", 0.15f);
     }
 
     // Sends the current values to the mixer
@@ -180,6 +182,7 @@ public class AudioManager : MonoBehaviour
         if (muteToggle != null)
         {
             muteToggle.SetIsOnWithoutNotify(muted);
+            if (muteAnimator != null) muteAnimator.Play(muted ? "Selected" : "Normal");
             muteToggle.onValueChanged.RemoveAllListeners();
             muteToggle.onValueChanged.AddListener(SetMuteAll);
         }
