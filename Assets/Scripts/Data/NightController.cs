@@ -8,6 +8,9 @@ using UnityEngine;
 // Put this on the same object as TripTimer (GameManager).
 public class NightController : MonoBehaviour
 {
+    [Header("Level settings")]
+    public LevelData levelData;           // the skybox and environment sound for this level (set in the Level Data asset)
+
     [Header("Test switch")]
     public bool nightEnabled = true;      // turn off for levels that should not change sky
 
@@ -54,6 +57,15 @@ public class NightController : MonoBehaviour
         {
             if (l.type == LightType.Directional) { sun = l; break; }
         }
+
+        // Fixed sky and environment sound for this level (from the Level Data asset)
+        if (levelData != null)
+        {
+            if (levelData.skybox != null) RenderSettings.skybox = levelData.skybox;
+            if (AudioManager.Instance != null && levelData.environmentSound != null)
+                AudioManager.Instance.PlayEnvironment(levelData.environmentSound);
+        }
+
         if (!nightEnabled) return;
 
         if (daySky != null) RenderSettings.skybox = daySky;

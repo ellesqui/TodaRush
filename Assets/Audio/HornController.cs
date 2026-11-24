@@ -5,8 +5,11 @@ using TMPro;
 // Press F or click the horn button to honk.
 // The horn sound can be played anywhere, once every 30 seconds.
 // Pedestrians only react when the Player is inside the lane's detection zone.
+// The horn only works in levels where LevelData.hornEnabled is on.
 public class HornController : MonoBehaviour
 {
+    public LevelData levelData;             // the horn is only unlocked when this level's hornEnabled is true
+
     public AudioClip hornClip;
     public float cooldownSeconds = 30f;
 
@@ -19,6 +22,14 @@ public class HornController : MonoBehaviour
 
     void Start()
     {
+        // This level has no horn: hide the button and turn the whole system off
+        if (levelData != null && !levelData.hornEnabled)
+        {
+            if (hornButton != null) hornButton.gameObject.SetActive(false);
+            enabled = false;
+            return;
+        }
+
         spawner = FindAnyObjectByType<PedestrianSpawner>();
 
         if (hornButton != null)
@@ -39,6 +50,7 @@ public class HornController : MonoBehaviour
     // Honk if the cooldown is over
     public void PressHorn()
     {
+        if (levelData != null && !levelData.hornEnabled) return;
         if (cooldownTimer > 0f) return;
 
         AudioManager.Instance.PlaySfx(hornClip);

@@ -36,6 +36,7 @@ public class PassengerPickup : MonoBehaviour
     public int maxPatience = 3;      // how many obstacle hits before this passenger falls out
     public float looseSeconds = 2f;  // how long the passenger stays out after falling
     public float respawnSeconds = 2f; // how long before a new passenger shows up at the terminal
+    public float pickupRadius = 5f;  // a respawned passenger waits at the spot and walks to the tricycle when the player is this close
     [HideInInspector] public int patience;
 
     [Header("Patience Dialogue")]
@@ -43,11 +44,18 @@ public class PassengerPickup : MonoBehaviour
     public string[] fallLines = { "Ayoko na po! Bababa na ako!", "Sige na po, dito na lang ako!", "Ang sama naman po ng biyahe!" };
 
     private Vector3 spawnPosition;
+    private Destination homeDestination;   // the destination set in the Inspector (restored after a fall)
     private bool isReturning = false;
-    private bool isLoose = false;     // true while the passenger has fallen out (not walking)
+    private bool isLoose = false;     // true while the passenger has fallen out or is being dropped off (not walking)
+    private bool stayAtSpawn = false; // respawned passengers wait at the terminal spot instead of walking to the tricycle
     private int claimedSlot = -1;
     private Animator animator;
     private string lastState = "Idle";
+
+    void Awake()
+    {
+        homeDestination = targetDestination;
+    }
 
     // Called by GameManager at the start of the game.
     // Replaces the placeholder "Model" child with the given random model, and sets name and job.
@@ -117,6 +125,24 @@ public class PassengerPickup : MonoBehaviour
             playerTransform = player.transform;
         }
 
+        // Respawned passenger: stays Idle at the terminal spot.
+        // When the player comes close, switch to Walk and go to the tricycle.
+        if (stayAtSpawn)
+        {
+            Vector3 mine = new Vector3(transform.position.x, 0f, transform.position.z);
+            Vector3 theirs = new Vector3(playerTransform.position.x, 0f, playerTransform.position.z);
+            if (Vector3.Distance(mine, theirs) <= pickupRadius)
+            {
+                stayAtSpawn = false;
+                if (ClaimSlot())
+                {
+                    isApproaching = true;
+                    PlayState("Walk");
+                }
+            }
+            return;
+        }
+
         // Idle for a moment, then walk toward the tricycle (no distance check)
         if (!isApproaching && !isReturning && Time.time - spawnedAt >= idleSeconds)
         {
@@ -146,22 +172,27 @@ public class PassengerPickup : MonoBehaviour
         }
     }
 
+    // Takes a free passenger slot in GameManager. Returns false if all slots are taken.
+    bool ClaimSlot()
+    {
+        if (claimedSlot != -1) return true;
+
+        for (int i = 0; i < gameManager.passengers.Length; i++)
+        {
+            if (gameManager.passengers[i] == null)
+            {
+                gameManager.passengers[i] = this;
+                claimedSlot = i;
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     void StartApproach()
     {
-        if (claimedSlot == -1)
-        {
-            for (int i = 0; i < gameManager.passengers.Length; i++)
-            {
-                if (gameManager.passengers[i] == null)
-                {
-                    gameManager.passengers[i] = this;
-                    claimedSlot = i;
-                    break;
-                }
-            }
-
-            if (claimedSlot == -1) return; // no free slot
-        }
+        if (!ClaimSlot()) return; // no free slot
 
         isReturning = false;
         isApproaching = true;
@@ -181,6 +212,7 @@ public class PassengerPickup : MonoBehaviour
 
     void Board()
     {
+        stayAtSpawn = false;
         isApproaching = false;
         hasBoarded = true;
         gameManager.passengersOnboard++;
@@ -251,6 +283,12 @@ public class PassengerPickup : MonoBehaviour
     // The DELIVERED notification is shown by Destination.DeliverPassenger, at the moment of drop-off.
     public IEnumerator DropRoutine()
     {
+        // Delivered: no longer on board, so obstacles can't make them fall out again
+        // and the passenger widget keeps them green.
+        hasBoarded = false;
+        isLoose = true;   // stops the walk-back logic while they are being dropped off
+        targetDestination = null;
+
         // Appear beside the tricycle, placed on the road surface (not floating)
         Vector3 p = boardingPoint.position;
         transform.position = new Vector3(p.x, RoadHeightAt(p.x, p.z) + groundOffset, p.z);
@@ -260,7 +298,7 @@ public class PassengerPickup : MonoBehaviour
         // Drop-off speech
         if (gameManager.uiManager != null) gameManager.uiManager.PassengerDropped(this);
 
-        // Stays in place and jumps for a few seconds, then disappears
+        // Stays in place and jumps for a few seconds, then disappears (and stays hidden for good)
         yield return new WaitForSeconds(dropSeconds);
 
         gameObject.SetActive(false);
@@ -337,12 +375,16 @@ public class PassengerPickup : MonoBehaviour
 
         yield return new WaitForSeconds(respawnSeconds);
 
-        // New passenger shows up at the terminal again
+        // New passenger shows up at the terminal spot in Idle (not the Loose animation).
+        // Stays there until the player comes close.
         transform.position = spawnPosition;
         patience = maxPatience;
         isApproaching = false;
         isReturning = false;
         isLoose = false;
+        stayAtSpawn = true;
+        targetDestination = homeDestination;   // the orange route comes back once they board again
+        PlayState("Idle");
         gameObject.SetActive(true);
     }
 

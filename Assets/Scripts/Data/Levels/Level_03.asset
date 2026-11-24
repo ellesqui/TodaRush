@@ -19,5 +19,9 @@ MonoBehaviour:
   passengerCount: 0
   timeLimit: 180
   accentColor: {r: 0.8392157, g: 0.15686275, b: 0.15686275, a: 1}
+  skybox: {fileID: 2100000, guid: 7f185cfbac2290349adcf2d4858ce706, type: 2}
+  environmentSound: {fileID: 8300000, guid: 164c791b1f712544bb5e4be678da2b25, type: 3}
+  rainEnabled: 1
+  hornEnabled: 1
   subtitle: New route coming soon.
   description: This route is currently under development. Check back for future missions.

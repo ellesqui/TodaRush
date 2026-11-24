@@ -5,8 +5,12 @@ using UnityEngine.UI;
 
 // Turns rain on and off at random times.
 // While it rains: puddles appear on the roads, and random blurry spots fade in and out on the screen.
+// Rain only happens if the level's LevelData has rainEnabled turned on.
 public class RainWeather : MonoBehaviour
 {
+    [Header("Level settings")]
+    public LevelData levelData;            // rain is only on when this level's rainEnabled is true
+
     public GameObject rainEffect;          // the RainEffect child object
     public GameObject puddlePrefab;        // the Puddle prefab
     public MeshFilter[] roadGuides;        // the 4 GUIDE_ROAD meshes
@@ -36,6 +40,14 @@ public class RainWeather : MonoBehaviour
     void Start()
     {
         rainEffect.SetActive(false);
+
+        // This level has no rain: turn the whole system off and stop here
+        if (levelData != null && !levelData.rainEnabled)
+        {
+            enabled = false;
+            return;
+        }
+
         MakeBlurCanvas();
         timer = Random.Range(minWaitSeconds, maxWaitSeconds);
     }
