@@ -7837,6 +7837,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d13185aa0d24e76428b5594d277e3d87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LevelSelectManager
+  levels:
+  - {fileID: 11400000, guid: af252bd403829f148b57b0d56c3fe1e3, type: 2}
+  - {fileID: 11400000, guid: 375ab2c9eb1a9ac478c416dcdd16cc68, type: 2}
+  - {fileID: 11400000, guid: 4d8e4029660f4ef48a93fc9ee7c9fbbc, type: 2}
   pinHalos:
   - {fileID: 1728967846}
   - {fileID: 1561792132}

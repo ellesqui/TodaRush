@@ -4,32 +4,19 @@ using UnityEngine.UI;
 using TMPro;
 
 // Level select: pins choose a level, the info panel shows it, Start Mission loads it.
+// All the values shown (name, difficulty, passengers, time, subtitle, description, color) come from each level's LevelData.
 // A level can only start when the player's GLOBAL TotalXP reaches its requirement.
 public class LevelSelectManager : MonoBehaviour
 {
-    public GameObject[] pinHalos;   // pulsing halo for each pin (Level 1, 2, 3)
+    public LevelData[] levels;      // Level_01, Level_02, Level_03 (in pin order)
+    public GameObject[] pinHalos;   // pulsing halo for each pin
     public TMP_Text[] pinLabels;    // map name label for each pin
     public GameObject[] routes;     // dashed route to each pin
     public Image accentStrip;
     public TMP_Text badgeText, titleText, subtitleText, descriptionText, passengersText, timeText, difficultyText;
     public Button startButton;
 
-    private readonly string[] levelNames = { "Purok Residential", "Palengke District", "Bukid Hillside" };
-    private readonly string[] levelScenes = { "MainMap", "Level_02", "" }; // Level 3 has no scene yet
-    private readonly int[] passengerCounts = { 3, 4, 5 };
-    private readonly string[] timeLimits = { "02:00", "03:00", "04:30" };
     private readonly int[] requiredTotalXP = { 0, 3000, 10000 };   // global XP needed to unlock each level
-    private readonly string[] difficultyNames = { "Easy", "Medium", "Locked" };
-    private readonly string[] subtitles = {
-        "3 passengers · 02:00 time limit",
-        "4 passengers · 03:00 time limit",
-        "New route coming soon." };
-    private readonly string[] descriptions = {
-        "Deliver passengers through the purok streets before the clock runs out.",
-        "Weave through market streets and traffic. Keep your wheels steady and deliver every passenger before the timer runs out.",
-        "This route is currently under development. Check back for future missions." };
-    private readonly Color[] levelColors = {
-        new Color32(0x3E, 0x9B, 0x6C, 255), new Color32(0xF2, 0x8C, 0x28, 255), new Color32(0xD6, 0x28, 0x28, 255) };
 
     private int selected = 0;
 
@@ -50,11 +37,11 @@ public class LevelSelectManager : MonoBehaviour
     // Called by the pin buttons: 0 = Level 1, 1 = Level 2, 2 = Level 3
     public void SelectLevel(int index)
     {
-        if (index < 0 || index >= levelNames.Length) return;
+        if (levels == null || index < 0 || index >= levels.Length) return;
 
         selected = index;
 
-        for (int i = 0; i < levelNames.Length; i++)
+        for (int i = 0; i < levels.Length; i++)
         {
             bool isSelected = i == selected;
             if (i < pinHalos.Length && pinHalos[i] != null) pinHalos[i].SetActive(isSelected);
@@ -73,42 +60,50 @@ public class LevelSelectManager : MonoBehaviour
 
     void RefreshPanel()
     {
-        Color c = levelColors[selected];
-        bool playable = levelScenes[selected] != "";
+        LevelData data = levels[selected];
         bool unlocked = IsUnlocked(selected);
+        bool canStart = data.playable && data.sceneName != "";
 
-        if (accentStrip != null) accentStrip.color = c;
+        if (accentStrip != null) accentStrip.color = data.accentColor;
         if (badgeText != null)
         {
             badgeText.text = "LEVEL 0" + (selected + 1);
-            badgeText.color = c;
+            badgeText.color = data.accentColor;
         }
 
-        SetText(titleText, levelNames[selected]);
-        SetText(descriptionText, descriptions[selected]);
-        SetText(difficultyText, difficultyNames[selected]);
-        SetText(passengersText, playable ? passengerCounts[selected].ToString() : "--");
-        SetText(timeText, playable ? timeLimits[selected] : "--");
+        SetText(titleText, data.levelName);
+        SetText(descriptionText, data.description);
+        SetText(difficultyText, data.difficulty);
+        SetText(passengersText, data.passengerCount.ToString());
+        SetText(timeText, FormatTime(data.timeLimit));
 
-        if (playable && !unlocked)
+        if (!unlocked)
         {
             SetText(subtitleText, "Kailangan ng " + requiredTotalXP[selected].ToString("N0") + " Total XP para ma-unlock.");
         }
         else
         {
-            SetText(subtitleText, subtitles[selected]);
+            SetText(subtitleText, data.subtitle);
         }
 
-        if (startButton != null) startButton.interactable = playable && unlocked;
+        if (startButton != null) startButton.interactable = canStart && unlocked;
+    }
+
+    // 270 seconds -> "04:30"
+    string FormatTime(float seconds)
+    {
+        int total = Mathf.RoundToInt(seconds);
+        return (total / 60).ToString("00") + ":" + (total % 60).ToString("00");
     }
 
     // Start Mission: loads the selected level through the loading screen, only if it is playable and unlocked
     public void StartMission()
     {
-        if (levelScenes[selected] == "") return;
+        LevelData data = levels[selected];
+        if (!(data.playable && data.sceneName != "")) return;
         if (!IsUnlocked(selected)) return;
 
-        LoadingManager.LoadThroughLoadingScreen(levelScenes[selected]);
+        LoadingManager.LoadThroughLoadingScreen(data.sceneName);
     }
 
     public void BackToMainMenu()

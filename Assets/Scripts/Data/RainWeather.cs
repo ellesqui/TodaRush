@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 // Turns rain on and off at random times.
-// While it rains: puddles appear on the roads, and random blurry spots fade in and out on the screen.
+// While it rains: random blurry spots fade in and out on the screen.
 // Rain only happens if the level's LevelData has rainEnabled turned on.
 public class RainWeather : MonoBehaviour
 {
@@ -12,11 +12,6 @@ public class RainWeather : MonoBehaviour
     public LevelData levelData;            // rain is only on when this level's rainEnabled is true
 
     public GameObject rainEffect;          // the RainEffect child object
-    public GameObject puddlePrefab;        // the Puddle prefab
-    public MeshFilter[] roadGuides;        // the 4 GUIDE_ROAD meshes
-    public int puddleCount = 8;
-    public float puddleScale = 3f;
-    public float groundOffset = 0.2f;      // same height as the potholes
 
     [Header("Rain sound (3D)")]
     public AudioClip rainSound;            // the rain.mp3 clip
@@ -37,7 +32,6 @@ public class RainWeather : MonoBehaviour
 
     private bool raining;
     private float timer;
-    private List<GameObject> puddles = new List<GameObject>();
     private Transform blurParent;
     private Sprite blurSprite;
     private int activeSpots;
@@ -74,9 +68,6 @@ public class RainWeather : MonoBehaviour
         rainEffect.SetActive(true);
         if (rainAudio != null) rainAudio.Play();
 
-        for (int i = 0; i < puddleCount; i++)
-            SpawnPuddle();
-
         StartCoroutine(BlurLoop());
         timer = Random.Range(minRainSeconds, maxRainSeconds);
     }
@@ -86,10 +77,6 @@ public class RainWeather : MonoBehaviour
         raining = false;
         rainEffect.SetActive(false);
         if (rainAudio != null) rainAudio.Stop();
-
-        foreach (GameObject puddle in puddles)
-            if (puddle != null) Destroy(puddle);
-        puddles.Clear();
 
         timer = Random.Range(minWaitSeconds, maxWaitSeconds);
     }
@@ -192,50 +179,5 @@ public class RainWeather : MonoBehaviour
 
         tex.Apply();
         return Sprite.Create(tex, new Rect(0, 0, size, size), new Vector2(0.5f, 0.5f));
-    }
-
-    void SpawnPuddle()
-    {
-        Vector3 point;
-        if (!RandomRoadPoint(out point)) return;
-
-        // Lay the puddle flat on the ground, turned randomly
-        GameObject puddle = Instantiate(puddlePrefab, point + Vector3.up * groundOffset,
-            Quaternion.Euler(0f, Random.Range(0f, 360f), 0f));
-        puddle.transform.localScale = Vector3.one * puddleScale;
-        puddles.Add(puddle);
-    }
-
-    // Picks a random spot on one of the road guide meshes
-    bool RandomRoadPoint(out Vector3 result)
-    {
-        result = Vector3.zero;
-
-        MeshFilter guide = roadGuides[Random.Range(0, roadGuides.Length)];
-        Mesh mesh = guide.sharedMesh;
-        Vector3[] verts = mesh.vertices;
-        int[] tris = mesh.triangles;
-
-        // Pick a random triangle, then a random point inside it
-        int t = Random.Range(0, tris.Length / 3) * 3;
-        Vector3 a = verts[tris[t]];
-        Vector3 b = verts[tris[t + 1]];
-        Vector3 c = verts[tris[t + 2]];
-
-        float u = Random.value;
-        float v = Random.value;
-        if (u + v > 1f) { u = 1f - u; v = 1f - v; }
-
-        Vector3 worldPoint = guide.transform.TransformPoint(a + u * (b - a) + v * (c - a));
-
-        // Drop a ray down to find the ground under that point
-        Ray ray = new Ray(worldPoint + Vector3.up * 50f, Vector3.down);
-        RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, 100f, ~0, QueryTriggerInteraction.Ignore))
-        {
-            result = hit.point;
-            return true;
-        }
-        return false;
     }
 }
