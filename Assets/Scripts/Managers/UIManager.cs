@@ -222,8 +222,12 @@ public class UIManager : MonoBehaviour
     // Picks one random clip from the list and plays it
     private void PlayRandomClip(AudioClip[] clips)
     {
-        if (sfx == null || clips == null || clips.Length == 0) return;
-        sfx.PlayOneShot(clips[Random.Range(0, clips.Length)]);
+        if (sfx == null || clips == null) return;
+
+        // Skip empty slots (a deleted clip leaves a null in the list)
+        AudioClip[] valid = System.Array.FindAll(clips, c => c != null);
+        if (valid.Length == 0) return;
+        sfx.PlayOneShot(valid[Random.Range(0, valid.Length)]);
     }
 
     // RED FLASH WHEN THE PLAYER GETS HURT

@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
+using System.Collections.Generic;
 
 // A floating item on the road. Touch it to get its effect, then it reappears later on a random road.
 public class Pickup : MonoBehaviour
@@ -12,6 +13,10 @@ public class Pickup : MonoBehaviour
     public float floatHeight = 1f;              // how high it floats above the road
     public float bobHeight = 0.3f;              // how much it bobs up and down
     public float bobSpeed = 2f;
+    public float minSpacing = 80f;              // same-type pickups stay at least this far apart (XZ)
+    public float nearObstacleRadius = 25f;     // gas spawns within this distance of a Level 1/2 obstacle
+    public float blockedDistance = 25f;        // never spawn this close to a Level 3 item
+    public RandomDestinationSpawner roadSpawner;  // optional: use the destination road rules (Level 2+)
 
     private GameManager gameManager;
     private Collider pickupCollider;
@@ -79,7 +84,6 @@ public class Pickup : MonoBehaviour
             if (player != null)
             {
                 StartCoroutine(SpeedBoostRoutine(player));
-                player.PlayBoostSound();   // Accelerate sound
             }
         }
         else if (data.type == PickupType.Timer)
@@ -104,10 +108,12 @@ public class Pickup : MonoBehaviour
         float original = player.moveSpeed;
         // Percentage increase: Speed x (1 + bonus%)
         player.moveSpeed = original * (1f + data.boostPercent);
+        player.boostActive = true;
 
         yield return new WaitForSeconds(data.boostSeconds);
 
         player.moveSpeed = original;
+        player.boostActive = false;
     }
 
     IEnumerator RespawnRoutine()
@@ -127,23 +133,63 @@ public class Pickup : MonoBehaviour
         if (pickupCollider != null) pickupCollider.enabled = on;
     }
 
-    // Picks random points inside the road area and snaps to the GUIDE road NavMesh,
-    // so the item always sits on the road. Tries up to 30 times.
+    // Random road spot NEAR a Level 1/2 obstacle (motor, dog, ball, pothole, car, traffic light),
+    // away from Level 3 items (cones, branches, Level3Sign) and away from other pickups of this type.
     void MoveToRandomRoad()
     {
-        // Agent type of the GUIDE road NavMesh (Car)
         NavMeshQueryFilter roadFilter = new NavMeshQueryFilter { agentTypeID = -1512830617, areaMask = NavMesh.AllAreas };
+        var allowed = new System.Collections.Generic.List<Vector3>();
+        var blocked = new System.Collections.Generic.List<Vector3>();
 
-        for (int attempt = 0; attempt < 30; attempt++)
+        foreach (Obstacle o in FindObjectsByType<Obstacle>(FindObjectsInactive.Include, FindObjectsSortMode.None))
         {
-            Vector3 randomPoint = spawnCenter + new Vector3(Random.Range(-spawnRadius, spawnRadius), 0f, Random.Range(-spawnRadius, spawnRadius));
-
-            if (NavMesh.SamplePosition(randomPoint, out NavMeshHit hit, 10f, roadFilter))
-            {
-                transform.position = hit.position + Vector3.up * floatHeight;
-                baseY = transform.position.y;
-                return;
-            }
+            if (IsLevel3(o.name)) blocked.Add(o.transform.position);
+            else allowed.Add(o.transform.position);
         }
+        foreach (TrafficLight light in FindObjectsByType<TrafficLight>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+            allowed.Add(light.transform.position);
+        foreach (Transform t in FindObjectsByType<Transform>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+            if (t.name.StartsWith("Level3Sign")) blocked.Add(t.position);
+
+        if (allowed.Count == 0) return;
+
+        for (int attempt = 0; attempt < 60; attempt++)
+        {
+            Vector3 center = allowed[Random.Range(0, allowed.Count)];
+            Vector2 offset = Random.insideUnitCircle * nearObstacleRadius;
+            Vector3 randomPoint = center + new Vector3(offset.x, 0f, offset.y);
+
+            if (!NavMesh.SamplePosition(randomPoint, out NavMeshHit hit, 5f, roadFilter)) continue;
+            if (IsNearAny(hit.position, blocked, blockedDistance)) continue;
+            if (TooCloseToOtherPickup(hit.position)) continue;
+
+            transform.position = hit.position + Vector3.up * floatHeight;
+            baseY = transform.position.y;
+            return;
+        }
+    }
+
+    static bool IsLevel3(string objectName)
+    {
+        return objectName.StartsWith("Traffic Cone") || objectName.StartsWith("Branch");
+    }
+
+    static bool IsNearAny(Vector3 point, System.Collections.Generic.List<Vector3> spots, float distance)
+    {
+        foreach (Vector3 s in spots)
+        {
+            if (Vector2.Distance(new Vector2(point.x, point.z), new Vector2(s.x, s.z)) < distance) return true;
+        }
+        return false;
+    }
+
+    bool TooCloseToOtherPickup(Vector3 point)
+    {
+        foreach (Pickup other in FindObjectsByType<Pickup>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+        {
+            if (other == this || other.data == null || data == null || other.data.type != data.type) continue;
+            if (Vector2.Distance(new Vector2(point.x, point.z), new Vector2(other.transform.position.x, other.transform.position.z)) < minSpacing) return true;
+        }
+        return false;
     }
 }

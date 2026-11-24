@@ -58,6 +58,8 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        UpdateBoostSound();
+
         if (gameManager.gameWon || gameManager.IsOver())
         {
             moveInput = 0f;
@@ -165,9 +167,27 @@ public class PlayerController : MonoBehaviour
         engineSource.pitch = Mathf.Lerp(0.8f, 1.4f, percent);
     }
 
-    // Called by Pickup when the player gets a Gas (boost) item
-    public void PlayBoostSound()
+    // Gas boost: set by Pickup while the boost lasts
+    public bool boostActive = false;
+    [Range(0f, 1f)] public float boostVolume = 0.4f;   // boost sound volume (lower = quieter)
+
+    // Boost sound loops only while boosting AND the tricycle is moving.
+    // It stops when the player stops or when the boost ends.
+    void UpdateBoostSound()
     {
-        if (boostSource != null && accelerateClip != null) boostSource.PlayOneShot(accelerateClip);
+        if (boostSource == null || accelerateClip == null) return;
+
+        bool shouldPlay = boostActive && currentSpeed > 1f;
+        if (shouldPlay && !boostSource.isPlaying)
+        {
+            boostSource.clip = accelerateClip;
+            boostSource.loop = true;
+            boostSource.volume = boostVolume;
+            boostSource.Play();
+        }
+        else if (!shouldPlay && boostSource.isPlaying)
+        {
+            boostSource.Stop();
+        }
     }
 }

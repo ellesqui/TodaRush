@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 // Places the level's destinations at random points ON THE ROAD, inside the area covered by the level's obstacles
 // (the area is the bounding box of the Obstacles, leaving out cones, which are Level 3 props).
@@ -13,8 +14,10 @@ public class RandomDestinationSpawner : MonoBehaviour
     public Transform[] level3Signs;        // the Level3Sign barriers
     public Transform terminal;             // the tricycle terminal
     public float barrierRadius = 100f;     // no destination within this distance of a barrier
+    public float coneRadius = 60f;         // no destination within this distance of a traffic cone (Level 3 props)
     public float groundOffset = 0.2f;      // same height as the other road objects
     public int maxAttempts = 3000;
+    public float roadCenterMargin = 4f;    // used by the Gas pickups: how far from the road edge (meters)
 
     void Start()
     {
@@ -45,6 +48,30 @@ public class RandomDestinationSpawner : MonoBehaviour
         }
     }
 
+    // Public helper: gives one random road point using the same rules as the destinations.
+    // Used by the Gas pickup so it spawns in the same area. Returns false if the level is not random.
+    public bool GetRandomRoadPoint(out Vector3 point, List<Vector3> avoid = null)
+    {
+        point = Vector3.zero;
+        if (levelData == null || !levelData.randomDestinations || obstaclesRoot == null) return false;
+        List<MeshFilter> roads = RoadMeshes();
+        if (roads.Count == 0) return false;
+        // Keep the point near the CENTER of the road (away from the edges)
+        Bounds area = ObstacleArea();
+        for (int i = 0; i < 1000; i++)
+        {
+            Vector3 candidate;
+            if (!FindRoadPoint(area, roads, avoid ?? new List<Vector3>(), out candidate)) return false;
+            NavMeshHit edge;
+            if (NavMesh.FindClosestEdge(candidate, out edge, NavMesh.AllAreas) && edge.distance >= roadCenterMargin)
+            {
+                point = candidate;
+                return true;
+            }
+        }
+        return false;
+    }
+
     // Bounding box (XZ) of all the obstacles of the level, excluding cones and anything floating high up
     Bounds ObstacleArea()
     {
@@ -54,9 +81,11 @@ public class RandomDestinationSpawner : MonoBehaviour
         {
             if (t == obstaclesRoot) continue;
             if (t.name.Contains("Cone")) continue;
+            if (t.name.Contains("Branch")) continue;   // Level 3 only (fallen branches): keeps the area inside Level 2
+            if (!UnderLevel2Group(t)) continue;         // only Level 2 obstacles set the area
             if (t.position.sqrMagnitude < 0.01f) continue;   // the empty group containers sit at (0,0,0)
             if (t.position.y > 40f) continue;                 // elevated objects are not on the road
-            Vector3 p = new Vector3(t.position.x, 0f, t.position.z);
+            Vector3 p = t.position;
             if (first) { b = new Bounds(p, Vector3.zero); first = false; }
             else b.Encapsulate(p);
         }
@@ -97,6 +126,7 @@ public class RandomDestinationSpawner : MonoBehaviour
 
             // Must be inside the obstacle area
             if (p.x < area.min.x || p.x > area.max.x || p.z < area.min.z || p.z > area.max.z) continue;
+            if (p.y < area.min.y - 10f || p.y > area.max.y + 10f) continue;   // no floating / elevated spots
 
             // Must not be near a Level 3 barrier
             if (NearBarrier(p)) continue;
@@ -116,8 +146,28 @@ public class RandomDestinationSpawner : MonoBehaviour
         return false;
     }
 
+    // True if the object is inside one of the Level 2 groups (Potholes, ParkedCars, TrafficLights)
+    bool UnderLevel2Group(Transform t)
+    {
+        for (Transform cur = t; cur != null && cur != obstaclesRoot; cur = cur.parent)
+        {
+            if (cur.name == "Potholes" || cur.name == "ParkedCars" || cur.name == "TrafficLights") return true;
+        }
+        return false;
+    }
+
     bool NearBarrier(Vector3 p)
     {
+        // Traffic cones are Level 3 construction props: keep points away from them too
+        if (obstaclesRoot != null)
+        {
+            foreach (Transform c in obstaclesRoot.GetComponentsInChildren<Transform>())
+            {
+                if (!c.name.Contains("Cone") || c.position.sqrMagnitude < 0.01f) continue;
+                if (FlatDistance(p, c.position) < coneRadius) return true;
+            }
+        }
+
         if (level3Signs == null) return false;
         foreach (Transform s in level3Signs)
         {
