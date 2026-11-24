@@ -1,15 +1,16 @@
 using System.Collections;
 using UnityEngine;
 
-// Sky and light cycle for the last 3 minutes of the trip (timer starts at the first passenger):
+// Sky and light for each level, plus the optional sky cycle for the last 3 minutes of the trip.
 // 1) Morning: Skybox 1 with warm daylight
 // 2) Afternoon: Skybox 5 (last 2 minutes), orange light, darker
 // 3) Night: Skybox 9 (last 1 minute), blue dark light, headlight on
+// The level's lighting preset (0 = day, 1 = afternoon, 2 = night) is set in its Level Data asset.
 // Put this on the same object as TripTimer (GameManager).
 public class NightController : MonoBehaviour
 {
     [Header("Level settings")]
-    public LevelData levelData;           // the skybox and environment sound for this level (set in the Level Data asset)
+    public LevelData levelData;           // the skybox, environment sound, and lighting preset for this level
 
     [Header("Test switch")]
     public bool nightEnabled = true;      // turn off for levels that should not change sky
@@ -58,12 +59,13 @@ public class NightController : MonoBehaviour
             if (l.type == LightType.Directional) { sun = l; break; }
         }
 
-        // Fixed sky and environment sound for this level (from the Level Data asset)
+        // Fixed sky, environment sound, and lighting for this level (from the Level Data asset)
         if (levelData != null)
         {
             if (levelData.skybox != null) RenderSettings.skybox = levelData.skybox;
             if (AudioManager.Instance != null && levelData.environmentSound != null)
                 AudioManager.Instance.PlayEnvironment(levelData.environmentSound);
+            ApplyLightingPreset(levelData.lightingPreset);
         }
 
         if (!nightEnabled) return;
@@ -74,6 +76,28 @@ public class NightController : MonoBehaviour
         targetSunColor = daySunColor;
         targetAmbient = dayAmbient;
         SetupHeadlight();
+    }
+
+    // Sets the sun, its color, the ambient light, and the headlight for a level
+    private void ApplyLightingPreset(int preset)
+    {
+        if (preset == 2)
+        {
+            if (sun != null) { sun.intensity = nightSunIntensity; sun.color = nightSunColor; }
+            RenderSettings.ambientLight = nightAmbient;
+            SetupHeadlight();
+            if (headlight != null) headlight.enabled = true;
+        }
+        else if (preset == 1)
+        {
+            if (sun != null) { sun.intensity = duskSunIntensity; sun.color = duskSunColor; }
+            RenderSettings.ambientLight = duskAmbient;
+        }
+        else
+        {
+            if (sun != null) { sun.intensity = daySunIntensity; sun.color = daySunColor; }
+            RenderSettings.ambientLight = dayAmbient;
+        }
     }
 
     private void Update()
@@ -148,6 +172,8 @@ public class NightController : MonoBehaviour
     // Creates a spotlight on the tricycle that faces the same way as the player
     private void SetupHeadlight()
     {
+        if (headlight != null) return;
+
         PlayerController player = FindAnyObjectByType<PlayerController>();
         if (player == null) return;
 

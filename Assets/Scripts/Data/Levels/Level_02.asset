@@ -17,10 +17,15 @@ MonoBehaviour:
   playable: 1
   difficulty: Medium
   passengerCount: 4
+  destinationCount: 4
   timeLimit: 180
   accentColor: {r: 0.9490196, g: 0.54901963, b: 0.15686275, a: 1}
+  randomDestinations: 1
+  destinationMinGap: 60
+  destinationMinFromTerminal: 80
   skybox: {fileID: 2100000, guid: e51393e67d42d4d4592111d8259543d2, type: 2}
   environmentSound: {fileID: 8300000, guid: 20a1c1c323bfe5744afe6f507d1ef388, type: 3}
+  lightingPreset: 1
   rainEnabled: 0
   hornEnabled: 1
   subtitle: "Crowded market streets \xB7 4 passengers"

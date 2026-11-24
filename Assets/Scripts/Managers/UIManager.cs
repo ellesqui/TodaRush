@@ -21,6 +21,9 @@ public class UIManager : MonoBehaviour
     public PlayerController playerController;
     public float popupDuration = 1.3f, popupRiseDistance = 50f, popupStartScale = 1.2f;
 
+    [Header("Tutorial (Tsuper Briefing)")]
+    public GameObject tutorialOverlay;   // shown when the level starts; the game is frozen until Press to Continue
+
     [Header("Full Map")]
     public Camera fullMapCamera;
     public GameObject fullMapPanel;
@@ -95,7 +98,9 @@ public class UIManager : MonoBehaviour
         radioSource.playOnAwake = false;
         PlayRadioTrack(0);
         UpdateRadioIcon();
-        Time.timeScale = 1f;
+
+        // The game starts frozen while the tutorial is showing. StartGame() unfreezes it.
+        Time.timeScale = (tutorialOverlay != null && tutorialOverlay.activeInHierarchy) ? 0f : 1f;
         isPaused = false;
         if (pauseOverlay != null) pauseOverlay.SetActive(false);
         CachePopup();
@@ -125,6 +130,14 @@ public class UIManager : MonoBehaviour
         highScoreText.text = "High Score: " + gameManager.scoreManager.highScore;
         UpdateTimerText();
         speedText.text = playerController.currentSpeed.ToString("0");
+    }
+
+    // TUTORIAL: the "Press to Continue" button calls this. Unfreezes the game and hides the briefing.
+    public void StartGame()
+    {
+        Time.timeScale = 1f;
+        isPaused = false;
+        if (tutorialOverlay != null) tutorialOverlay.SetActive(false);
     }
 
     // PASSENGER SPEECH (shows for a few seconds, then hides)
@@ -289,7 +302,9 @@ public class UIManager : MonoBehaviour
     // PAUSE SYSTEM
     private bool CanPause()
     {
-        return gameManager != null && !gameManager.gameWon && !gameManager.timeExpired;
+        // No pause while the tutorial is showing, or after the game has ended
+        bool tutorialShowing = tutorialOverlay != null && tutorialOverlay.activeInHierarchy;
+        return gameManager != null && !gameManager.gameWon && !gameManager.timeExpired && !tutorialShowing;
     }
 
     public void TogglePause()

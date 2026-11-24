@@ -21,6 +21,7 @@ MonoBehaviour:
   accentColor: {r: 0.24313726, g: 0.60784316, b: 0.42352942, a: 1}
   skybox: {fileID: 2100000, guid: 6e874faa8769886419d3c760ce62e9d6, type: 2}
   environmentSound: {fileID: 8300000, guid: 1bb42cc0ff3393742876fc0256d41ab7, type: 3}
+  lightingPreset: 0
   rainEnabled: 0
   hornEnabled: 0
   subtitle: "3 passengers \xB7 02:00 time limit"
