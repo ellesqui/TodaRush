@@ -334,7 +334,7 @@ public class PassengerPickup : MonoBehaviour
     // Passenger complains (shows the speech bubble)
     public void Angry()
     {
-        if (gameManager.uiManager != null) gameManager.uiManager.PassengerSays(this, RandomLine(angryLines));
+        if (gameManager.uiManager != null) gameManager.uiManager.PassengerAngry(this, RandomLine(angryLines));
     }
 
     // The passenger falls out of the tricycle, then comes back to the terminal.
@@ -364,7 +364,7 @@ public class PassengerPickup : MonoBehaviour
         PlayState(HasLooseState() ? "Loose" : "Jump");
 
         // Speech when falling out
-        if (gameManager.uiManager != null) gameManager.uiManager.PassengerSays(this, RandomLine(fallLines));
+        if (gameManager.uiManager != null) gameManager.uiManager.PassengerFallOut(this, RandomLine(fallLines));
 
         yield return new WaitForSeconds(looseSeconds);
 

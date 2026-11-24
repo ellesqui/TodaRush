@@ -36,7 +36,14 @@ public class UIManager : MonoBehaviour
     private const string MissionText = "DELIVER ALL · BEAT THE CLOCK";
     public TextMeshProUGUI countdownText;      // big 3 / 2 / 1 / GO text on the HUD
     public AudioClip countdownClip;            // Mario Start (plays with the countdown)
-    public AudioClip deliveredClip;            // Delivered sound: plays with the DELIVERED notification
+    public AudioClip deliveredClip;
+
+    [Header("Passenger Sound Effects (random per state)")]
+    public AudioClip[] boardingClips;
+    public AudioClip[] dropOffClips;
+    public AudioClip[] hitReactionClips;
+    public AudioClip[] angryClips;
+    public AudioClip[] fallOutClips;            // Delivered sound: plays with the DELIVERED notification
     private AudioSource sfx;
     private float baseObjectiveFontSize;
     private bool countdownStarted;
@@ -62,7 +69,6 @@ public class UIManager : MonoBehaviour
         sfx = gameObject.AddComponent<AudioSource>();
         sfx.playOnAwake = false;
         if (objectiveMainText != null) baseObjectiveFontSize = objectiveMainText.fontSize;
-        if (countdownText != null) // Countdown starts after all passengers are picked up (see StartCountdown)
         Time.timeScale = 1f;
         isPaused = false;
         if (pauseOverlay != null) pauseOverlay.SetActive(false);
@@ -98,11 +104,13 @@ public class UIManager : MonoBehaviour
     public void PassengerBoarded(PassengerPickup passenger)
     {
         ShowPassengerSpeech(passenger, PickLine(boardingLines));
+        PlayRandomClip(boardingClips);
     }
 
     public void PassengerDropped(PassengerPickup passenger)
     {
         ShowPassengerSpeech(passenger, PickLine(dropLines));
+        PlayRandomClip(dropOffClips);
     }
 
     // Used by PassengerPickup for angry / falling-out lines (any line the passenger chooses)
@@ -127,6 +135,7 @@ public class UIManager : MonoBehaviour
 
         PassengerPickup speaker = boarded[Random.Range(0, boarded.Count)];
         ShowPassengerSpeech(speaker, PickLine(reactionLines));
+        PlayRandomClip(hitReactionClips);
     }
 
     private void ShowPassengerSpeech(PassengerPickup passenger, string line)
@@ -155,6 +164,26 @@ public class UIManager : MonoBehaviour
     {
         if (lines == null || lines.Length == 0) return "";
         return lines[Random.Range(0, lines.Length)];
+    }
+
+    // Angry and fall-out speech, each with its own sound list
+    public void PassengerAngry(PassengerPickup passenger, string line)
+    {
+        ShowPassengerSpeech(passenger, line);
+        PlayRandomClip(angryClips);
+    }
+
+    public void PassengerFallOut(PassengerPickup passenger, string line)
+    {
+        ShowPassengerSpeech(passenger, line);
+        PlayRandomClip(fallOutClips);
+    }
+
+    // Picks one random clip from the list and plays it
+    private void PlayRandomClip(AudioClip[] clips)
+    {
+        if (sfx == null || clips == null || clips.Length == 0) return;
+        sfx.PlayOneShot(clips[Random.Range(0, clips.Length)]);
     }
 
     // RED FLASH WHEN THE PLAYER GETS HURT

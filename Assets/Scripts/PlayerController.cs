@@ -17,11 +17,13 @@ public class PlayerController : MonoBehaviour
     [Header("Handbrake")]
     public bool handbrakeEnabled = true;           // turn off to disable the handbrake
     public KeyCode handbrakeKey = KeyCode.Space;   // hold this key to force the tricycle to stop
+    public float handbrakeDeceleration = 12f;      // how fast the handbrake slows the tricycle (higher = shorter brake)
 
     [Header("Engine sound")]
     public AudioClip idleClip;           // Idle Motor
     public AudioClip drivingClip;        // Driving (loops)
     public AudioClip accelerateClip;     // Accelerate (plays once on boost)
+    public AudioClip brakeClip;          // Brake (plays once when the handbrake is pressed)
 
     private Rigidbody rb;
     private float moveInput;
@@ -69,6 +71,8 @@ public class PlayerController : MonoBehaviour
 
         // Handbrake: works only while the player is allowed to drive
         handbrakeOn = handbrakeEnabled && canDrive && Input.GetKey(handbrakeKey);
+        if (Input.GetKeyDown(handbrakeKey) && handbrakeOn && boostSource != null && brakeClip != null)
+            boostSource.PlayOneShot(brakeClip);
     }
 
     void FixedUpdate()
@@ -87,13 +91,16 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        // HANDBRAKE: force stop while the key is held
+        // HANDBRAKE: slows down smoothly while the key is held (no instant stop)
         if (handbrakeOn)
         {
-            drivingSpeed = 0f;
-            rb.linearVelocity = new Vector3(0f, rb.linearVelocity.y, 0f);
+            drivingSpeed = Mathf.MoveTowards(drivingSpeed, 0f, handbrakeDeceleration * Time.fixedDeltaTime);
+            Vector3 brakeDir = transform.forward;
+            brakeDir.y = 0f;
+            brakeDir.Normalize();
+            rb.linearVelocity = new Vector3(brakeDir.x * drivingSpeed, rb.linearVelocity.y, brakeDir.z * drivingSpeed);
             rb.angularVelocity = Vector3.zero;
-            currentSpeed = 0f;
+            currentSpeed = Mathf.Abs(drivingSpeed) * 3.6f;
             UpdateEngineSound();
             return;
         }
