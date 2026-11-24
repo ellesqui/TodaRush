@@ -225,6 +225,25 @@ public class PassengerPickup : MonoBehaviour
         PlayState("Walk");
     }
 
+    // Level 3 only: this passenger appears beside the given destination and waits until the player is close
+    public void PlaceForLevel3(Vector3 nearPos)
+    {
+        Vector3 spot = nearPos + new Vector3(3f, 0f, 3f);
+        spot.y = RoadHeightAt(spot.x, spot.z) + groundOffset;
+        spawnPosition = spot;
+        transform.position = spot;
+        patience = maxPatience;
+        isApproaching = false;
+        isReturning = false;
+        isLoose = false;
+        hasBoarded = false;
+        stayAtSpawn = true;
+        claimedSlot = -1;
+        spawnedAt = Time.time;
+        gameObject.SetActive(true);
+        PlayState("Idle");
+    }
+
     void Board()
     {
         stayAtSpawn = false;
@@ -242,11 +261,16 @@ public class PassengerPickup : MonoBehaviour
         if (gameManager.uiManager != null) gameManager.uiManager.PassengerBoarded(this);
 
         // Countdown starts only after ALL passengers are picked up
-        if (gameManager.passengersOnboard >= gameManager.requiredLaps && gameManager.uiManager != null)
+        int countdownNeeded = gameManager.levelNumber == 3 ? 1 : gameManager.requiredLaps;   // Level 3: countdown on the first pickup
+        if (gameManager.passengersOnboard >= countdownNeeded && gameManager.uiManager != null)
             gameManager.uiManager.StartCountdown();
 
         // Next passenger appears now (one at a time)
-        gameManager.RefillWaiting(this);
+        // Level 3: the next passenger appears after this drop-off (see GameManager.OnLevel3Delivered)
+        if (gameManager.levelNumber != 3) gameManager.RefillWaiting(this);
+
+        // Level 3: this passenger's destination appears now
+        if (gameManager.levelNumber == 3 && targetDestination != null) targetDestination.gameObject.SetActive(true);
 
         // Disappear as they board
         gameObject.SetActive(false);

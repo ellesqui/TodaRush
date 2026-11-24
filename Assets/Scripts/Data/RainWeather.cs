@@ -18,6 +18,11 @@ public class RainWeather : MonoBehaviour
     public float puddleScale = 3f;
     public float groundOffset = 0.2f;      // same height as the potholes
 
+    [Header("Rain sound (3D)")]
+    public AudioClip rainSound;            // the rain.mp3 clip
+    public float soundMinDistance = 5f;    // full volume this close to the rain
+    public float soundMaxDistance = 40f;   // silent beyond this distance
+
     [Header("Timing (testing values)")]
     public float minWaitSeconds = 3f;      // time before rain starts
     public float maxWaitSeconds = 5f;
@@ -36,6 +41,7 @@ public class RainWeather : MonoBehaviour
     private Transform blurParent;
     private Sprite blurSprite;
     private int activeSpots;
+    private AudioSource rainAudio;
 
     void Start()
     {
@@ -48,6 +54,7 @@ public class RainWeather : MonoBehaviour
             return;
         }
 
+        SetupRainSound();
         MakeBlurCanvas();
         timer = Random.Range(minWaitSeconds, maxWaitSeconds);
     }
@@ -65,6 +72,7 @@ public class RainWeather : MonoBehaviour
     {
         raining = true;
         rainEffect.SetActive(true);
+        if (rainAudio != null) rainAudio.Play();
 
         for (int i = 0; i < puddleCount; i++)
             SpawnPuddle();
@@ -77,12 +85,30 @@ public class RainWeather : MonoBehaviour
     {
         raining = false;
         rainEffect.SetActive(false);
+        if (rainAudio != null) rainAudio.Stop();
 
         foreach (GameObject puddle in puddles)
             if (puddle != null) Destroy(puddle);
         puddles.Clear();
 
         timer = Random.Range(minWaitSeconds, maxWaitSeconds);
+    }
+
+    // Rain sound comes from the RainEffect object, so it is louder when the rain is close
+    void SetupRainSound()
+    {
+        if (rainSound == null) return;
+
+        rainAudio = rainEffect.AddComponent<AudioSource>();
+        rainAudio.clip = rainSound;
+        rainAudio.loop = true;
+        rainAudio.playOnAwake = false;
+        rainAudio.spatialBlend = 1f;   // 3D sound
+        rainAudio.rolloffMode = AudioRolloffMode.Logarithmic;
+        rainAudio.minDistance = soundMinDistance;
+        rainAudio.maxDistance = soundMaxDistance;
+        if (AudioManager.Instance != null)
+            rainAudio.outputAudioMixerGroup = AudioManager.Instance.mixer.FindMatchingGroups("SFX")[0];
     }
 
     // Keeps making blur spots while it rains

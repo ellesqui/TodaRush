@@ -141,14 +141,14 @@ public class Pickup : MonoBehaviour
         var allowed = new System.Collections.Generic.List<Vector3>();
         var blocked = new System.Collections.Generic.List<Vector3>();
 
-        foreach (Obstacle o in FindObjectsByType<Obstacle>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+        foreach (Obstacle o in FindObjectsByType<Obstacle>(FindObjectsInactive.Include))
         {
             if (IsLevel3(o.name)) blocked.Add(o.transform.position);
             else allowed.Add(o.transform.position);
         }
-        foreach (TrafficLight light in FindObjectsByType<TrafficLight>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+        foreach (TrafficLight light in FindObjectsByType<TrafficLight>(FindObjectsInactive.Include))
             allowed.Add(light.transform.position);
-        foreach (Transform t in FindObjectsByType<Transform>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+        foreach (Transform t in FindObjectsByType<Transform>(FindObjectsInactive.Include))
             if (t.name.StartsWith("Level3Sign")) blocked.Add(t.position);
 
         if (allowed.Count == 0) return;
@@ -185,7 +185,7 @@ public class Pickup : MonoBehaviour
 
     bool TooCloseToOtherPickup(Vector3 point)
     {
-        foreach (Pickup other in FindObjectsByType<Pickup>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+        foreach (Pickup other in FindObjectsByType<Pickup>(FindObjectsInactive.Include))
         {
             if (other == this || other.data == null || data == null || other.data.type != data.type) continue;
             if (Vector2.Distance(new Vector2(point.x, point.z), new Vector2(other.transform.position.x, other.transform.position.z)) < minSpacing) return true;

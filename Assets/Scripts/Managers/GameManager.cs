@@ -70,6 +70,13 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        // Level 3 only: destinations and the terminal route appear one by one (see Level 3 flow)
+        if (levelNumber == 3)
+        {
+            foreach (Destination d in FindObjectsByType<Destination>(FindObjectsInactive.Include)) d.gameObject.SetActive(false);
+            GameObject terminalRoute = GameObject.Find("Player/TerminalRouteLine");
+            if (terminalRoute != null) terminalRoute.SetActive(false);
+        }
         SpawnPassengers();
     }
 
@@ -253,6 +260,27 @@ public class GameManager : MonoBehaviour
         return Mathf.RoundToInt(distance * tipPerMeter * tier);
     }
 
+    // Level 3 only: the next passenger waits beside this destination; after the last one, the terminal route turns on
+    void OnLevel3Delivered(PassengerPickup delivered, Destination destination)
+    {
+        string digits = delivered.name.Length >= 2 ? delivered.name.Substring(delivered.name.Length - 2) : "";
+        int number;
+        if (!int.TryParse(digits, out number)) return;
+
+        if (number >= requiredLaps)
+        {
+            GameObject terminalRoute = GameObject.Find("Player/TerminalRouteLine");
+            if (terminalRoute != null) terminalRoute.SetActive(true);
+            return;
+        }
+
+        string nextName = "Passenger_" + (number + 1).ToString("D2");
+        foreach (PassengerPickup p in FindObjectsByType<PassengerPickup>(FindObjectsInactive.Include))
+        {
+            if (p.name == nextName) { p.PlaceForLevel3(destination.transform.position); return; }
+        }
+    }
+
     public bool DeliverPassenger(Destination destination)
     {
         lastTip = 0;
@@ -271,6 +299,8 @@ public class GameManager : MonoBehaviour
 
                 // Walk the passenger out, then hide them (see PassengerPickup.DropRoutine)
                 StartCoroutine(passenger.DropRoutine());
+
+                if (levelNumber == 3) OnLevel3Delivered(passenger, destination);
                 return true;
             }
         }

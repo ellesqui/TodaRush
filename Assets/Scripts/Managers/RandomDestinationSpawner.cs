@@ -16,6 +16,7 @@ public class RandomDestinationSpawner : MonoBehaviour
     public float barrierRadius = 100f;     // no destination within this distance of a barrier
     public float coneRadius = 60f;         // no destination within this distance of a traffic cone (Level 3 props)
     public float groundOffset = 0.2f;      // same height as the other road objects
+    public bool allRoadsArea = false;      // Level 3 only (set on the Level_03 scene): destinations can go anywhere on the road guides
     public int maxAttempts = 3000;
     public float roadCenterMargin = 4f;    // used by the Gas pickups: how far from the road edge (meters)
 
@@ -75,6 +76,21 @@ public class RandomDestinationSpawner : MonoBehaviour
     // Bounding box (XZ) of all the obstacles of the level, excluding cones and anything floating high up
     Bounds ObstacleArea()
     {
+        // Level 3 (all access): the area is every road guide, not just the Level 2 obstacles
+        if (allRoadsArea)
+        {
+            Bounds roadBounds = new Bounds(Vector3.zero, Vector3.zero);
+            bool firstRoad = true;
+            foreach (MeshFilter mf in RoadMeshes())
+            {
+                Renderer rend = mf.GetComponent<Renderer>();
+                if (rend == null) continue;
+                if (firstRoad) { roadBounds = rend.bounds; firstRoad = false; }
+                else roadBounds.Encapsulate(rend.bounds);
+            }
+            return roadBounds;
+        }
+
         Bounds b = new Bounds(Vector3.zero, Vector3.zero);
         bool first = true;
         foreach (Transform t in obstaclesRoot.GetComponentsInChildren<Transform>())
@@ -95,7 +111,7 @@ public class RandomDestinationSpawner : MonoBehaviour
     List<MeshFilter> RoadMeshes()
     {
         List<MeshFilter> list = new List<MeshFilter>();
-        foreach (MeshFilter mf in FindObjectsByType<MeshFilter>(FindObjectsInactive.Exclude, FindObjectsSortMode.None))
+        foreach (MeshFilter mf in FindObjectsByType<MeshFilter>(FindObjectsInactive.Exclude))
         {
             if (mf.name.StartsWith("GUIDE_ROAD_LOWPOLY_") && mf.sharedMesh != null) list.Add(mf);
         }

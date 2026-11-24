@@ -26,7 +26,9 @@ public class TripTimer : MonoBehaviour
         }
 
         // Timer starts only when ALL passengers for this level are onboard (Level 1 = 3)
-        if (!timerStarted && !holdUntilGo && gameManager.passengersOnboard >= gameManager.CalculateRequiredPassengers())
+        // Level 3: passengers come one at a time (chain), so the timer starts on the first pickup
+        int neededToStart = gameManager.levelNumber == 3 ? 1 : gameManager.CalculateRequiredPassengers();
+        if (!timerStarted && !holdUntilGo && gameManager.passengersOnboard >= neededToStart)
         {
             timerStarted = true;
         }
