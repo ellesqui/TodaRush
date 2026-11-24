@@ -1558,6 +1558,7 @@ GameObject:
   - component: {fileID: 87385952}
   - component: {fileID: 87385951}
   - component: {fileID: 87385949}
+  - component: {fileID: 87385953}
   m_Layer: 0
   m_Name: MuteToggle
   m_TagString: Untagged
@@ -1584,7 +1585,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
+  m_Transition: 3
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -1684,6 +1685,28 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 87385948}
   m_CullTransparentMesh: 1
+--- !u!95 &87385953
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 87385948}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: d65e8a20247fd9e499476eec891a8c46, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 2
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &91907891
 GameObject:
   m_ObjectHideFlags: 0
@@ -21213,6 +21236,11 @@ MonoBehaviour:
   nightClip: {fileID: 0}
   sky: {fileID: 0}
   fadeSeconds: 2
+  musicSlider: {fileID: 1474150849}
+  sfxSlider: {fileID: 1645801532}
+  muteToggle: {fileID: 87385949}
+  musicPercentText: {fileID: 1963193766}
+  sfxPercentText: {fileID: 1376591632}
 --- !u!1 &1514818823
 GameObject:
   m_ObjectHideFlags: 0

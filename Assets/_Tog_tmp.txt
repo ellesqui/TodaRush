@@ -1,0 +1,3 @@
+Toggle graphic=Enabled targetGraphic=MuteToggle isOn=False transition=ColorTint
+child Enabled comps=RectTransform,CanvasRenderer,Image pos=(0.00, 0.00, 0.00) size=(105.00, 50.00) anchor=(0.00, 1.00)-(0.00, 1.00)
+child Knob comps=RectTransform,CanvasRenderer,Image pos=(7.00, -6.00, 0.00) size=(38.00, 38.00) anchor=(0.00, 1.00)-(0.00, 1.00)

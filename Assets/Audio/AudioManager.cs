@@ -1,11 +1,12 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 // The one place for all sound: sound effects, music, and the time-of-day environment sound.
-// Volumes come from MainMixer (MasterVolume, SFXVolume, MusicVolume).
+// Volumes come from MainMixer (MasterVolume, SFXVolume, MusicVolume). The settings sliders and Mute All call the public methods below.
 public class AudioManager : MonoBehaviour
 {
     public static AudioManager Instance;
@@ -14,6 +15,7 @@ public class AudioManager : MonoBehaviour
     [Range(0f, 1f)] public float masterVolume = 1f;
     [Range(0f, 1f)] public float sfxVolume = 1f;
     [Range(0f, 1f)] public float musicVolume = 1f;
+    private bool muted = false;
 
     [Header("Main menu")]
     public AudioClip mainMusic;          // loops on the menus and does not stop between them
@@ -29,6 +31,17 @@ public class AudioManager : MonoBehaviour
     public AudioClip nightClip;          // night
     public NightController sky;          // same object as TripTimer
     public float fadeSeconds = 2f;
+
+    [Header("Settings UI (main menu)")]
+    public Slider musicSlider;
+    public Slider sfxSlider;
+    public Toggle muteToggle;
+    public TMP_Text musicPercentText;
+    public TMP_Text sfxPercentText;
+
+    private const string PrefMusic = "Settings_MusicVolume";
+    private const string PrefSfx = "Settings_SfxVolume";
+    private const string PrefMute = "Settings_MuteAll";
 
     private AudioSource sfxSource;
     private AudioSource musicSource;
@@ -53,6 +66,11 @@ public class AudioManager : MonoBehaviour
 
         // Menu music keeps playing when the scene changes
         if (mainMusic != null) DontDestroyOnLoad(gameObject);
+
+        // Saved settings (Music, SFX, Mute All)
+        musicVolume = PlayerPrefs.GetFloat(PrefMusic, musicVolume);
+        sfxVolume = PlayerPrefs.GetFloat(PrefSfx, sfxVolume);
+        muted = PlayerPrefs.GetInt(PrefMute, 0) == 1;
 
         sfxSource = gameObject.AddComponent<AudioSource>();
         musicSource = gameObject.AddComponent<AudioSource>();
@@ -80,6 +98,7 @@ public class AudioManager : MonoBehaviour
 
         if (sky != null) tripTimer = sky.GetComponent<TripTimer>();
         ApplyVolumes();
+        SyncSettingsUI();
 
         // Main menu uses the main music. Gameplay uses the environment sound.
         if (mainMusic != null)
@@ -91,10 +110,11 @@ public class AudioManager : MonoBehaviour
         ConnectButtonSounds();
     }
 
-    // Each new scene has new buttons, so connect the click sound again
+    // Each new scene has new buttons and new sliders, so connect them again
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         ConnectButtonSounds();
+        SyncSettingsUI();
     }
 
     void Update()
@@ -107,13 +127,72 @@ public class AudioManager : MonoBehaviour
         else if (left <= sky.duskStartSeconds) PlayEnvironment(urbanClip);
     }
 
-    // Call this after changing a volume value
+    // ===== SETTINGS (called by the sliders and the Mute All toggle) =====
+
+    public void SetMusicVolume(float value)
+    {
+        musicVolume = value;
+        PlayerPrefs.SetFloat(PrefMusic, value);
+        ApplyVolumes();
+        UpdatePercent(musicPercentText, value);
+    }
+
+    public void SetSfxVolume(float value)
+    {
+        sfxVolume = value;
+        PlayerPrefs.SetFloat(PrefSfx, value);
+        ApplyVolumes();
+        UpdatePercent(sfxPercentText, value);
+    }
+
+    // Mute All: silences the whole mixer (Master), without changing the saved music and SFX sliders
+    public void SetMuteAll(bool on)
+    {
+        muted = on;
+        PlayerPrefs.SetInt(PrefMute, on ? 1 : 0);
+        ApplyVolumes();
+    }
+
+    // Sends the current values to the mixer
     public void ApplyVolumes()
     {
-        mixer.SetFloat("MasterVolume", ToDecibel(masterVolume));
+        mixer.SetFloat("MasterVolume", muted ? -80f : ToDecibel(masterVolume));
         mixer.SetFloat("SFXVolume", ToDecibel(sfxVolume));
         mixer.SetFloat("MusicVolume", ToDecibel(musicVolume));
+        PlayerPrefs.Save();
     }
+
+    // Puts the saved values on the sliders, toggle, and percentage texts (if this scene has them)
+    void SyncSettingsUI()
+    {
+        if (musicSlider != null)
+        {
+            musicSlider.SetValueWithoutNotify(musicVolume);
+            musicSlider.onValueChanged.RemoveAllListeners();
+            musicSlider.onValueChanged.AddListener(SetMusicVolume);
+        }
+        if (sfxSlider != null)
+        {
+            sfxSlider.SetValueWithoutNotify(sfxVolume);
+            sfxSlider.onValueChanged.RemoveAllListeners();
+            sfxSlider.onValueChanged.AddListener(SetSfxVolume);
+        }
+        if (muteToggle != null)
+        {
+            muteToggle.SetIsOnWithoutNotify(muted);
+            muteToggle.onValueChanged.RemoveAllListeners();
+            muteToggle.onValueChanged.AddListener(SetMuteAll);
+        }
+        UpdatePercent(musicPercentText, musicVolume);
+        UpdatePercent(sfxPercentText, sfxVolume);
+    }
+
+    void UpdatePercent(TMP_Text label, float value)
+    {
+        if (label != null) label.text = Mathf.RoundToInt(value * 100f) + "%";
+    }
+
+    // ===== SOUND PLAYBACK =====
 
     // Play one sound effect (for example the horn)
     public void PlaySfx(AudioClip clip)
