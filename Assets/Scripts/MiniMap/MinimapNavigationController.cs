@@ -22,7 +22,8 @@ public class MinimapNavigationController : MonoBehaviour
 
     [Header("NavMesh Sampling")]
     public float updateInterval = 0.25f;
-    public float navMeshSampleHeight = 100.5f;
+    public float navMeshSampleHeight = 100.5f;   // fixed search height (used when useRealHeightForSampling is off)
+    public bool useRealHeightForSampling = false; // on = search at each point's real height (for levels whose road is not at 100.5)
     public float playerSampleDistance = 3f;
     public float destinationSampleDistance = 1f;
 
@@ -226,7 +227,8 @@ public class MinimapNavigationController : MonoBehaviour
     // Finds the nearest point on the road NavMesh, close enough to the requested position.
     bool TrySampleNavMesh(Vector3 worldPosition, float maxDistance, out Vector3 roadPoint)
     {
-        Vector3 searchPoint = new Vector3(worldPosition.x, navMeshSampleHeight, worldPosition.z);
+        float searchHeight = useRealHeightForSampling ? worldPosition.y : navMeshSampleHeight;
+        Vector3 searchPoint = new Vector3(worldPosition.x, searchHeight, worldPosition.z);
         NavMeshHit hit;
 
         if (NavMesh.SamplePosition(searchPoint, out hit, maxDistance, NavMesh.AllAreas))

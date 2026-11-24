@@ -18,6 +18,10 @@ public class LevelData : ScriptableObject
     public float destinationMinGap = 60f;            // minimum distance between two destinations (meters)
     public float destinationMinFromTerminal = 80f;   // minimum distance from the terminal (meters)
 
+    [Header("Next Level")]
+    public string nextLevelScene = "";               // scene the Next Level button loads (empty = no next level)
+    public int nextLevelRequiredXP = 0;              // global Total XP needed to unlock the next level
+
     [Header("Environment (fixed for this level)")]
     public Material skybox;                // the sky for this level (for example Skybox 1, 5, or 9)
     public AudioClip environmentSound;     // the environment sound for this level (Rural, Urban, or Night)

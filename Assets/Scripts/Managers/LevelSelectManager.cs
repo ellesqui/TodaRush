@@ -14,6 +14,7 @@ public class LevelSelectManager : MonoBehaviour
     public GameObject[] routes;     // dashed route to each pin
     public Image accentStrip;
     public TMP_Text badgeText, titleText, subtitleText, descriptionText, passengersText, timeText, difficultyText;
+    public TMP_Text xpRequirementText;   // XP needed, shown on the right of the LEVEL badge
     public Button startButton;
 
     private readonly int[] requiredTotalXP = { 0, 3000, 10000 };   // global XP needed to unlock each level
@@ -69,6 +70,8 @@ public class LevelSelectManager : MonoBehaviour
         {
             badgeText.text = "LEVEL 0" + (selected + 1);
             badgeText.color = data.accentColor;
+            if (xpRequirementText != null)
+                xpRequirementText.text = selected == 0 ? "" : "KAILANGAN: " + requiredTotalXP[selected].ToString("N0") + " XP";
         }
 
         SetText(titleText, data.levelName);

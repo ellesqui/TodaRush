@@ -23,6 +23,8 @@ MonoBehaviour:
   randomDestinations: 1
   destinationMinGap: 60
   destinationMinFromTerminal: 80
+  nextLevelScene: Level_03
+  nextLevelRequiredXP: 10000
   skybox: {fileID: 2100000, guid: e51393e67d42d4d4592111d8259543d2, type: 2}
   environmentSound: {fileID: 8300000, guid: 20a1c1c323bfe5744afe6f507d1ef388, type: 3}
   lightingPreset: 1

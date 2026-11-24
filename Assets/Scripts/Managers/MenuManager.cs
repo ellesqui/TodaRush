@@ -3,8 +3,8 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 // Only what Unity's built-in button events cannot do:
-// settings tab highlight, master volume, restart of the current scene, and the mouse parallax on the menu background.
-// Panel open/close and scene loads are button events set in the Inspector.
+// settings tab highlight, master volume, restart of the current scene, the mouse parallax on the menu background,
+// and the Next Level button (checks the XP needed for the next level).
 public class MenuManager : MonoBehaviour
 {
     public GameObject audioContent, graphicsContent, controlsContent;
@@ -14,10 +14,31 @@ public class MenuManager : MonoBehaviour
     public Transform menuBackground;
     public float parallaxStrength = 20f;
 
+    // Level this scene belongs to (only the levels that have a Next Level button set this)
+    public LevelData levelData;
+
     // Restarts whichever level is currently loaded (MainMap, Level_02, ...)
     public void RestartGame() { SceneManager.LoadScene(SceneManager.GetActiveScene().name); }
 
     public void SetMasterVolume(float volume) { AudioListener.volume = volume; }
+
+    // NEXT LEVEL button: loads the next level only if the player has enough Total XP.
+    // If not, shows a notice with the XP needed (same layer as the DELIVERED notice).
+    public void NextLevel()
+    {
+        if (levelData == null || levelData.nextLevelScene == "") return;
+
+        int needed = levelData.nextLevelRequiredXP;
+        if (ScoreManager.GetTotalXP() < needed)
+        {
+            UIManager ui = FindAnyObjectByType<UIManager>();
+            if (ui != null) ui.ShowSuccess("KAILANGAN NG " + needed.ToString("N0") + " XP PARA MA-UNLOCK");
+            return;
+        }
+
+        Time.timeScale = 1f;
+        LoadingManager.LoadThroughLoadingScreen(levelData.nextLevelScene);
+    }
 
     // Settings sidebar tabs: the selected tab shows its content and turns orange.
     public void ShowAudioSettings() { ShowTab(0); }
