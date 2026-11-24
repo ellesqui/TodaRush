@@ -23,10 +23,13 @@ MonoBehaviour:
   randomDestinations: 1
   destinationMinGap: 100
   destinationMinFromTerminal: 80
+  nextLevelScene: 
+  nextLevelRequiredXP: 0
   skybox: {fileID: 2100000, guid: 7f185cfbac2290349adcf2d4858ce706, type: 2}
   environmentSound: {fileID: 8300000, guid: 164c791b1f712544bb5e4be678da2b25, type: 3}
   lightingPreset: 2
   rainEnabled: 1
   hornEnabled: 1
+  handbrakeEnabled: 1
   subtitle: "Hillside roads at night \xB7 5 passengers"
   description: Drive the winding hill roads at night in the rain. Deliver all 5 passengers before time runs out.

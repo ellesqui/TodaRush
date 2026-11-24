@@ -30,6 +30,7 @@ public class LevelData : ScriptableObject
 
     [Header("Features (unlocked per level)")]
     public bool hornEnabled = false;       // true = horn (F key and horn button) works in this level
+    public bool handbrakeEnabled = false;  // true = Space handbrake works in this level
 
     [TextArea] public string subtitle;
     [TextArea] public string description;

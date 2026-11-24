@@ -107,21 +107,20 @@ public class Obstacle : Interactable
         PlayerController player = FindAnyObjectByType<PlayerController>();
         if (player == null) return;
 
-        if (effect == EffectType.Slow && !isSlowed) StartCoroutine(SlowRoutine(player));
+        // Run on the player, not on this obstacle: if this obstacle gets hidden, the slow still ends and the speed comes back
+        if (effect == EffectType.Slow && slowAmount > 0f) player.StartCoroutine(SlowRoutine(player));
         if (effect == EffectType.Push) StartCoroutine(PushRoutine(player));
         if (effect == EffectType.Spin) StartCoroutine(SpinRoutine(player));
     }
 
+    // Multiplies the speed, then divides it back. Works together with the speed boost (no fixed "old speed" to restore).
     private IEnumerator SlowRoutine(PlayerController player)
     {
-        isSlowed = true;
-        originalSpeed = player.moveSpeed;
-        player.moveSpeed = originalSpeed * slowAmount;
+        player.moveSpeed *= slowAmount;
 
         yield return new WaitForSeconds(effectSeconds);
 
-        player.moveSpeed = originalSpeed;
-        isSlowed = false;
+        player.moveSpeed /= slowAmount;
     }
 
     // Shoves the player sideways, away from this obstacle, and turns them a bit

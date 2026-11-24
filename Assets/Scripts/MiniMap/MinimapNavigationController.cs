@@ -187,7 +187,7 @@ public class MinimapNavigationController : MonoBehaviour
 
         if (!TrySampleNavMesh(transform.position, playerSampleDistance, out playerRoadPoint) ||
             !TrySampleNavMesh(destinationPosition, destinationSampleDistance, out destinationRoadPoint) ||
-            !CalculatePath(playerRoadPoint, destinationRoadPoint))
+            !CalculatePath(playerRoadPoint, destinationRoadPoint, true))   // partial OK: destinations can sit on another road level
         {
             return;
         }
@@ -209,7 +209,7 @@ public class MinimapNavigationController : MonoBehaviour
 
         if (!TrySampleNavMesh(transform.position, playerSampleDistance, out playerRoadPoint) ||
             !TrySampleNavMesh(terminalTarget.position, destinationSampleDistance, out terminalRoadPoint) ||
-            !CalculatePath(playerRoadPoint, terminalRoadPoint))
+            !CalculatePath(playerRoadPoint, terminalRoadPoint, true))   // partial is OK for the terminal (it may sit on a separate road piece)
         {
             HideTerminalRoute();
             return;
@@ -218,10 +218,11 @@ public class MinimapNavigationController : MonoBehaviour
         DrawRoute(terminalRouteLine, path.corners);
     }
 
-    bool CalculatePath(Vector3 from, Vector3 to)
+    bool CalculatePath(Vector3 from, Vector3 to, bool allowPartial = false)
     {
         bool calculated = NavMesh.CalculatePath(from, to, NavMesh.AllAreas, path);
-        return calculated && path.status == NavMeshPathStatus.PathComplete && path.corners.Length >= 2;
+        bool good = path.status == NavMeshPathStatus.PathComplete || (allowPartial && path.status == NavMeshPathStatus.PathPartial);
+        return calculated && good && path.corners.Length >= 2;
     }
 
     // Finds the nearest point on the road NavMesh, close enough to the requested position.

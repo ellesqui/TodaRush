@@ -74,8 +74,7 @@ public class GameManager : MonoBehaviour
         if (levelNumber == 3)
         {
             foreach (Destination d in FindObjectsByType<Destination>(FindObjectsInactive.Include)) d.gameObject.SetActive(false);
-            GameObject terminalRoute = GameObject.Find("Player/TerminalRouteLine");
-            if (terminalRoute != null) terminalRoute.SetActive(false);
+            // Terminal route stays active: MinimapNavigationController decides when to show it (line.enabled)
         }
         SpawnPassengers();
     }

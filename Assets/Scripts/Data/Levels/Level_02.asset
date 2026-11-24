@@ -30,5 +30,6 @@ MonoBehaviour:
   lightingPreset: 1
   rainEnabled: 0
   hornEnabled: 1
+  handbrakeEnabled: 0
   subtitle: "Crowded market streets \xB7 4 passengers"
   description: Weave through market streets and traffic. Keep your wheels steady and deliver every passenger before the timer runs out.

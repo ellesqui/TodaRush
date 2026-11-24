@@ -83,7 +83,7 @@ public class Pickup : MonoBehaviour
             PlayerController player = FindAnyObjectByType<PlayerController>();
             if (player != null)
             {
-                StartCoroutine(SpeedBoostRoutine(player));
+                player.StartCoroutine(SpeedBoostRoutine(player));   // runs on the player so it always ends
             }
         }
         else if (data.type == PickupType.Timer)
@@ -103,16 +103,16 @@ public class Pickup : MonoBehaviour
         if (fx != null) fx.GetComponent<ParticleSystem>().Play(true);
     }
 
+    // Multiplies the speed, then divides it back (works together with the slow effect)
     IEnumerator SpeedBoostRoutine(PlayerController player)
     {
-        float original = player.moveSpeed;
-        // Percentage increase: Speed x (1 + bonus%)
-        player.moveSpeed = original * (1f + data.boostPercent);
+        float factor = 1f + data.boostPercent;
+        player.moveSpeed *= factor;
         player.boostActive = true;
 
         yield return new WaitForSeconds(data.boostSeconds);
 
-        player.moveSpeed = original;
+        player.moveSpeed /= factor;
         player.boostActive = false;
     }
 

@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour
     [Header("Handbrake")]
     public bool handbrakeEnabled = true;           // turn off to disable the handbrake
     public KeyCode handbrakeKey = KeyCode.Space;   // hold this key to force the tricycle to stop
+    public LevelData levelData;                    // the level this player is in (turns the handbrake on or off)
     public float handbrakeDeceleration = 12f;      // how fast the handbrake slows the tricycle (higher = shorter brake)
 
     [Header("Engine sound")]
@@ -40,6 +41,8 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+        // Handbrake is unlocked per level (LevelData.handbrakeEnabled)
+        if (levelData != null) handbrakeEnabled = levelData.handbrakeEnabled;
         if (AudioManager.Instance == null) return;
 
         AudioMixerGroup sfxGroup = AudioManager.Instance.mixer.FindMatchingGroups("SFX")[0];
