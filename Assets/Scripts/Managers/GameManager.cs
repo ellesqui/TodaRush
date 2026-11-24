@@ -92,6 +92,47 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // Spawner: a fallen passenger's spot gets a new random passenger, but only if nobody else is already waiting.
+    // Otherwise the spot is released and filled later, when the next passenger boards.
+    public void SpawnReplacement(PassengerPickup fallen)
+    {
+        if (fallen == null) return;
+        if (AnyWaitingExcept(fallen) || passengerPrefabs == null || passengerPrefabs.Length == 0)
+        {
+            fallen.ReleaseSpot();
+            return;
+        }
+        GameObject model = passengerPrefabs[Random.Range(0, passengerPrefabs.Length)];
+        fallen.BecomeNewPassenger(model, NameForModel(model.name), true);
+    }
+
+    // Called when a passenger boards: fills one free spot, but only if nobody else is waiting (one at a time)
+    public void RefillWaiting(PassengerPickup boarded)
+    {
+        if (passengerPrefabs == null || passengerPrefabs.Length == 0) return;
+        if (AnyWaitingExcept(boarded)) return;
+
+        PassengerPickup[] spots = FindObjectsByType<PassengerPickup>(FindObjectsInactive.Include)
+            .OrderBy(p => p.name)
+            .ToArray();
+        foreach (PassengerPickup p in spots)
+        {
+            if (p == boarded || p.hasBoarded || p.IsLoose || p.gameObject.activeSelf) continue;
+            GameObject model = passengerPrefabs[Random.Range(0, passengerPrefabs.Length)];
+            p.BecomeNewPassenger(model, NameForModel(model.name), false);
+            return;
+        }
+    }
+
+    bool AnyWaitingExcept(PassengerPickup except)
+    {
+        foreach (PassengerPickup p in FindObjectsByType<PassengerPickup>(FindObjectsInactive.Include))
+        {
+            if (p != except && p.IsWaiting) return true;
+        }
+        return false;
+    }
+
     // Called when the player touches the Terminal.
     // Win only after ALL passengers are delivered AND the player still has points.
     public bool CompleteLap()

@@ -36,6 +36,11 @@ public class UIManager : MonoBehaviour
     private const string MissionText = "DELIVER ALL · BEAT THE CLOCK";
     public TextMeshProUGUI countdownText;      // big 3 / 2 / 1 / GO text on the HUD
     public AudioClip countdownClip;            // Mario Start (plays with the countdown)
+    public Image radioIcon;                    // speaker / mute icon on the radio button
+    public Sprite speakerSprite, muteSprite;   // Speaker.png / Mute.png
+    public AudioSource radioSource;
+    public AudioClip[] radioTracks;            // radio playlist: all songs in Assets/Audio/SFX/Tugtugan, in order
+    private int radioTrackIndex = 0;            // the radio (playlist will be added later)
     public AudioClip deliveredClip;
 
     [Header("Passenger Sound Effects (random per state)")]
@@ -69,6 +74,27 @@ public class UIManager : MonoBehaviour
         sfx = gameObject.AddComponent<AudioSource>();
         sfx.playOnAwake = false;
         if (objectiveMainText != null) baseObjectiveFontSize = objectiveMainText.fontSize;
+        // Radio lives on the tricycle (Player) so it is heard from its position, like a radio in the vehicle
+        if (radioSource == null)
+        {
+            GameObject radioOwner = (playerController != null) ? playerController.gameObject : gameObject;
+            radioSource = radioOwner.AddComponent<AudioSource>();
+            radioSource.spatialBlend = 1f;               // 3D: sound comes from the tricycle
+            radioSource.rolloffMode = AudioRolloffMode.Logarithmic;
+            radioSource.minDistance = 5f;
+            radioSource.maxDistance = 40f;
+        }
+        radioSource.volume = 0.7f;                      // lower radio volume
+        // Route UI sounds through the MainMixer so its groups control them (radio = Music, sfx = SFX)
+        if (AudioManager.Instance != null && AudioManager.Instance.mixer != null)
+        {
+            radioSource.outputAudioMixerGroup = AudioManager.Instance.mixer.FindMatchingGroups("Music")[0];
+            sfx.outputAudioMixerGroup = AudioManager.Instance.mixer.FindMatchingGroups("SFX")[0];
+        }
+        radioSource.loop = false;            // playlist handles looping
+        radioSource.playOnAwake = false;
+        PlayRadioTrack(0);
+        UpdateRadioIcon();
         Time.timeScale = 1f;
         isPaused = false;
         if (pauseOverlay != null) pauseOverlay.SetActive(false);
@@ -80,6 +106,7 @@ public class UIManager : MonoBehaviour
 
     void Update()
     {
+        UpdateRadioPlaylist();
         if (Input.GetKeyDown(KeyCode.Escape)) TogglePause();
         if (Input.GetKeyDown(KeyCode.R)) ToggleFullMap();
         FadeDamageFlash();
@@ -352,6 +379,35 @@ public class UIManager : MonoBehaviour
     private string FormatTime(float seconds)
     {
         return Mathf.FloorToInt(seconds / 60f).ToString("00") + ":" + Mathf.FloorToInt(seconds % 60f).ToString("00");
+    }
+
+    // RADIO PLAYLIST: plays songs in order, loops back to the first one. Mute does not stop it.
+    void PlayRadioTrack(int index)
+    {
+        if (radioSource == null || radioTracks == null || radioTracks.Length == 0) return;
+        radioTrackIndex = index % radioTracks.Length;
+        radioSource.clip = radioTracks[radioTrackIndex];
+        radioSource.Play();
+    }
+
+    void UpdateRadioPlaylist()
+    {
+        if (radioSource == null || radioTracks == null || radioTracks.Length == 0) return;
+        if (!radioSource.isPlaying) PlayRadioTrack(radioTrackIndex + 1);
+    }
+
+    // Radio button: mute / unmute the speaker and swap the icon
+    public void ToggleRadio()
+    {
+        if (radioSource == null) return;
+        radioSource.mute = !radioSource.mute;
+        UpdateRadioIcon();
+    }
+
+    void UpdateRadioIcon()
+    {
+        if (radioIcon == null || radioSource == null) return;
+        radioIcon.sprite = radioSource.mute ? muteSprite : speakerSprite;
     }
 
     // Big 3 / 2 / 1 / GO countdown, fading out one number at a time (Mario Start plays with it)

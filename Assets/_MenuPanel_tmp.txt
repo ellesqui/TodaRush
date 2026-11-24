@@ -1,0 +1,4 @@
+SettingsPanel | path=MainMenuCanvas/SettingsPanel | anchorMin=(0.00, 1.00) anchorMax=(0.00, 1.00) pivot=(0.00, 1.00) anchoredPos=(0.00, 0.00) size=(1920.00, 1080.00) localScale=(1.00, 1.00, 1.00) localPos=(-960.18, 539.90, 0.00)
+Sidebar | path=MainMenuCanvas/SettingsPanel/Sidebar | anchorMin=(0.00, 1.00) anchorMax=(0.00, 1.00) pivot=(0.00, 1.00) anchoredPos=(296.00, -319.00) size=(365.00, 400.00) localScale=(1.00, 1.00, 1.00) localPos=(296.00, -319.00, 0.00)
+AudioContent | path=MainMenuCanvas/SettingsPanel/AudioContent | anchorMin=(0.00, 1.00) anchorMax=(0.00, 1.00) pivot=(0.00, 1.00) anchoredPos=(748.00, -286.00) size=(880.00, 490.00) localScale=(1.00, 1.00, 1.00) localPos=(748.00, -286.00, 0.00)
+CanvasScaler mode=ScaleWithScreenSize ref=(1920.00, 1080.00) match=0.5

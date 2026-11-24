@@ -14,6 +14,9 @@ public class PassengerPickup : MonoBehaviour
     public float idleSeconds = 2f;        // idle for a moment after appearing, then walk to the tricycle
     private float spawnedAt;
     private bool isApproaching = false;
+    public bool IsWaiting { get { return gameObject.activeSelf && !hasBoarded && !isLoose; } }
+    public bool IsLoose { get { return isLoose; } }
+    public void ReleaseSpot() { isLoose = false; gameObject.SetActive(false); }
     public bool IsApproaching
     {
         get { return isApproaching; }
@@ -52,8 +55,20 @@ public class PassengerPickup : MonoBehaviour
     private Animator animator;
     private string lastState = "Idle";
 
+    // Finds the destination with the same number as this passenger (Passenger_02 -> Destination_02)
+    Destination FindHomeDestination()
+    {
+        string digits = name.Length >= 2 ? name.Substring(name.Length - 2) : "";
+        foreach (Destination d in UnityEngine.Object.FindObjectsByType<Destination>(UnityEngine.FindObjectsInactive.Include))
+        {
+            if (d.name == "Destination_" + digits) return d;
+        }
+        return null;
+    }
+
     void Awake()
     {
+        if (targetDestination == null) targetDestination = FindHomeDestination();
         homeDestination = targetDestination;
     }
 
@@ -214,6 +229,7 @@ public class PassengerPickup : MonoBehaviour
     {
         stayAtSpawn = false;
         isApproaching = false;
+        if (targetDestination == null) targetDestination = homeDestination != null ? homeDestination : FindHomeDestination();
         hasBoarded = true;
         gameManager.passengersOnboard++;
         boardedAt = Time.time;
@@ -230,7 +246,7 @@ public class PassengerPickup : MonoBehaviour
             gameManager.uiManager.StartCountdown();
 
         // Next passenger appears now (one at a time)
-        ActivateNextPassenger();
+        gameManager.RefillWaiting(this);
 
         // Disappear as they board
         gameObject.SetActive(false);
@@ -375,16 +391,22 @@ public class PassengerPickup : MonoBehaviour
 
         yield return new WaitForSeconds(respawnSeconds);
 
-        // New passenger shows up at the terminal spot in Idle (not the Loose animation).
-        // Stays there until the player comes close.
-        transform.position = spawnPosition;
+        // A new random passenger is spawned by the GameManager spawner (like at game start)
+        gameManager.SpawnReplacement(this);
+    }
+
+    // Called by the GameManager spawner: this spot gets a new random passenger, waiting at the terminal
+    public void BecomeNewPassenger(GameObject modelPrefab, string name, bool waitAtSpawn)
+    {
+        SetupAtSpawn(modelPrefab, name, spawnPosition);
         patience = maxPatience;
         isApproaching = false;
         isReturning = false;
         isLoose = false;
-        stayAtSpawn = true;
-        targetDestination = homeDestination;   // the orange route comes back once they board again
-        PlayState("Idle");
+        stayAtSpawn = waitAtSpawn;   // fallen replacements wait at the terminal until the player is close
+        targetDestination = homeDestination;
+        claimedSlot = -1;
+        spawnedAt = Time.time;
         gameObject.SetActive(true);
     }
 
